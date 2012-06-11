@@ -23,7 +23,7 @@
 #include <config.h>
 #endif
 
-#include "vconfig.h"
+#include <vistaio/vconfig.h>
 
 const unsigned int vistaio_major_version = VISTAIO_MAJOR_VERSION;
 const unsigned int vistaio_minor_version = VISTAIO_MINOR_VERSION;
