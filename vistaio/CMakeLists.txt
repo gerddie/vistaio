@@ -1,0 +1,74 @@
+#
+#  Copyright 1993, 1994 University of British Columbia
+#  Copyright (c) Leipzig, Madrid 2004 - 2012
+#  Max-Planck-Institute for Human Cognitive and Brain Science	
+#  Max-Planck-Institute for Evolutionary Anthropology 
+#  BIT, ETSI Telecomunicacion, UPM
+#
+#  Permission to use, copy, modify, distribute, and sell this software and its
+#  documentation for any purpose is hereby granted without fee, provided that
+#  the above copyright notice appears in all copies and that both that
+#  copyright notice and this permission notice appear in supporting
+#  documentation. UBC makes no representations about the suitability of this
+#  software for any purpose. It is provided "as is" without express or
+#  implied warranty.
+#
+#  Maintainance and Fixes: Gert Wollny gw.fossdev@gmail.com , UPM, Madrid  
+#
+
+set(VISTAIO_SRC 
+  alloc.c
+  attr.c
+  dictionary.c
+  edges.c
+  edgesType.c
+  error.c
+  fileio.c
+  graphType.c
+  image.c
+  imageType.c
+  list.c
+  option.c
+  packData.c
+  type.c
+  vcplist.c
+  version.c
+  vspline2d.c
+  vfield2d.c
+  vfield3d.c
+  volumes.c
+  volumesType.c
+)
+
+set(VISTAIO_HEADERS  
+  vcplist.h
+  vfield2d.h
+  vspline2d.h
+  vfield3d.h
+  vista.h
+  vistaio.h
+  vconfig.h
+)
+
+add_library(vistaio SHARED ${VISTAIO_SRC})
+SET_TARGET_PROPERTIES(vistaio PROPERTIES 
+  VERSION ${LIBRARY_VERSION_INFO}
+)
+
+
+MACRO(ADD_SIMPLE_TEST name)
+  add_executable(test-${name} ${name}.c)
+  target_link_libraries(test-${name} vistaio)
+  add_test(${name} test-${name})
+ENDMACRO(ADD_SIMPLE_TEST)
+
+ADD_SIMPLE_TEST(3dfield)
+ADD_SIMPLE_TEST(2dfield)
+ADD_SIMPLE_TEST(2dspline)
+
+INSTALL(FILES ${VISTAIO_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${VISTAIO_NAME}/vistaio)
+INSTALL(TARGETS vistaio 
+	RUNTIME DESTINATION "bin"
+	LIBRARY DESTINATION "lib"
+	ARCHIVE DESTINATION "lib")
+
