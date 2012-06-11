@@ -15,15 +15,8 @@
  *  Author:  Gert Wollny, UPM 
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include <string.h>
+#include <stdio.h>
 #include <vistaio/vspline2d.h>
 
 
@@ -38,7 +31,7 @@ float sy = 90.2;
 #define VTYPE double
 #define TYPEREPN VDoubleRepn
 
-VBoolean RepnFilter(VBundle bundle, VRepnKind repn) 
+VBoolean RepnFilter(VBundle UNUSED(bundle), VRepnKind repn) 
 {
 	return repn == VSpline2DRepn; 
 }
@@ -78,7 +71,7 @@ VAttrList VWrite2DSpline(VSpline2D field)
 }
 
 
-int main(int argc, const char *args[])
+int main(int UNUSED(argc), const char **UNUSED(args))
 {
 	VSpline2D spline; 
 	VSpline2D spline2;
@@ -165,6 +158,6 @@ int main(int argc, const char *args[])
 	VDestroySpline2D(spline);
 	VDestroySpline2D(spline2);
 
-	unlink( "test.v" ); 
+	remove( "test.v" ); 
 	return 0;
 }

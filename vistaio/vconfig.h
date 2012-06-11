@@ -30,10 +30,6 @@
 #ifndef __VCONFIG_H
 #define __VCONFIG_H 1
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #define VISTAIO_MAJOR_VERSION 1
 #define VISTAIO_MINOR_VERSION 2
 #define VISTAIO_MICRO_VERSION 6

@@ -18,10 +18,6 @@
 #ifndef __VField3D_h
 #define __VField3D_h
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "vista.h"
 
 

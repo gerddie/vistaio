@@ -123,12 +123,12 @@ EXPORT_VISTA VSpline2D VMirrorSpline2D(VSpline2D src)
 	return result; 
 }
 
-EXPORT_VISTA char *VGetSpline2DListName(VSpline2D field)
+EXPORT_VISTA char *VGetSpline2DListName(VSpline2D UNUSED(field))
 {
 	return "spline2d"; 
 }
 
-static VAttrList VSpline2DEncodeAttrMethod (VPointer value, size_t *lengthp)
+static VAttrList VSpline2DEncodeAttrMethod (VPointer value, size_t *UNUSED(lengthp))
 {
 	VSpline2D spline = value;
 	VAttrList list;
@@ -146,7 +146,7 @@ static VAttrList VSpline2DEncodeAttrMethod (VPointer value, size_t *lengthp)
 }
 
 
-static VPointer VSpline2DDecodeMethod (VStringConst name, VBundle b)
+static VPointer VSpline2DDecodeMethod (VStringConst UNUSED(name), VBundle b)
 {
 	VSpline2D spline;
 	VField2D  data; 
@@ -165,8 +165,8 @@ static VPointer VSpline2DDecodeMethod (VStringConst name, VBundle b)
 		return NULL; 
 	return spline;  
 }
-static VPointer VSpline2DEncodeDataMethod (VPointer value, VAttrList list,
-					size_t length, VBoolean *free_itp)
+static VPointer VSpline2DEncodeDataMethod (VPointer UNUSED(value), VAttrList UNUSED(list),
+					   size_t UNUSED(length), VBoolean *UNUSED(free_itp))
 {
 	return NULL; 
 }

@@ -21,10 +21,6 @@
 #ifndef __VISTAIO_H
 #define __VISTAIO_H 1
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <vistaio/vista.h> 
 #include <vistaio/vcplist.h>
 #include <vistaio/vfield3d.h>

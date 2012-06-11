@@ -62,7 +62,7 @@ static VBoolean MySeek (FILE *, long);
 
 
 
-static void EmptyShowProgress(int pos, int length, void *data) 
+static void EmptyShowProgress(int UNUSED(pos), int UNUSED(length), void *UNUSED(data)) 
 {
 }
 
@@ -586,7 +586,7 @@ static VBoolean ReadData (FILE * f, VAttrList list,
 					
 					
 					while (togo) {
-						int read_length = togo < 100000 ? togo : 100000; 
+						size_t read_length = togo < 100000 ? togo : 100000; 
 						if (fread ((char *)(b->data) + pos, 1, 
 							   read_length, f) != read_length) {
 							VWarning ("VReadFile: Read from stream failed");
@@ -730,7 +730,7 @@ EXPORT_VISTA VBoolean VWriteFile (FILE * f, VAttrList list)
 			int togo = db->length; 
 			int pos = 0; 
 			while (togo) {
-				int write_length = togo < 100000  ? togo: 100000;
+				size_t write_length = togo < 100000  ? togo: 100000;
 				result = fwrite (((char *)ptr) + pos, 1, write_length, f) == write_length;
 				pos += write_length;
 				togo -= write_length;
@@ -974,11 +974,11 @@ static VBoolean WriteString (FILE * f, const char *str)
 
 static VBoolean MySeek (FILE * f, long bytes)
 {
-	int len;
+	size_t len;
 	char buf[1000];
 
 	while (bytes > 0) {
-		len = VMin (bytes, sizeof (buf));
+		len = VMin ((size_t)bytes, sizeof (buf));
 		if (fread (buf, 1, len, f) != len)
 			return FALSE;
 		bytes -= len;

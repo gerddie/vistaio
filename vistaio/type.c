@@ -37,8 +37,8 @@ extern VTypeMethods VolumesMethods;	/* in VolumesType.c */
 extern VTypeMethods VCPEListMethods;
 
 static VRepnInfoRec builtin_repn_info[] = {
-	{"unknown"},
-
+	{"unknown", sizeof (VPointer), 0, 0.0, 0.0, NULL}
+	, 
 	/* Integer and floating-point numbers: */
 	{"bit", sizeof (VBit), 1, 0.0, 1.0, NULL}
 	,

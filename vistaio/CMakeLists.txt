@@ -47,7 +47,6 @@ set(VISTAIO_HEADERS
   vfield3d.h
   vista.h
   vistaio.h
-  vconfig.h
 )
 
 add_library(vistaio SHARED ${VISTAIO_SRC})
@@ -66,6 +65,9 @@ ADD_SIMPLE_TEST(3dfield)
 ADD_SIMPLE_TEST(2dfield)
 ADD_SIMPLE_TEST(2dspline)
 
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/vconfig.h.in ${CMAKE_CURRENT_BINARY_DIR}/vconfig.h)
+
+INSTALL(FILES vconfig.h DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${VISTAIO_NAME}/vistaio)
 INSTALL(FILES ${VISTAIO_HEADERS} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${VISTAIO_NAME}/vistaio)
 INSTALL(TARGETS vistaio 
 	RUNTIME DESTINATION "bin"

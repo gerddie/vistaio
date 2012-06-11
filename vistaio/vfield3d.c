@@ -15,12 +15,6 @@
  *
  *  Author:  Gert Wollny, UPM 
  */
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-
 #include <string.h>
 
 #include "vfield3d.h"
@@ -231,7 +225,7 @@ static void convert_double_field(double *d, long n)
 
 #endif
 
-static VPointer VField3DDecodeMethod (VStringConst name, VBundle b)
+static VPointer VField3DDecodeMethod (VStringConst UNUSED(name), VBundle b)
 {
 	VField3D field;
 	VLong x_dim,y_dim,z_dim, node_repn, nelement_size;

@@ -129,7 +129,7 @@ static void convert_list(VCPE r,int n)
 
 #endif
 
-static VPointer VCPEListDecodeMethod (VStringConst name, VBundle b)
+static VPointer VCPEListDecodeMethod (VStringConst UNUSED(name), VBundle b)
 {
 	VCPEList cplist;
 	VLong n_length;

@@ -25,38 +25,38 @@
 
 /* Keywords for representing TRUE or FALSE: */
 EXPORT_VISTA VDictEntry VBooleanDict[] = {
-	{"false", FALSE}
+	{"false", FALSE, NULL, 0, 0, 0.0}
 	,
-	{"true", TRUE}
+	{"true", TRUE, NULL, 0, 0, 0.0}
 	,
-	{"no", FALSE}
+	{"no", FALSE, NULL, 0, 0, 0.0}
 	,
-	{"yes", TRUE}
+	{"yes", TRUE, NULL, 0, 0, 0.0}
 	,
-	{"off", FALSE}
+	{"off", FALSE, NULL, 0, 0, 0.0}
 	,
-	{"on", TRUE}
+	{"on", TRUE, NULL, 0, 0, 0.0}
 	,
-	{NULL}
+	{NULL, FALSE, NULL, 0, 0, 0.0}
 };
 
 /* Keywords for representing kinds of numeric representation: */
 EXPORT_VISTA VDictEntry VNumericRepnDict[] = {
-	{"bit", VBitRepn}
+	{"bit", VBitRepn, NULL, 0, 0, 0.0}
 	,
-	{"double", VDoubleRepn}
+	{"double", VDoubleRepn, NULL, 0, 0, 0.0}
 	,
-	{"float", VFloatRepn}
+	{"float", VFloatRepn, NULL, 0, 0, 0.0}
 	,
-	{"long", VLongRepn}
+	{"long", VLongRepn, NULL, 0, 0, 0.0}
 	,
-	{"sbyte", VSByteRepn}
+	{"sbyte", VSByteRepn, NULL, 0, 0, 0.0}
 	,
-	{"short", VShortRepn}
+	{"short", VShortRepn, NULL, 0, 0, 0.0}
 	,
-	{"ubyte", VUByteRepn}
+	{"ubyte", VUByteRepn, NULL, 0, 0, 0.0}
 	,
-	{NULL}
+	{NULL, 0, NULL, 0, 0, 0.0}
 };
 
 

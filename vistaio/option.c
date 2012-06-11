@@ -237,7 +237,7 @@ VBoolean VParseCommand (int noptions, VOptionDescRec options[], int *argc,
 		     opt_t--) {
 			if (strncmp (cp + 1, opt_t->keyword, i) != 0)
 				continue;	/* not this one */
-			if (i == strlen (opt_t->keyword)) {
+			if ((unsigned)i == strlen (opt_t->keyword)) {
 				opt = opt_t;
 				break;	/* an exact match */
 			}
@@ -434,13 +434,13 @@ static int ParseArgValues (int *arg, int argc, char **argv,
  */
 
 VDictEntry VerboseDict[] = {
-	{"err", 0}
+	{"err", 0, NULL, 0, 0, 0.0}
 	,
-	{"warn", 1}
+	{"warn", 1, NULL, 0, 0, 0.0}
 	,
-	{"mesg", 2}
+	{"mesg", 2, NULL, 0, 0, 0.0}
 	,
-	{NULL}
+	{NULL, 0, NULL, 0, 0, 0.0}
 };
 
 void VParseFilterCmd (int noptions, VOptionDescRec opts[],

@@ -17,11 +17,6 @@
  *  Maintainance and Fixes: Gert Wollny, UPM 
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-
 #include <string.h>
 
 #include "vfield2d.h"
@@ -218,7 +213,7 @@ static void convert_double_field(double *d, long n)
 
 #endif
 
-static VPointer VField2DDecodeMethod (VStringConst name, VBundle b)
+static VPointer VField2DDecodeMethod (VStringConst UNUSED(name), VBundle b)
 {
 	VField2D field;
 	VLong x_dim,y_dim, node_repn, nelement_size;

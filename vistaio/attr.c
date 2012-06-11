@@ -18,6 +18,7 @@
  */
 
 #include "vista.h"
+#include <string.h>
 
 /* Later in this file: */
 static VStringConst Encode (VDictEntry * dict, VRepnKind repn, va_list * args);

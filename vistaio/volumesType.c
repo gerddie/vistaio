@@ -54,7 +54,7 @@ VTypeMethods VolumesMethods = {
  *  \return VPointer
  */
 
-static VPointer VolumesDecodeMethod (VStringConst name, VBundle b)
+static VPointer VolumesDecodeMethod (VStringConst UNUSED(name), VBundle b)
 {
 	Volumes volumes;
 	VAttrList list;
@@ -195,7 +195,7 @@ static VAttrList VolumesEncodeAttrMethod (VPointer value, size_t * lengthp)
  */
 
 static VPointer
-VolumesEncodeDataMethod (VPointer value, VAttrList list, size_t length,
+VolumesEncodeDataMethod (VPointer value, VAttrList UNUSED(list), size_t length,
 			 VBoolean * free_itp)
 {
 	Volumes volumes = value;

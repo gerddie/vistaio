@@ -984,7 +984,7 @@ EXPORT_VISTA VBoolean VGraphHasLink (VGraph graph, int a, int b)
 	n = VGraphGetNode (graph, a);
 	
 	for (adj = n->base.head; adj; adj = adj->next)
-		if (adj->id == b)
+		if (adj->id == (unsigned int)b)
 			return TRUE;
 	return FALSE;
 }

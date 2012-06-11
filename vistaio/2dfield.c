@@ -15,17 +15,8 @@
  *  Author:  Gert Wollny, UPM 
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include <vistaio/vistaio.h>
-
-
+#include <stdio.h>
 
 int nx = 10; 
 int ny = 11; 
@@ -33,7 +24,7 @@ int ny = 11;
 #define VTYPE double
 #define TYPEREPN VDoubleRepn
 
-VBoolean RepnFilter(VBundle bundle, VRepnKind repn) 
+VBoolean RepnFilter(VBundle UNUSED(bundle), VRepnKind repn) 
 {
 	return repn == VField2DRepn; 
 }
@@ -81,7 +72,7 @@ int VWrite2DVectorfield(FILE *file, VField2D field)
 }
 
 
-int main(int argc, const char *args[])
+int main(int UNUSED(argc), const char **UNUSED(args))
 {
 	FILE *file; 
 	VField2D field; 
@@ -165,6 +156,6 @@ int main(int argc, const char *args[])
 	VDestroyField2D(field);
 	VDestroyField2D(field2);
 
-	unlink( "test.v" ); 
+	remove( "test.v" ); 
 	return 0;
 }

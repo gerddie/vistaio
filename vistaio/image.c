@@ -25,19 +25,19 @@
 
 /* Keywords for representing band interpretation values: */
 VDictEntry VBandInterpDict[] = {
-	{"complex", VBandInterpComplex}
+	{"complex", VBandInterpComplex, NULL, 0, 0, 0.0}
 	,
-	{"gradient", VBandInterpGradient}
+	{"gradient", VBandInterpGradient, NULL, 0, 0, 0.0}
 	,
-	{"intensity", VBandInterpIntensity}
+	{"intensity", VBandInterpIntensity, NULL, 0, 0, 0.0}
 	,
-	{"orientation", VBandInterpOrientation}
+	{"orientation", VBandInterpOrientation, NULL, 0, 0, 0.0}
 	,
-	{"rgb", VBandInterpRGB}
+	{"rgb", VBandInterpRGB, NULL, 0, 0, 0.0}
 	,
-	{"stereo_pair", VBandInterpStereoPair}
+	{"stereo_pair", VBandInterpStereoPair, NULL, 0, 0, 0.0}
 	,
-	{NULL}
+	{NULL, 0, NULL, 0, 0, 0.0}
 };
 
 

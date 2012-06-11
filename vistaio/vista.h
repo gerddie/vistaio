@@ -21,10 +21,6 @@
 #ifndef VISTA_H
 #define VISTA_H 1
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #ifdef WIN32
 #  ifdef vistaio_minimal_EXPORTS
 #     define EXPORT_VISTA __declspec(dllexport)
@@ -35,15 +31,19 @@
 #  define EXPORT_VISTA 
 #endif
 
+#ifdef __GNUC__
+#ifndef UNUSED
+#define UNUSED(x) x __attribute__ ((__unused__))
+#endif /* ATTRIBUTE_UNUSED */
+#else 
+#define UNUSED(x) x 
+#endif 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <time.h>
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 
 #include <limits.h>
 #include <stdarg.h>
