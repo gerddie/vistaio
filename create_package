@@ -1,0 +1,6 @@
+#!/bin/bash 
+name=$1
+version=$2 
+pushd $3
+git archive --format=tar.gz  --prefix=${name}-${version}/ -o $4/${name}-${version}.tar.gz ${version}
+popd
