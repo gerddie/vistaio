@@ -44,7 +44,7 @@ Remark:
 The vista file format was initially developed on a big-endian machine, 
 as a result Arthur Pope decided it is best to store the data in big-endian 
 format on the disk. Therefore, if you work on a low-endian machine (e.g. 
-all Intel & compatibles) all the data strored in the original formats is 
+all Intel & compatibles) all the data stored in the original formats is 
 converted during loading and storing. If, on the other hand you are loading 
 or storing to from or to one of the new formats, the data is written in 
 low-endian format, but on a big endian machine it will also be automatically 
