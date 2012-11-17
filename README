@@ -13,6 +13,21 @@ related to IO  ad data types and support for storing and
 loading 2d abd 3d vector fields  and critical point sets 
 has been added.
 
+In order to avoid naming conflicts with other libraries that build 
+onm the same source code, all functions, types and macro names have 
+been  changed from the name V.* to VistaIO.*. A python script to 
+autoatically apply such name schange to a source code tree is included
+in the source code distribtuion. 
+
+just run it as 
+
+  python vistaio_change_names.py <source tree root>
+
+It will scan all files in the sub-directory that follow the 
+file name pattern "*.[ch]*"  ang change all type names and 
+functions accordingly. 
+
+
 The original vista library (converted to the automake build
 system) is still available from 
   http://sourceforge.net/projects/mia/files/vista/2.1.7/
