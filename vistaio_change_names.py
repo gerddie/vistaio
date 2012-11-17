@@ -29,8 +29,9 @@ class CPatternCollector:
 
       
 def collect_files(arg, dirname, names):
-    for f in names:
-        if fnmatch(f, arg.pattern):
+   for f in names:
+      for p in arg.pattern:
+         if fnmatch(f, p):
             arg.files.append(dirname + "/" + f)
    
 
@@ -42,7 +43,7 @@ def find_files(root, pattern):
 
 
 root= sys.argv[1]
-files = find_files(root, "*.[CHch]")
+files = find_files(root, ["*.C", "*.H", "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp"])
 
 
 # read all files and extract comment blocks 
