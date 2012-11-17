@@ -27,46 +27,46 @@
 extern "C" {
 #endif
 
-	typedef struct VSpline2DRec {
-		VFloat x_range; 
-		VFloat y_range; 
-		VString kernel_descr; 
-		VAttrList attr; 
-		VField2D data; 
-	} VSpline2DRec, *VSpline2D;
+	typedef struct VistaIOSpline2DRec {
+		VistaIOFloat x_range; 
+		VistaIOFloat y_range; 
+		VistaIOString kernel_descr; 
+		VistaIOAttrList attr; 
+		VistaIOField2D data; 
+	} VistaIOSpline2DRec, *VistaIOSpline2D;
 	
-	EXPORT_VISTA VSpline2D VCreateSpline2DFrom(
-		VLong _x_dim, 
-		VLong _y_dim, 
+	EXPORT_VISTA VistaIOSpline2D VistaIOCreateSpline2DFrom(
+		VistaIOLong _x_dim, 
+		VistaIOLong _y_dim, 
 		float _x_range, 
 		float _y_range, 
-		VString kernel_descr,
-		VLong nsize_elemet,
-		VRepnKind repn,
-		VPointerConst data);
+		VistaIOString kernel_descr,
+		VistaIOLong nsize_elemet,
+		VistaIORepnKind repn,
+		VistaIOPointerConst data);
 	
-	EXPORT_VISTA VSpline2D VCreateSpline2D(VLong _x_dim, 
-					       VLong _y_dim, 
+	EXPORT_VISTA VistaIOSpline2D VistaIOCreateSpline2D(VistaIOLong _x_dim, 
+					       VistaIOLong _y_dim, 
 					       float _x_range, 
 					       float _y_range, 
-					       VString kernel_descr,
-					       VLong nsize_elemet,
-					       VRepnKind repn);
+					       VistaIOString kernel_descr,
+					       VistaIOLong nsize_elemet,
+					       VistaIORepnKind repn);
 	
 	/* destroy the field and release all data (if owned) */
-	EXPORT_VISTA void VDestroySpline2D (VSpline2D field);
+	EXPORT_VISTA void VistaIODestroySpline2D (VistaIOSpline2D field);
 	
 	/* copy the data field with all data */ 
-	EXPORT_VISTA VSpline2D VCopySpline2D (VSpline2D src);
+	EXPORT_VISTA VistaIOSpline2D VistaIOCopySpline2D (VistaIOSpline2D src);
 	
 	/* mirrors the datafield without copying the real data*/
-	EXPORT_VISTA VSpline2D VMirrorSpline2D(VSpline2D src);
+	EXPORT_VISTA VistaIOSpline2D VistaIOMirrorSpline2D(VistaIOSpline2D src);
 	
-#define VSpline2DElement(FIELD, X, Y, type) &((type*)FIELD->data)[field->nsize_element * (x + nx * Y )]
+#define VistaIOSpline2DElement(FIELD, X, Y, type) &((type*)FIELD->data)[field->nsize_element * (x + nx * Y )]
 	
-	EXPORT_VISTA char *VGetSpline2DListName(VSpline2D field);
+	EXPORT_VISTA char *VistaIOGetSpline2DListName(VistaIOSpline2D field);
 
-	extern VTypeMethods VSpline2DMethods; 
+	extern VistaIOTypeMethods VistaIOSpline2DMethods; 
 	
 #ifdef __cplusplus
 }
