@@ -1,6 +1,6 @@
 /*
  *  Copyright 1993, 1994 University of British Columbia
- *  Copyright (c) Leipzig, Madrid 2004 - 2009
+ *  Copyright (c) Leipzig, Madrid 2004 - 2012
  *  Max-Planck-Institute for Human Cognitive and Brain Science	
  *  Max-Planck-Institute for Evolutionary Anthropology 
  *  BIT, ETSI Telecomunicacion, UPM
