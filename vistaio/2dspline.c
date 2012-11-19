@@ -53,11 +53,8 @@ VistaIOSpline2D VistaIORead2DSpline(VistaIOAttrList list)
 
 VistaIOAttrList VistaIOWrite2DSpline(VistaIOSpline2D field)
 {
-	int retval; 
 	VistaIOSpline2D help; 
 	VistaIOAttrList list;
-	
-	retval = FALSE; 
 	
 	list = VistaIOCreateAttrList();
 	if (list) {
