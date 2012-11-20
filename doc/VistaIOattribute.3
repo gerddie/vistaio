@@ -17,7 +17,7 @@ accessing and manipulating these lists. A list is referred to by a
 pointer of type \fBVistaIOAttrList\fP.
 .PP
 The attribute list representation is closely related to the Vista data file 
-format, which is described in \fBVistaIOfile\fP(5Vi). Among other things, 
+format. Among other things, 
 attribute lists can represent in memory the contents of Vista data files.
 .PP
 An attribute's name is an alphanumeric string \(em specifically, a sequence
@@ -35,8 +35,7 @@ can return a string's value as a \fBVistaIOShort\fP, or set it with a
 \fBVistaIOFloat\fP value. The following representations can be used when 
 accessing character-string attribute values: \fBVistaIOBit\fP, \fBVistaIOUByte\fP, 
 \fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, \fBVistaIODouble\fP, 
-\fBVistaIOBoolean\fP, or \fBVistaIOString\fP. (These representations are described by 
-the \fBVistaIOlib\fP(7Vi) manual page). An error will be signalled if an attempt 
+\fBVistaIOBoolean\fP, or \fBVistaIOString\fP. An error will be signalled if an attempt 
 is made to obtain an attribute's value in a representation to which it 
 cannot be converted. 
 .IP
@@ -68,7 +67,7 @@ output data file. It's used to represent objects of unknown type
 encountered in input data files.
 .IP \(bu
 An attribute's value may be a pointer to an opaque data structure. Such a 
-pointer is of type \fBVistaIOPointer\fP, described in \fBVistaIOlib\fP(5Vi). Library 
+pointer is of type \fBVistaIOPointer\fP. Library 
 routines only allow for getting and setting a \fBVistaIOPointer\fP attribute 
 value; they cannot read \fBVistaIOPointer\fP values from data files, or write 
 them to data files.
@@ -311,8 +310,7 @@ for details.)
 returning a value in the requested representation. (See 
 \fBVistaIODecodeAttrValue\fP(3Vi) for details.) 
 .SS "Inputting and Outputting Attribute Lists"
-The following routines read and write attribute lists. The external form
-of an attribute list is described in \fBVistaIOfile\fP(5Vi) 
+The following routines read and write attribute lists.
 .PP
 .B VistaIOAttrList VistaIOReadFile (FILE *\fIfile\fP, VistaIOBoolean (*\fIfilter\fP) ())
 .IP
@@ -581,8 +579,7 @@ if (VistaIOLookupAttr (list, "...", & posn)) {
 .BR VistaIOBundle (3Vi),
 .BR VistaIOdictionary (3Vi),
 .BR VistaIOtype (3Vi),
-.BR VistaIOfile (5Vi),
-.BR VistaIOlib (7Vi),
+,
 .br
 .BR VistaIOGetAttrValue (3Vi),
 .BR VistaIOSetAttrValue (3Vi),

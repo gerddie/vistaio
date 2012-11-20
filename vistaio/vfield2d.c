@@ -56,8 +56,8 @@ EXPORT_VISTA VistaIOField2D VistaIOCreateField2DFrom(VistaIOLong x_dim,
 
 	switch (repn) {
 	case VistaIOBitRepn:
-	case VUByteRepn:
-	case VSByteRepn:break;
+	case VistaIOUByteRepn:
+	case VistaIOSByteRepn:break;
 		
 	case VistaIOShortRepn:result->nsize *= 2;
 		break;
@@ -94,8 +94,8 @@ EXPORT_VISTA VistaIOField2D VistaIOCreateField2D(VistaIOLong x_dim,
 
 	switch (repn) {
 	case VistaIOBitRepn:
-	case VUByteRepn:
-	case VSByteRepn:break;
+	case VistaIOUByteRepn:
+	case VistaIOSByteRepn:break;
 		
 	case VistaIOShortRepn:result->nsize *= 2;
 		break;

@@ -63,7 +63,7 @@ for f in files:
     changed = False
     out_lines = []
     for l in lines:
-        ol = re.sub("\\bV(_*[A-Z][a-z][a-zA-Z0-9_]*)\\b", "VistaIO\\1",l)
+        ol = re.sub("\\bV(_*[A-Z]*[a-z][a-zA-Z0-9_]*)\\b", "VistaIO\\1",l)
         out_lines.append(ol)
         changed = changed or (ol != l)
 

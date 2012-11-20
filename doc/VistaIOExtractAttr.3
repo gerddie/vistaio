@@ -49,7 +49,7 @@ the \fBVistaIOdictionary\fP(3Vi) manual page.)
 The value obtained directly from the attribute, or indirectly via the 
 dictionary, is converted to the representation \fIrepn\fP and then stored 
 at the location pointed to by \fIvalue\fP. The \fIrepn\fP argument may have 
-any \fBVistaIORepnKind\fP value (see \fBVistaIOlib\fP(7Vi) or any of the values 
+any \fBVistaIORepnKind\fP value or any of the values 
 returned by \fBVistaIORegisterType\fP(3Vi). However, an attribute value that is a 
 string can only be returned as a string or a number, and other attribute 
 values can only be returned in the representation with which they are 
@@ -78,7 +78,7 @@ while perhaps modifying the list \fIlist\fP and storing a value at
 .br
 .BR VistaIOattribute (3Vi),
 .BR VistaIOdictionary (3Vi),
-.BR VistaIOlib (7Vi)
+
 .hy
 .ad
 .SH NOTES

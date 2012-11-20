@@ -66,8 +66,7 @@ altogether (i.e., the product \fBnbands\fP * \fBnrows\fP * \fBncolumns\fP).
 .SS "Pixel Representation"
 An image's pixel values may have any of the following types: \fBVistaIOBit\fP, 
 \fBVistaIOUByte\fP, \fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, or 
-\fBVistaIODouble\fP. These are described in the ``Numeric Data Types'' section of 
-the \fBVistaIOlib\fP(7Vi) manual page. VistaIOariables meant to hold pixel values or 
+\fBVistaIODouble\fP. VistaIOariables meant to hold pixel values or 
 pointers to pixel values should be defined using these same types (rather 
 than built-in C types such as \fBshort\fP and \fBlong\fP) to ensure 
 software portability. 
@@ -720,9 +719,8 @@ name: "UFO icon"
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOattribute (3Vi),
-.BR VistaIOfile (5Vi),
-.BR VistaIOlib (7Vi)
+.BR VistaIOattribute (3Vi)
+
 .ad
 .hy
 .SH AUTHOR

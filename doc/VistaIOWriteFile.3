@@ -21,8 +21,7 @@ Specifies the open stream to which the data file should be written.
 .IP \fIlist\fP
 Specifies the list of attributes to be written.
 .SH DESCRIPTION
-\fBVistaIOWriteFile\fP writes an attribute list as a Vista data file in the 
-format described by \fBVistaIOfile\fP(5Vi). Attributes are written in the order 
+\fBVistaIOWriteFile\fP writes an attribute list as a Vista data file. Attributes are written in the order 
 that they appear in the list. As they are written, attribute values are 
 converted from internal form (e.g., a \fBVistaIOImage\fP data structure) to 
 external form according to the conventions described by 
@@ -43,9 +42,8 @@ while perhaps leaving the file incomplete.
 .BR VistaIOWriteUbcIff (3Vi),
 .BR stdio (3),
 .br
-.BR VistaIOtype (3Vi),
-.BR VistaIOfile (5Vi),
-.BR VistaIOlib (7Vi)
+.BR VistaIOtype (3Vi)
+
 .hy
 .ad
 .SH NOTES

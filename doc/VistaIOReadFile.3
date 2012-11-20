@@ -27,8 +27,7 @@ read from the file, or it may be
 .SB NULL
 to indicate that all binary data should be read.
 .SH DESCRIPTION
-\fBVistaIOReadFile\fP reads the contents of a Vista data file, which should be in 
-format described by \fBVistaIOfile\fP(5Vi). It returns a list of the attributes 
+\fBVistaIOReadFile\fP reads the contents of a Vista data file. It returns a list of the attributes 
 found in the file. Attribute values in that list will have been converted 
 to internal form, as described by \fBVistaIOattribute\fP(3Vi) and 
 \fBVistaIOtype\fP(3Vi). 
@@ -89,9 +88,8 @@ not have been completely read.
 .br
 .BR VistaIOBundle (3Vi),
 .BR VistaIOattribute (3Vi),
-.BR VistaIOtype (3Vi),
-.BR VistaIOfile (5Vi),
-.BR VistaIOlib (7Vi)
+.BR VistaIOtype (3Vi)
+
 .hy
 .ad
 .SH NOTES

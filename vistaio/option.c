@@ -271,8 +271,8 @@ VistaIOBoolean VistaIOParseCommand (int noptions, VistaIOOptionDescRec options[]
 		switch (opt->repn) {
 
 		case VistaIOBitRepn:
-		case VUByteRepn:
-		case VSByteRepn:
+		case VistaIOUByteRepn:
+		case VistaIOSByteRepn:
 		case VistaIOShortRepn:
 		case VistaIOLongRepn:
 		case VistaIOFloatRepn:
@@ -564,12 +564,12 @@ int VistaIOPrintOptionValue (FILE * f, VistaIOOptionDescRec * option)
 			ivalue = *(VistaIOBit *) vp;
 			goto PrintLong;
 
-		case VUByteRepn:
-			ivalue = *(VUByte *) vp;
+		case VistaIOUByteRepn:
+			ivalue = *(VistaIOUByte *) vp;
 			goto PrintLong;
 
-		case VSByteRepn:
-			ivalue = *(VSByte *) vp;
+		case VistaIOSByteRepn:
+			ivalue = *(VistaIOSByte *) vp;
 			goto PrintLong;
 
 		case VistaIOShortRepn:
