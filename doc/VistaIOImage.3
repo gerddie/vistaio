@@ -1,12 +1,12 @@
-.ds Vn 2.1
-.TH VImage 3Vi "12 April 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOImage 3Vi "12 April 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VImage \- image representation
+VistaIOImage \- image representation
 .SH SYNOPSIS
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .PP
-.B VImage \fIimage\fP;
+.B VistaIOImage \fIimage\fP;
 .fi
 .SH DESCRIPTION
 .SS Introduction
@@ -18,56 +18,56 @@ multiple frames of a motion sequence, the real and imaginary components of
 a complex image, or some combination of these. Besides pixel data, an image
 may also has an arbitrary list of attributes associated with it.
 .PP
-An image in memory is referred to by the C pointer type \fBVImage\fP. In 
+An image in memory is referred to by the C pointer type \fBVistaIOImage\fP. In 
 data files it's identified by the type name \fBimage\fP, and in memory, by 
-the \fBVRepnKind\fP code \fBVImageRepn\fP. Since it is a standard object 
+the \fBVistaIORepnKind\fP code \fBVistaIOImageRepn\fP. Since it is a standard object 
 type with built-in support in the Vista library, images can be read from 
 data files, written to data files, and manipulated as part of attribute 
-lists by routines such as \fBVReadFile\fP(3Vi), \fBVWriteFile\fP(3Vi), and 
-\fBVGetAttr\fP(3Vi). 
+lists by routines such as \fBVistaIOReadFile\fP(3Vi), \fBVistaIOWriteFile\fP(3Vi), and 
+\fBVistaIOGetAttr\fP(3Vi). 
 .SS "Creating and Destroying Images"
 The following routines create and destroy images.
 .HP 10n
 .na
 .nh
-.B VImage VCreateImage (int \fInbands\fP, int\ \fInrows\fP, 
-.B int\ \fIncolumns\fP, VPixelRepn \fIpixel_repn\fP)
+.B VistaIOImage VistaIOCreateImage (int \fInbands\fP, int\ \fInrows\fP, 
+.B int\ \fIncolumns\fP, VistaIOPixelRepn \fIpixel_repn\fP)
 .ad
 .hy
 .IP "" 0.5i
-\fBVCreateImage\fP allocates memory for a new image with the specified
+\fBVistaIOCreateImage\fP allocates memory for a new image with the specified
 numbers of bands, rows, and columns. Its pixel values are not initialized,
 and it is given an empty attribute list. The \fIpixel_repn\fP argument is
 described below, under ``Pixel Representation''. (See
-\fBVCreateImage\fP(3Vi) for details.)
+\fBVistaIOCreateImage\fP(3Vi) for details.)
 .PP
-.B void VDestroyImage (VImage \fIimage\fP)
+.B void VistaIODestroyImage (VistaIOImage \fIimage\fP)
 .IP
-\fBVDestroyImage\fP releases the memory occupied by \fIimage\fP, including
+\fBVistaIODestroyImage\fP releases the memory occupied by \fIimage\fP, including
 that occupied by its pixel data and attribute list.
 .SS "Image Size"
 An image's numbers of bands, row, and columns are sometimes abbreviated as 
 \fBnbands\fP, \fBnrows\fP, and \fBncolumns\fP. The following macros access 
 those numbers.
 .PP
-.B int VImageNBands (VImage \fIimage\fP)
+.B int VistaIOImageNBands (VistaIOImage \fIimage\fP)
 .PP
-.B int VImageNRows (VImage \fIimage\fP)
+.B int VistaIOImageNRows (VistaIOImage \fIimage\fP)
 .PP
-.B int VImageNColumns (VImage \fIimage\fP)
+.B int VistaIOImageNColumns (VistaIOImage \fIimage\fP)
 .IP
-\fBVImageNBands\fP, \fBVImageNRows\fP, \fBVImageNColumns\fP return
+\fBVistaIOImageNBands\fP, \fBVistaIOImageNRows\fP, \fBVistaIOImageNColumns\fP return
 the number of bands, rows, and columns that \fIimage\fP has. 
 .PP
-.B int VImageNPixels (VImage \fIimage\fP)
+.B int VistaIOImageNPixels (VistaIOImage \fIimage\fP)
 .IP
-\fBVImageNPixels\fP returns the number of pixel values \fIimage\fP has 
+\fBVistaIOImageNPixels\fP returns the number of pixel values \fIimage\fP has 
 altogether (i.e., the product \fBnbands\fP * \fBnrows\fP * \fBncolumns\fP). 
 .SS "Pixel Representation"
-An image's pixel values may have any of the following types: \fBVBit\fP, 
-\fBVUByte\fP, \fBVSByte\fP, \fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, or 
-\fBVDouble\fP. These are described in the ``Numeric Data Types'' section of 
-the \fBVlib\fP(7Vi) manual page. Variables meant to hold pixel values or 
+An image's pixel values may have any of the following types: \fBVistaIOBit\fP, 
+\fBVistaIOUByte\fP, \fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, or 
+\fBVistaIODouble\fP. These are described in the ``Numeric Data Types'' section of 
+the \fBVistaIOlib\fP(7Vi) manual page. VistaIOariables meant to hold pixel values or 
 pointers to pixel values should be defined using these same types (rather 
 than built-in C types such as \fBshort\fP and \fBlong\fP) to ensure 
 software portability. 
@@ -75,51 +75,51 @@ software portability.
 The following macros return information about an image's pixel 
 representation: 
 .PP
-.B VRepnKind VPixelRepn (VImage \fIimage\fP)
+.B VistaIORepnKind VistaIOPixelRepn (VistaIOImage \fIimage\fP)
 .IP
-\fBVPixelRepn\fP returns a code indicating \fIimage\fP's pixel 
-representation. (See \fBVlib\fP(7Vi) for a definition of the 
-\fBVRepnKind\fP codes.) If \fIimage\fP has \fBVBit\fP pixels, for example, 
-it returns \fBVBitRepn\fP. 
+\fBVistaIOPixelRepn\fP returns a code indicating \fIimage\fP's pixel 
+representation. (See \fBVistaIOlib\fP(7Vi) for a definition of the 
+\fBVistaIORepnKind\fP codes.) If \fIimage\fP has \fBVistaIOBit\fP pixels, for example, 
+it returns \fBVistaIOBitRepn\fP. 
 .PP
-.B size_t VPixelSize (VImage \fIimage\fP)
+.B size_t VistaIOPixelSize (VistaIOImage \fIimage\fP)
 .IP
-\fBVPixelSize\fP returns the size, in bytes, used for storing a single 
+\fBVistaIOPixelSize\fP returns the size, in bytes, used for storing a single 
 pixel of \fIimage\fP (i.e, a pixel within a single band, row, and column). 
 This value depends on machine architecture. 
 .PP
-.B int VPixelPrecision (VImage \fIimage\fP)
+.B int VistaIOPixelPrecision (VistaIOImage \fIimage\fP)
 .IP
-\fBVPixelPrecision\fP returns the minimum size, in bits, needed for 
+\fBVistaIOPixelPrecision\fP returns the minimum size, in bits, needed for 
 representing a single pixel of \fIimage\fP. This value does not depend on 
 machine architecture, but only on the kind of pixel value representation 
-used by \fIimage\fP. If \fIimage\fP has \fBVBit\fP pixels, for example, 
+used by \fIimage\fP. If \fIimage\fP has \fBVistaIOBit\fP pixels, for example, 
 this macro returns 1. 
 .PP
-.B VStringConst VPixelRepnName (VImage \fIimage\fP)
+.B VistaIOStringConst VistaIOPixelRepnName (VistaIOImage \fIimage\fP)
 .IP
-\fBVPixelRepnName\fP returns a string describing the type of pixel value
+\fBVistaIOPixelRepnName\fP returns a string describing the type of pixel value
 representation used by \fIimage\fP. For example, if \fIimage\fP has
-\fBVBit\fP pixels, the string ``bit'' is returned.
+\fBVistaIOBit\fP pixels, the string ``bit'' is returned.
 .PP
-.B VDouble VPixelMaxValue (VImage \fIimage\fP)
+.B VistaIODouble VistaIOPixelMaxValue (VistaIOImage \fIimage\fP)
 .IP
-\fBVPixelMaxValue\fP returns the maximum value that a pixel of \fIimage\fP
-may have. For example, if \fIimage\fP has \fBVSByte\fP pixels, it returns
+\fBVistaIOPixelMaxValue\fP returns the maximum value that a pixel of \fIimage\fP
+may have. For example, if \fIimage\fP has \fBVistaIOSByte\fP pixels, it returns
 127.0.
 .PP
-.B VDouble VPixelMinValue (VImage \fIimage\fP)
+.B VistaIODouble VistaIOPixelMinValue (VistaIOImage \fIimage\fP)
 .IP
-\fBVPixelMinValue\fP returns the minimum value that a pixel of \fIimage\fP
-may have. For example, if \fIimage\fP has \fBVSByte\fP pixels, it returns
+\fBVistaIOPixelMinValue\fP returns the minimum value that a pixel of \fIimage\fP
+may have. For example, if \fIimage\fP has \fBVistaIOSByte\fP pixels, it returns
 -128.0.
 .PP
-.B size_t VImageSize (VImage \fIimage\fP)
+.B size_t VistaIOImageSize (VistaIOImage \fIimage\fP)
 .IP
-\fBVImageSize\fP returns the size, in bytes, of \fIimage\fP's block of 
+\fBVistaIOImageSize\fP returns the size, in bytes, of \fIimage\fP's block of 
 pixel data, which contains the values of all pixels in all bands. This 
 value depends on machine architecture. 
-.SS "Pixel Values"
+.SS "Pixel VistaIOalues"
 A particular pixel value is indexed by a band number, a row number, and a
 column number. Bands, rows, and columns are numbered consecutively from
 zero. Rows number down and columns number to the right so that row 0,
@@ -127,28 +127,28 @@ column 0 is at the upper-left corner of the image.
 .HP 10n
 .na
 .nh
-.B \fItype\fP VPixel (VImage \fIimage\fP, int \fIband\fP,
+.B \fItype\fP VistaIOPixel (VistaIOImage \fIimage\fP, int \fIband\fP,
 .B int\ \fIrow\fP, int\ \fIcolumn\fP, \fItype\fP)
 .ad
 .hy
 .IP "" 0.5i
-\fBVPixel\fP accesses the pixel at a specified band, row and column in an 
+\fBVistaIOPixel\fP accesses the pixel at a specified band, row and column in an 
 image whose pixels are of a specified type. The pixel type, \fItype\fP, 
-must be one of \fBVBit\fP, \fBVUByte\fP, \fBVSByte\fP, \fBVShort\fP, 
-\fBVLong\fP, \fBVFloat\fP, or \fBVDouble\fP. The macro may be used either 
+must be one of \fBVistaIOBit\fP, \fBVistaIOUByte\fP, \fBVistaIOSByte\fP, \fBVistaIOShort\fP, 
+\fBVistaIOLong\fP, \fBVistaIOFloat\fP, or \fBVistaIODouble\fP. The macro may be used either 
 as an rvalue (to fetch the pixel's value) or as an lvalue (to modify it 
 or obtain its address). The ``EXAMPLES'' section, below, demonstrates its 
 use as an rvalue.
 .HP 10n
 .na
 .nh
-.B VPointer VPixelPtr (VImage \fIimage\fP, int \fIband\fP, 
+.B VistaIOPointer VistaIOPixelPtr (VistaIOImage \fIimage\fP, int \fIband\fP, 
 .B int\ \fIrow\fP, int\ \fIcolumn\fP)
 .ad
 .hy
 .PP
 .RS
-\fBVPixelPtr\fP returns the address of a pixel specified by its
+\fBVistaIOPixelPtr\fP returns the address of a pixel specified by its
 band, row, and column coordinates. The pixel at that address can be fetched
 or modified by first coercing the pointer to the appropriate type for the
 pixel. For example:
@@ -156,10 +156,10 @@ pixel. For example:
 .PP
 .nf
 .ft B
-pixel = VPixelPtr (image, band, row, column);
-if (VPixelRepn (image) == VBitRepn)
+pixel = VistaIOPixelPtr (image, band, row, column);
+if (VistaIOPixelRepn (image) == VistaIOBitRepn)
 .RS
-* (VBit *) pixel = new_value;
+* (VistaIOBit *) pixel = new_value;
 .RE
 else \fR...
 .fi
@@ -167,40 +167,40 @@ else \fR...
 .RE
 .PP
 .nf
-.B \fItype\fP *** VPixelArray (VImage \fIimage\fP, \fItype\fP)
+.B \fItype\fP *** VistaIOPixelArray (VistaIOImage \fIimage\fP, \fItype\fP)
 .fi
 .RS
 .PP
-\fBVPixelArray\fP returns a pointer that can be used to access any image
+\fBVistaIOPixelArray\fP returns a pointer that can be used to access any image
 pixel by indexing it first with the pixel's band number, then its row
 number, and then its column number. For example:
 .RS
 .PP
 .nf
-.B VUByte ***pixels = VPixelArray (image, VUByte);
+.B VistaIOUByte ***pixels = VistaIOPixelArray (image, VistaIOUByte);
 .B pixels[band][row][column] = new_value;
 .fi
 .RE
 .RE
 .PP
-.B VPointer VImageData (VImage \fIimage\fP)
+.B VistaIOPointer VistaIOImageData (VistaIOImage \fIimage\fP)
 .IP
-\fBVImageData\fP returns a pointer to \fIimage\fP's block of pixel data. 
-The block has the size \fBVImageSize\ (\fIimage\fB)\fR bytes.
+\fBVistaIOImageData\fP returns a pointer to \fIimage\fP's block of pixel data. 
+The block has the size \fBVistaIOImageSize\ (\fIimage\fB)\fR bytes.
 .SS "Other Image Attributes"
 In addition to its pixel values an image may have any number of other
 attributes; they are represented as an attribute list.
 .PP
-.B VAttrList VImageAttrList (VImage \fIimage\fP)
+.B VistaIOAttrList VistaIOImageAttrList (VistaIOImage \fIimage\fP)
 .RS
 .PP
-\fBVImageAttrList\fP is a macro for accessing the attribute list associated
+\fBVistaIOImageAttrList\fP is a macro for accessing the attribute list associated
 with an image. The macro may be used as an rvalue to reach attributes
 within the list:
 .RS
 .PP
 .nf
-.B VGetAttr (VImageAttrList (image), VNameAttr, \fR...\fP)
+.B VistaIOGetAttr (VistaIOImageAttrList (image), VistaIONameAttr, \fR...\fP)
 .fi
 .RE
 .PP
@@ -208,8 +208,8 @@ or as an lvalue to manipulate the entire list:
 .RS
 .PP
 .nf
-.B VDestroyAttrList (VImageAttrList (image));
-.B VImageAttrList (image) = VCopyAttrList (other_list);
+.B VistaIODestroyAttrList (VistaIOImageAttrList (image));
+.B VistaIOImageAttrList (image) = VistaIOCopyAttrList (other_list);
 .RE
 .RE
 .fi
@@ -249,13 +249,13 @@ abbreviated as \fBnframes\fP, \fBnviewpoints\fP, \fBncolors\fP, and
 the image. These macros exist for accessing the sizes: 
 .RS
 .PP
-.B int VImageNFrames (VImage \fIimage\fP)
+.B int VistaIOImageNFrames (VistaIOImage \fIimage\fP)
 .PP
-.B int VImageNViewpoints (VImage \fIimage\fP)
+.B int VistaIOImageNViewpoints (VistaIOImage \fIimage\fP)
 .PP
-.B int VImageNColors (VImage \fIimage\fP)
+.B int VistaIOImageNColors (VistaIOImage \fIimage\fP)
 .PP
-.B int VImageNComponents (VImage \fIimage\fP)
+.B int VistaIOImageNComponents (VistaIOImage \fIimage\fP)
 .RE
 .PP
 Each macro may be used as rvalue to obtain the size of a dimension, or as 
@@ -270,14 +270,14 @@ mapping:
 .na
 .nh
 .ft B
-int VBandIndex (VImage \fIimage\fP, int \fIframe\fP, int\ \fIviewpoint\fP,
+int VistaIOBandIndex (VistaIOImage \fIimage\fP, int \fIframe\fP, int\ \fIviewpoint\fP,
 int\ \fIcolor\fP, int\ \fIcomponent\fP)
 .ft
 .ad
 .hy
 .RE
 .PP
-\fBVBandIndex\fP returns the index of the band that corresponds to a
+\fBVistaIOBandIndex\fP returns the index of the band that corresponds to a
 particular combination of frame, viewpoint, channel, and component indices.
 .PP
 An image's attribute list may include attributes indicating how the image
@@ -294,35 +294,35 @@ externally, in Vista data files.
 .PP
 \fBviewpoint_interp\fP, which has this standard value:
 .RS 4n
-.IP "\fBVBandInterpStereoPair\fP (\fBstereo_pair\fP)"
+.IP "\fBVistaIOBandInterpStereoPair\fP (\fBstereo_pair\fP)"
 The two viewpoints represent (respectively) the left and right images of a 
 stereo pair.
 .RE
 .PP
 \fBcolor_interp\fP, which has these standard values:
 .RS 4n
-.IP "\fBVBandInterpRGB\fP (\fBrgb\fP)"
+.IP "\fBVistaIOBandInterpRGB\fP (\fBrgb\fP)"
 The three colors represent (respectively) red, green, and blue color 
 channels.
 .RE
 .PP
 \fBcomponent_interp\fP, which has these standard values:
 .RS 4n
-.IP "\fBVBandInterpComplex\fP (\fBcomplex\fP)"
+.IP "\fBVistaIOBandInterpComplex\fP (\fBcomplex\fP)"
 The two components represent (respectively) the real and imaginary 
 components of a complex image.
-.IP "\fBVBandInterpGradient\fP (\fBgradient\fP)"
+.IP "\fBVistaIOBandInterpGradient\fP (\fBgradient\fP)"
 There is a single component representing gradient magnitude, two
 components representing (respectively) the x (rightward) and y (upward)
 components of gradient, or three representing the x, y, and z (forward in
 band sequence) components of gradient.
-.IP "\fBVBandInterpIntensity\fP (\fBintensity\fP)"
+.IP "\fBVistaIOBandInterpIntensity\fP (\fBintensity\fP)"
 There is a single component representing image intensity. For integer pixel
 representations, pixel values normally span the range between zero and the
-maximum representable pixel values (e.g., [0,127] for \fBVSByte\fP pixels).
+maximum representable pixel values (e.g., [0,127] for \fBVistaIOSByte\fP pixels).
 For floating point pixel representations, pixel values normally span the
 range [\-1,+1].
-.IP "\fBVBandInterpOrientation\fP (\fBorientation\fP)"
+.IP "\fBVistaIOBandInterpOrientation\fP (\fBorientation\fP)"
 There is a single component representing orientation. Pixel values express
 orientation in radians, counterclockwise from the direction of increasing
 column number (rightward).
@@ -335,25 +335,25 @@ these symbolic constants:
 .PP
 .nf
 .ft B
-#define VFrameInterpAttr "frame_interp"
-#define VViewpointInterpAttr "viewpoint_interp"
-#define VColorInterpAttr "color_interp"
-#define VComponentInterpAttr "component_interp"
+#define VistaIOFrameInterpAttr "frame_interp"
+#define VistaIOViewpointInterpAttr "viewpoint_interp"
+#define VistaIOColorInterpAttr "color_interp"
+#define VistaIOComponentInterpAttr "component_interp"
 .ft
 .fi
 .RE
 .PP
-A dictionary, \fBVBandInterpDict\fP, defines the mapping between the band
-interpretation codes (e.g., \fBVBandInterpComplex\fP) and their keywords
+A dictionary, \fBVistaIOBandInterpDict\fP, defines the mapping between the band
+interpretation codes (e.g., \fBVistaIOBandInterpComplex\fP) and their keywords
 (e.g., \fBcomplex\fP):
 .RS
 .PP
-.B VDictEntry VBandInterpDict[];
+.B VistaIODictEntry VistaIOBandInterpDict[];
 .RE
 .PP
 For each of the four band interpretation dimensions there is a routine you 
 can use to simultaneously check both the dimension's size and, if present, 
-its interpretation attribute. The \fBVBandInterp\fP(3Vi) man page describes 
+its interpretation attribute. The \fBVistaIOBandInterp\fP(3Vi) man page describes 
 the four routines. 
 .SS "Pixel Aspect Ratio"
 Pixel aspect ratio is defined as the ratio of pixel width to pixel height. 
@@ -365,7 +365,7 @@ it:
 .PP
 .nf
 .ft B  
-#define VPixelAspectRatioAttr "pixel_aspect_ratio"
+#define VistaIOPixelAspectRatioAttr "pixel_aspect_ratio"
 .fi
 .RE
 .PP
@@ -377,8 +377,8 @@ takes three or more arguments, like this:
 .HP 10n
 .na
 .nh
-.B VImage VProcessImage (VImage\ \fIsrc\fP, VImage\ \fIdest\fP,
-.B VBand\ \fIband\fP)
+.B VistaIOImage VistaIOProcessImage (VistaIOImage\ \fIsrc\fP, VistaIOImage\ \fIdest\fP,
+.B VistaIOBand\ \fIband\fP)
 .ad
 .hy
 .RE
@@ -395,7 +395,7 @@ is appropriate for the source image and for the type of operation being
 performed on it:
 .RS
 .PP
-.B 	dest = VProcessImage (src, NULL, band);
+.B 	dest = VistaIOProcessImage (src, NULL, band);
 .RE
 .IP b)
 you can supply a destination image provided it has the correct properties
@@ -403,8 +403,8 @@ you can supply a destination image provided it has the correct properties
 .RS
 .PP
 .nf
-.B 	dest = VCreateImageLike (src);
-.B 	VProcessImage (src, dest, band);
+.B 	dest = VistaIOCreateImageLike (src);
+.B 	VistaIOProcessImage (src, dest, band);
 .fi
 .RE
 .IP c)
@@ -414,7 +414,7 @@ This choice is only available for operations where the source and
 destination images have the same size and pixel representation. 
 .RS
 .PP
-.B 	VProcessImage (src, src, band);
+.B 	VistaIOProcessImage (src, src, band);
 .RE
 .RE
 .PP
@@ -423,16 +423,16 @@ and
 .SB NULL
 otherwise. Moreover, if
 .SB NULL 
-is returned, the routine will already have called \fBVWarning\fP(3Vi) to
+is returned, the routine will already have called \fBVistaIOWarning\fP(3Vi) to
 issue a warning message describing the problem.
 .PP
 The third argument to most image processing routines, \fIband\fP, may
 specify a particular band of the source image to be processed; or it may be
-the constant \fBVAllBands\fP (defined as -1) to indicate that all bands of
+the constant \fBVistaIOAllBands\fP (defined as -1) to indicate that all bands of
 the source image are to be processed. When a particular band is specified,
 \fIband\fP must be at least 0 and less than the number of bands in the
 source image; the destination image will usually have a single band to
-contain the result. When \fBVAllBands\fP is specified, the destination
+contain the result. When \fBVistaIOAllBands\fP is specified, the destination
 image will usually have the same number of bands as the source image.
 .PP
 Normally a routine will copy the source image's attribute list to the 
@@ -442,7 +442,7 @@ already. The sizes of the four band interpretation dimensions
 however, a routine may delete or modify the attributes and dimensional 
 sizes as it copies them from source to destination. For example, a routine 
 that converts an RGB color image to a grey-scale one 
-(\fBVRGBImageToGray\fP(3Vi)) expects a source image with the properties 
+(\fBVistaIORGBImageToGray\fP(3Vi)) expects a source image with the properties 
 \fBncolors:\ 3\fP and \fBcolor_interp: rgb\fP; the destination image 
 it produces has \fBncolors:\ 1\fP and no \fBcolor_interp\fP attribute. 
 .SS "Image Representation in Memory"
@@ -456,12 +456,12 @@ typedef struct {
 int nbands;	/* number of bands */
 int nrows;	/* number of rows */
 int ncolumns;	/* number of columns */
-VRepnKind pixel_repn;	/* representation of pixel values */
+VistaIORepnKind pixel_repn;	/* representation of pixel values */
 unsigned long flags;	/* various flags */
-VAttrList attributes;	/* list of other image attributes */
-VPointer data;	/* array of image pixel values */
-VPointer *row_index;	/* ptr to first pixel of each row */
-VPointer **band_index;	/* ptr to first row of each band */
+VistaIOAttrList attributes;	/* list of other image attributes */
+VistaIOPointer data;	/* array of image pixel values */
+VistaIOPointer *row_index;	/* ptr to first pixel of each row */
+VistaIOPointer **band_index;	/* ptr to first row of each band */
 int nframes;	/* number of motion frames */
 int nviewpoints;	/* number of camera viewpoints */
 int ncolors;	/* number of color channels */
@@ -469,25 +469,25 @@ int ncomponents;	/* number of vector components */
 .ft
 .RE
 .ft B
-} VImageRec, *VImage;
+} VistaIOImageRec, *VistaIOImage;
 .DT
 .ft
 .fi
 .PP
-An image is represented in memory by a value of type \fBVImage\fP, which 
-points to a \fBVImageRec\fP structure. Programmers using images will 
+An image is represented in memory by a value of type \fBVistaIOImage\fP, which 
+points to a \fBVistaIOImageRec\fP structure. Programmers using images will 
 usually not need to access this structure's fields directly from their code 
 since there are Vista library routines and macros available for most 
 purposes. However, when debugging, one may occasionally need to examine a 
-\fBVImageRec\fP structure's fields directly. The following paragraphs 
+\fBVistaIOImageRec\fP structure's fields directly. The following paragraphs 
 describe the fields.
 .PP
 The \fBnbands\fP, \fBnrows\fP, and \fBncolumns\fP fields of the structure 
 describe how many bands, rows, and columns the image has. Its 
 \fBpixel_repn\fP field specifies how the image's pixel values are 
-represented; it contains one of the constants \fBVBitRepn\fP, 
-\fBVUByteRepn\fP, \fBVSByteRepn\fP, \fBVShortRepn\fP, \fBVLongRepn\fP, 
-\fBVFloatRepn\fP, or \fBVDoubleRepn\fP. Its \fBattributes\fP field contains 
+represented; it contains one of the constants \fBVistaIOBitRepn\fP, 
+\fBVistaIOUByteRepn\fP, \fBVistaIOSByteRepn\fP, \fBVistaIOShortRepn\fP, \fBVistaIOLongRepn\fP, 
+\fBVistaIOFloatRepn\fP, or \fBVistaIODoubleRepn\fP. Its \fBattributes\fP field contains 
 the list of attributes associated with the image. 
 .PP
 An image's pixel values are stored in a contiguous block of memory where 
@@ -498,9 +498,9 @@ array of pixel values occupies a separate block of memory, and these blocks
 are arranged contiguously. All of band 0's pixel values are first, followed 
 by all of band 1's, etc. In summary, pixel values are ordered by band, 
 then by row within each band, and then by column. The pixel values 
-themselves are of type \fBVBit\fB, \fBVUByte\fP, ..., or \fBVDouble\fP.
+themselves are of type \fBVistaIOBit\fB, \fBVistaIOUByte\fP, ..., or \fBVistaIODouble\fP.
 .PP
-The \fBdata\fP field of a \fBVImageRec\fP points to the block of memory
+The \fBdata\fP field of a \fBVistaIOImageRec\fP points to the block of memory
 containing pixel values. The \fBrow_index\fP field points to a vector of
 pointers to the first pixel value of each row within each band; this vector
 is of length (\fBnbands\fP * \fBnrows\fP) and it is indexed by an
@@ -509,12 +509,12 @@ expression of the form (\fIband\fP\ *\ \fBnrows\fP\ +\ \fIrow\fP). The
 \fBrow_index\fP entry of each band; this vector is of length \fBnbands\fP
 and it is indexed by band number.
 .PP
-Individual bits of a \fBVImageRec\fP's \fBflags\fP field are used to denote 
+Individual bits of a \fBVistaIOImageRec\fP's \fBflags\fP field are used to denote 
 various things. One bit is currently defined: 
-.IP \fBVImageSingleAlloc\fP 21n
-This bit, if nonzero, indicates that the \fBVImageRec\fP, the block of pixel
+.IP \fBVistaIOImageSingleAlloc\fP 21n
+This bit, if nonzero, indicates that the \fBVistaIOImageRec\fP, the block of pixel
 values, the row index, and the band index were all obtained with a single
-call to \fBVMalloc\fP(3Vi). If the bit is zero, these things were allocated
+call to \fBVistaIOMalloc\fP(3Vi). If the bit is zero, these things were allocated
 separately and therefore they must be released separately.
 .PP
 The \fBnframes\fP, \fBnviewpoints\fP, \fBncolors\fP, and \fBncomponents\fP
@@ -604,25 +604,25 @@ entire block of pixel values is padded so that its length is a multiple of
 .PP
 Each kind of pixel is represented as follows in the Vista data file:
 .RS
-.IP \fBVBit\fP 10n
+.IP \fBVistaIOBit\fP 10n
 as a 1-bit unsigned integer
-.IP \fBVUByte\fP
+.IP \fBVistaIOUByte\fP
 as an 8-bit unsigned integer
-.IP \fBVSByte\fP
+.IP \fBVistaIOSByte\fP
 as an 8-bit two's-complement integer
-.IP \fBVShort\fP
+.IP \fBVistaIOShort\fP
 as a 16-bit two's-complement integer
-.IP \fBVLong\fP
+.IP \fBVistaIOLong\fP
 as a 32-bit two's-complement integer
-.IP \fBVFloat\fP
+.IP \fBVistaIOFloat\fP
 as a 32-bit IEEE floating-point number
-.IP \fBVDouble\fP
+.IP \fBVistaIODouble\fP
 as a 64-bit IEEE floating point number
 .RE
 .PP
 Note that a pixel's representation in a Vista data file is independent of 
 the form it takes when stored in memory on any particular machine. Thus a 
-\fBVBit\fP pixel may occupy 8 bits in the main memory of a Sun SPARCstation 
+\fBVistaIOBit\fP pixel may occupy 8 bits in the main memory of a Sun SPARCstation 
 32 bits on a Cray machine, but it always occupies a single bit in a Vista 
 data file. 
 .SH EXAMPLES
@@ -631,11 +631,11 @@ single-bit pixels:
 .PP
 .RS
 .ft B
-for (i = 0; i < VImageNRows (image); i++)
+for (i = 0; i < VistaIOImageNRows (image); i++)
 .RS
-for (j = 0; j < VImageNColumns (image); j++)
+for (j = 0; j < VistaIOImageNColumns (image); j++)
 .RS
-VPixel (image, 0, i, j, VBit) = 1;
+VistaIOPixel (image, 0, i, j, VistaIOBit) = 1;
 .RE
 .RE
 .ft
@@ -647,10 +647,10 @@ repeated computation of pixel addresses:
 .PP
 .RS
 .ft B
-VBit *p = & VPixel (image, 0, 0, 0, VBit);
+VistaIOBit *p = & VistaIOPixel (image, 0, 0, 0, VistaIOBit);
 .PP
 .ft B
-for (i = 0; i < VImageNPixels (image); i++)
+for (i = 0; i < VistaIOImageNPixels (image); i++)
 .RS
 *p++ = 1;
 .RE
@@ -664,18 +664,18 @@ This code fragment creates an image of complex pixel values:
 .na
 .nh
 .ft B
-image = VCreateImage (2, 256, 256, VFloatRepn);
+image = VistaIOCreateImage (2, 256, 256, VistaIOFloatRepn);
 .HP 10n
 .ft B
-VImageNFrames\ (image)\ = VImageNViewpoints\ (image)\ = 
-VImageNColors\ (image)\ =\ 1;
+VistaIOImageNFrames\ (image)\ = VistaIOImageNViewpoints\ (image)\ = 
+VistaIOImageNColors\ (image)\ =\ 1;
 .PP
 .ft B
-VImageNComponents (image) = 2;
+VistaIOImageNComponents (image) = 2;
 .HP 10n
 .ft B
-VSetAttr (VImageAttrList (image), VComponentInterpAttr,
-NULL, VLongRepn, (VLong)\ VBandInterpComplex);
+VistaIOSetAttr (VistaIOImageAttrList (image), VistaIOComponentInterpAttr,
+NULL, VistaIOLongRepn, (VistaIOLong)\ VistaIOBandInterpComplex);
 .ad
 .hy
 .RE
@@ -697,7 +697,7 @@ component_interp: complex
 repn: float
 data: \fIoffset of first image's pixel values\fP
 length: 524288
-name: "UFO sighted over Vancouver"
+name: "UFO sighted over VistaIOancouver"
 pixel_aspect_ratio: 1.25
 .RE
 }
@@ -720,9 +720,9 @@ name: "UFO icon"
 .SH "SEE ALSO"
 .na
 .nh
-.BR Vattribute (3Vi),
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOattribute (3Vi),
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH AUTHOR
@@ -734,88 +734,88 @@ man page named for the routine.
 .PP
 For creating and destroying images in memory:
 .RS 2n
-.IP \fBVCreateImage\fP 20n
+.IP \fBVistaIOCreateImage\fP 20n
 Create an image.
-.IP \fBVCreateImageLike\fP
+.IP \fBVistaIOCreateImageLike\fP
 Create one image like another.
-.IP \fBVDestroyImage\fP
+.IP \fBVistaIODestroyImage\fP
 Release memory occupied by an image.
 .RE
 .PP
 For fetching and storing pixel values:
 .RS 2n
-.IP \fBVGetPixel\fP 20n
+.IP \fBVistaIOGetPixel\fP 20n
 Fetch a pixel value with any pixel representation.
-.IP \fBVSetPixel\fP
+.IP \fBVistaIOSetPixel\fP
 Store a pixel value with any pixel representation.
-.IP \fBVSelectBand\fP
+.IP \fBVistaIOSelectBand\fP
 Select bands of image pixels for processing.
-.IP \fBVSelectDestIamge\fP
+.IP \fBVistaIOSelectDestIamge\fP
 Select a destination for an image processing operation.
 .RE
 .PP
 For getting band interpretation information:
 .RS 2n
-.IP \fBVImageFrameInterp\fP 20n
+.IP \fBVistaIOImageFrameInterp\fP 20n
 Report meaning of frame dimension.
-.IP \fBVImageColorInterp\fP
+.IP \fBVistaIOImageColorInterp\fP
 Report meaning of color dimension.
-.IP \fBVImageComponentInterp\fP
+.IP \fBVistaIOImageComponentInterp\fP
 Report meaning of component dimension.
-.IP \fBVImageViewpointInterp\fP
+.IP \fBVistaIOImageViewpointInterp\fP
 Report meaning of viewpoint dimension.
 .RE
 .PP
 For reading and writing images:
 .RS 2n
-.IP \fBVReadImages\fP 20n
+.IP \fBVistaIOReadImages\fP 20n
 Read a set of images from a data file.
-.IP \fBVReadPlain\fP
+.IP \fBVistaIOReadPlain\fP
 Read an image in Vista plain file format.
-.IP \fBVReadPnm\fP
+.IP \fBVistaIOReadPnm\fP
 Read an image in Portable Anymap (PNM) format.
-.IP \fBVReadUbcIff\fP
+.IP \fBVistaIOReadUbcIff\fP
 Read an image in UBC image file format.
-.IP \fBVWriteImages\fP
+.IP \fBVistaIOWriteImages\fP
 Write a set of images to a data file.
-.IP \fBVWriteUbcIff\fP
+.IP \fBVistaIOWriteUbcIff\fP
 Write an image in UBC image file format.
 .RE
 .PP
 For comparing images:
 .RS 2n
-.IP \fBVSameImageRange\fP 20n
+.IP \fBVistaIOSameImageRange\fP 20n
 Test whether two images have the same size and pixel representation.
-.IP \fBVSameImageSize\fP
+.IP \fBVistaIOSameImageSize\fP
 Test whether two images have the same size.
 .RE
 .PP
 For copying images:
 .RS 2n
-.IP \fBVCombineBands\fP 20n
+.IP \fBVistaIOCombineBands\fP 20n
 Copy selected bands of pixel values from various source images to a single
 destination image.
-.IP \fBVCopyBand\fP
+.IP \fBVistaIOCopyBand\fP
 Copy one or all bands of pixel values from one image to another.
-.IP \fBVCopyImage\fP
+.IP \fBVistaIOCopyImage\fP
 Copy one image to another.
-.IP \fBVCopyImageAttrs\fP
+.IP \fBVistaIOCopyImageAttrs\fP
 Copy one image's attributes to another.
-.IP \fBVCopyImagePixels\fP
+.IP \fBVistaIOCopyImagePixels\fP
 Copy one image's pixel values to another.
 .RE
 .PP
 For converting an image's pixel representation:
 .RS 2n
-.IP \fBVConvertImageCopy\fP 20n
+.IP \fBVistaIOConvertImageCopy\fP 20n
 Convert an image's pixel representation while simply copying pixel values.
-.IP \fBVConvertImageLinear\fP
+.IP \fBVistaIOConvertImageLinear\fP
 Convert an image's pixel representation using some linear mapping of pixel
 values.
-.IP \fBVConvertImageOpt\fP
+.IP \fBVistaIOConvertImageOpt\fP
 Convert an image's pixel representation while mapping the actual range of
 source pixel values to the full range of possible destination pixel values.
-.IP \fBVConvertImageRange\fP
+.IP \fBVistaIOConvertImageRange\fP
 Convert an image's pixel representation while mapping the full range of
 possible source pixel values to the full range of possible destination
 pixel values.
@@ -823,102 +823,102 @@ pixel values.
 .PP
 For rotating or transposing an image:
 .RS 2n
-.IP \fBVFlipImage\fP 20n
+.IP \fBVistaIOFlipImage\fP 20n
 Flip an image horizontally or vertically.
-.IP \fBVRotateImage\fP
+.IP \fBVistaIORotateImage\fP
 Rotate an image by any angle.
-.IP \fBVTransposeImage\fP
+.IP \fBVistaIOTransposeImage\fP
 Transpose the rows and columns of an image.
 .RE
 .PP
 For changing the size of an image:
 .RS 2n
-.IP \fBVCropImage\fP 20n
+.IP \fBVistaIOCropImage\fP 20n
 Extract a rectangular region from an image.
-.IP \fBVExpandImage\fB
+.IP \fBVistaIOExpandImage\fB
 Increase the size of an image by an integer factor. 
-.IP \fBVReduceImage\fB
+.IP \fBVistaIOReduceImage\fB
 Decrease the size of an image by an integer factor.
-.IP \fBVScaleImage\fB
+.IP \fBVistaIOScaleImage\fB
 Scale the size of an image, up or down, by any factor.
 .RE
 .PP
 For filtering and transforming images:
 .RS 2n
-.IP \fBVAdjustImage\fP 20n
+.IP \fBVistaIOAdjustImage\fP 20n
 Adjust image brightness and/or contrast.
-.IP \fBVCanny\fP
+.IP \fBVistaIOCanny\fP
 Detect edges in an image using a Canny operator.
-.IP \fBVConvolveImage\fP
+.IP \fBVistaIOConvolveImage\fP
 Convolve an image with a mask.
-.IP \fBVGaussianConvolveImage\fP
+.IP \fBVistaIOGaussianConvolveImage\fP
 Convolve an image with a Gaussian filter or its derivative.
-.IP \fBVImageFFT\fP
+.IP \fBVistaIOImageFFT\fP
 Compute a forward or inverse Fourier transform.
-.IP \fBVImageGradient\fP
+.IP \fBVistaIOImageGradient\fP
 Compute the horizontal and vertical components of image gradient.
-.IP \fBVImageOp\fP
+.IP \fBVistaIOImageOp\fP
 Perform an arithmetic or logical operation on an image's pixel values.
-.IP \fBVInvertImage\fP
+.IP \fBVistaIOInvertImage\fP
 Invert an image's pixel values, swapping black and white.
-.IP \fBVLinkImage\fP
+.IP \fBVistaIOLinkImage\fP
 Create an edge set by linking connected, non-zero image pixels.
-.IP \fBVNegateImage\fP
+.IP \fBVistaIONegateImage\fP
 Negate an image's pixel values.
-.IP \fBVZeroCrossings\fP
+.IP \fBVistaIOZeroCrossings\fP
 Mark the zero crossings in an image.
 .RE
 .PP
 For computing image statistics:
 .RS 2n
-.IP \fBVImageStats\fP 20n
+.IP \fBVistaIOImageStats\fP 20n
 Compute the minimum, maximum, mean, and variance of an image's pixel values.
 .RE
 .PP
 For working with complex images:
 .RS 2n
-.IP \fBVBuildComplexImage 20n
+.IP \fBVistaIOBuildComplexImage 20n
 Build a complex image from separate images of real and imaginary
 components.
-.IP \fBVImageMagnitude\fP
+.IP \fBVistaIOImageMagnitude\fP
 Compute the magnitude of a complex image.
-.IP \fBVImagePhase\fP
+.IP \fBVistaIOImagePhase\fP
 Compute the phase of a complex image, or the gradient direction of a 
 two-component gradient image.
 .RE
 .PP
 For displaying or rendering images:
 .RS 2n
-.IP \fBVImageBandToPS\fP 20n
+.IP \fBVistaIOImageBandToPS\fP 20n
 Render an image band using PostScript.
-.IP \fBVRGBImageToPS\fP
+.IP \fBVistaIORGBImageToPS\fP
 Render an RGB color image using PostScript.
-.IP \fBVImageView\fP
+.IP \fBVistaIOImageView\fP
 An X Toolkit widget for displaying an image.
-.IP \fBVImageWindowSize\fP
+.IP \fBVistaIOImageWindowSize\fP
 Compute appropriate window dimensions for displaying an image.
 .RE
 .PP
 For filling images with patterns:
 .RS 2n
-.IP \fBVFillImage\fP 20n
+.IP \fBVistaIOFillImage\fP 20n
 Fill an image with a constant pixel value.
-.IP \fBVRampImage\fP
+.IP \fBVistaIORampImage\fP
 Fill an image with an intensity ramp.
-.IP \fBVSineGratingImage\fP
+.IP \fBVistaIOSineGratingImage\fP
 Fill an image with a sine grating.
-.IP \fBVZonePlateImage\fP
+.IP \fBVistaIOZonePlateImage\fP
 Fill an image with a zone plate pattern.
-.IP \fBVBilinearNoiseImage\fP
+.IP \fBVistaIOBilinearNoiseImage\fP
 Fill an image with a random mixture of two pixel values.
-.IP \fBVNormalNoiseImage\fP
+.IP \fBVistaIONormalNoiseImage\fP
 Fill an image with pixel values drawn from a normal distribution.
-.IP \fBVUniformNoiseImage\fP
+.IP \fBVistaIOUniformNoiseImage\fP
 Fill an image with pixel values drawn from a uniform distribution.
 .RE
 .PP
 Miscellaneous:
 .RS 2n
-.IP \fBVOptFlowWLS\fP 20n
+.IP \fBVistaIOOptFlowWLS\fP 20n
 compute optical flow by weighted least squares.
 .RE

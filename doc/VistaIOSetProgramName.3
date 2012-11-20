@@ -1,13 +1,13 @@
-.ds Vn 2.1
-.TH VSetProgramName 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOSetProgramName 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VSetProgramName \- register a program name for error messages
+VistaIOSetProgramName \- register a program name for error messages
 .SH SYNOPSIS
 .nf
 .ft B
-void VSetProgramName (\fIname\fP)
+void VistaIOSetProgramName (\fIname\fP)
 .RS
-VStringConst \fIname\fP
+VistaIOStringConst \fIname\fP
 .RE
 .fi
 .SH ARGUMENTS
@@ -16,13 +16,13 @@ Specifies the program's name as a null-terminated string, or is
 .SB NULL
 to indicate that no program name should be registered.
 .SH DESCRIPTION
-\fBVSetProgramName\fP determines what, if any, program name will be
-included in subsequent error messages composed by \fBVError\fP (3Vi),
-\fBVSystemError\fP(3Vi), \fBVWarning\fP(3Vi), and \fBVSystemWarning\fP(3Vi).
+\fBVistaIOSetProgramName\fP determines what, if any, program name will be
+included in subsequent error messages composed by \fBVistaIOError\fP (3Vi),
+\fBVistaIOSystemError\fP(3Vi), \fBVistaIOWarning\fP(3Vi), and \fBVistaIOSystemWarning\fP(3Vi).
 .PP
-Initially, no program name is registered. If \fBVSetProgramName\fP
+Initially, no program name is registered. If \fBVistaIOSetProgramName\fP
 is called with a string, that string is registered as the program name. 
-If \fBVSetProgramName\fP is called with an argument of 
+If \fBVistaIOSetProgramName\fP is called with an argument of 
 .SM NULL\c
 , any previously-registered name is forgotten.
 .SH EXAMPLES
@@ -34,7 +34,7 @@ int argc;
 char *argv[];
 {
 	\fR...\fP
-	VSetProgramName (argv[0]);
+	VistaIOSetProgramName (argv[0]);
 	\fR...\fP
 }
 .fi
@@ -42,15 +42,15 @@ char *argv[];
 .SH "SEE ALSO"
 .na
 .nh
-.BR VError (3Vi),
-.BR VWarning (3Vi),
-.BR VSetErrorHandler (3Vi),
-.BR VSetWarningHandler (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOError (3Vi),
+.BR VistaIOWarning (3Vi),
+.BR VistaIOSetErrorHandler (3Vi),
+.BR VistaIOSetWarningHandler (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH NOTES
-\fBVSetProgramName\fP does not make its own copy of the string it is passed.
+\fBVistaIOSetProgramName\fP does not make its own copy of the string it is passed.
 Consequently, storage used for the string must be maintained by the caller.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

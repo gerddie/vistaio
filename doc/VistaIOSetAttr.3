@@ -1,33 +1,33 @@
-.ds Vn 2.1
-.TH VSetAttr 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOSetAttr 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VSetAttr \- set an attribute's value
+VistaIOSetAttr \- set an attribute's value
 .SH SYNOPSIS
 .nf
 .ft B
-void VSetAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+void VistaIOSetAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
 .RS
-VAttrList \fIlist\fP;
-VStringConst \fItype\fP;
-VDictEntry *\fIdict\fP;
-VRepnKind \fIrepn\fP;
+VistaIOAttrList \fIlist\fP;
+VistaIOStringConst \fItype\fP;
+VistaIODictEntry *\fIdict\fP;
+VistaIORepnKind \fIrepn\fP;
 \fItype value\fP;
 .RE
 .PP
 .ft B
-void VSetAttrValue (\fIposn\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+void VistaIOSetAttrValue (\fIposn\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
 .RS
-VAttrListPosn \fIposn\fP;
-VDictEntry *\fIdict\fP;
-VRepnKind \fIrepn\fP;
+VistaIOAttrListPosn \fIposn\fP;
+VistaIODictEntry *\fIdict\fP;
+VistaIORepnKind \fIrepn\fP;
 \fItype value\fP;
 .RE
 .PP
 .fi
-where \fItype\fP, according to \fIrepn\fP, is \fBVBit\fP, \fBVUByte\fP,
-\fBVSByte\fP, \fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, \fBVDouble\fP,
-\fBVAttrList\fP, \fBVBoolean\fP, \fBVBundle\fP, \fBVList\fP,
-\fBVPointer\fP, \fBVString\fP, \fBVEdges\fP, \fBVImage\fP, etc.
+where \fItype\fP, according to \fIrepn\fP, is \fBVistaIOBit\fP, \fBVistaIOUByte\fP,
+\fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, \fBVistaIODouble\fP,
+\fBVistaIOAttrList\fP, \fBVistaIOBoolean\fP, \fBVistaIOBundle\fP, \fBVistaIOList\fP,
+\fBVistaIOPointer\fP, \fBVistaIOString\fP, \fBVistaIOEdges\fP, \fBVistaIOImage\fP, etc.
 .SH ARGUMENTS
 .IP \fIlist\fP 10n
 Specifies and returns the attribute list in which an attribute
@@ -50,21 +50,21 @@ These routines both set an attribute's value, but they differ in how the
 attribute is identified:
 .RS 2n
 .IP \(bu 2n
-\fBVSetAttr\fP sets the value of an attribute named \fIname\fP in the 
+\fBVistaIOSetAttr\fP sets the value of an attribute named \fIname\fP in the 
 attribute list \fIlist\fP. If \fIlist\fP does not already contain an 
 attribute named \fIname\fP then a new attribute with that name is appended 
 to it. Otherwise, only the first attribute named \fIname\fP is located and 
 changed.
 .IP \(bu
-\fBVSetAttrValue\fP sets the value of the attribute whose position within 
+\fBVistaIOSetAttrValue\fP sets the value of the attribute whose position within 
 an attribute list is \fIposn\fP.
 .RE
 .PP
 With the \fIdict\fP argument you can provide a dictionary for mapping 
 \fIvalue\fP to a keyword that will be stored as the attribute's value (see 
-\fBVdictionary\fP(3Vi)). For example, if you pass an attribute value of 1 
+\fBVistaIOdictionary\fP(3Vi)). For example, if you pass an attribute value of 1 
 and a dictionary that associates the value 1 with the keyword \fBubyte\fP 
-(as the dictionary\fBVRepnDict\fP does), then the string \fBubyte\fP will 
+(as the dictionary\fBVistaIORepnDict\fP does), then the string \fBubyte\fP will 
 be stored as the attribute's value. Dictionaries may be used to map both 
 numeric values and strings to keywords. If you supply a dictionary but 
 \fIvalue\fP is not mentioned in that dictionary, then \fIvalue\fP itself 
@@ -83,24 +83,24 @@ The following code fragment sets an image's name:
 .PP
 .nf
 .RS
-.B VImage image;
+.B VistaIOImage image;
 .PP
 .ft B
-VSetAttr (VImageAttrList (image), VNameAttr, NULL,
+VistaIOSetAttr (VistaIOImageAttrList (image), VistaIONameAttr, NULL,
 .RS
-VStringRepn, "Mona Lisa");
+VistaIOStringRepn, "Mona Lisa");
 .RE
 .RE
 .fi
 .SH "SEE ALSO"
 .na
 .nh
-.BR VGetAttr (3Vi),
-.BR VGetAttrValue (3Vi),
+.BR VistaIOGetAttr (3Vi),
+.BR VistaIOGetAttrValue (3Vi),
 .br
-.BR Vattribute (3Vi),
-.BR Vdictionary (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOattribute (3Vi),
+.BR VistaIOdictionary (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH AUTHOR

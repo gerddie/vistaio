@@ -1,11 +1,11 @@
-.ds Vn 2.1
-.TH Vdictionary 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOdictionary 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-Vdictionary \- representation of a keyword/value mapping
+VistaIOdictionary \- representation of a keyword/value mapping
 .SH SYNPOSIS
 .nf
 .ft B
-VDictEntry \fIdictionary\fP[] = {
+VistaIODictEntry \fIdictionary\fP[] = {
 .RS
 { "\fIkeyword\fP", \fIinteger_value\fP },
 { "\fIkeyword\fP", 0, \fIstring_value\fP },
@@ -26,14 +26,14 @@ entries by keyword and by value.
 .ta 25n
 typedef struct {
 .RS
-VStringConst keyword;	/* keyword string */
-VLong ivalue;	/* value, if an integer */
-VStringConst svalue;	/* value, if a string */
-VBoolean icached;	/* whether integer value cached */
-VBoolean fcached;	/* whether float value cached */
-VDouble fvalue;	/* cached floating-point value */
+VistaIOStringConst keyword;	/* keyword string */
+VistaIOLong ivalue;	/* value, if an integer */
+VistaIOStringConst svalue;	/* value, if a string */
+VistaIOBoolean icached;	/* whether integer value cached */
+VistaIOBoolean fcached;	/* whether float value cached */
+VistaIODouble fvalue;	/* cached floating-point value */
 .RE
-} VDictEntry;
+} VistaIODictEntry;
 .DT
 .fi
 .PP
@@ -41,7 +41,7 @@ The dictionary data structure is designed to permit any string or numeric
 value to be associated with a keyword, and to permit the use of 
 statically-initialized dictionaries.
 .PP
-A dictionary is an array of \fBVDictEntry\fP structures. The last entry in 
+A dictionary is an array of \fBVistaIODictEntry\fP structures. The last entry in 
 the array has a \fIkeyword\fP field of 
 .SB NULL
 while each preceding entry contains both a keyword and a value. When the 
@@ -53,8 +53,8 @@ integer in the \fIivalue\fP field (in which case \fIsvalue\fP must be
 as a string value containing the number in printable form. The ``EXAMPLES'' 
 section, below, shows typical code for establishing dictionaries.
 .PP
-Other fields of the \fBVDictEntry\fP are only used internally by the 
-\fBVLookupDictValue\fP routine, which provides one form of access to 
+Other fields of the \fBVistaIODictEntry\fP are only used internally by the 
+\fBVistaIOLookupDictValue\fP routine, which provides one form of access to 
 dictionaries. The fields are used to cache the results of having converted 
 a string value to an integer or a floating-point number. When an entry 
 contains a string value (\fIsvalue\fP is not
@@ -71,12 +71,12 @@ first entry to last, returning the first matching entry encountered.
 .HP 10n
 .na
 .nh
-.B VDictEntry *VLookupDictKeyword (VDictEntry *\fIdict\fP, 
-.B VStringConst\ \fIkeyword\fP)
+.B VistaIODictEntry *VistaIOLookupDictKeyword (VistaIODictEntry *\fIdict\fP, 
+.B VistaIOStringConst\ \fIkeyword\fP)
 .ad
 .hy
 .IP "" 0.5i
-\fBVLookupDictEntry\fP searches the dictionary \fIdict\fP for an entry
+\fBVistaIOLookupDictEntry\fP searches the dictionary \fIdict\fP for an entry
 whose keyword is \fIkeyword\fP. It returns a pointer to the entry, if
 found, or
 .SB NULL
@@ -85,39 +85,39 @@ otherwise.
 .HP 10n
 .na
 .nh
-.B VDictEntry *VLookupDictValue (VDictEntry *\fIdict\fP, 
-.B VRepnKind\ \fIrepn\fP, \fItype\ value\fP)
+.B VistaIODictEntry *VistaIOLookupDictValue (VistaIODictEntry *\fIdict\fP, 
+.B VistaIORepnKind\ \fIrepn\fP, \fItype\ value\fP)
 .ad
 .hy
 .IP "" 0.5i
-\fBVLookupDictValue\fP searches the dictionary \fIdict\fP for an entry
+\fBVistaIOLookupDictValue\fP searches the dictionary \fIdict\fP for an entry
 whose value is \fIvalue\fP. The value to be searched for can be specified
 in any of several representations; that chosen is indicated by \fIrepn\fP.
-Then \fItype\fP is one of \fBVBit\fP, \fBVUByte\fP, \fBVSByte\fP,
-\fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, \fBVDouble\fP, \fBVBoolean\fP, or
-\fBVString\fP, depending on \fIrepn\fP.  \fBVLookupDictValue\fB returns a
+Then \fItype\fP is one of \fBVistaIOBit\fP, \fBVistaIOUByte\fP, \fBVistaIOSByte\fP,
+\fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, \fBVistaIODouble\fP, \fBVistaIOBoolean\fP, or
+\fBVistaIOString\fP, depending on \fIrepn\fP.  \fBVistaIOLookupDictValue\fB returns a
 pointer to the entry, if found, or
 .SB NULL
 otherwise.
 .SS "Built-in Dictionaries"
 The following dictionaries are already included in the library:
-.IP \fBVBooleanDict\fP 15n
+.IP \fBVistaIOBooleanDict\fP 15n
 maps between the keywords \fBfalse\fP, \fBtrue\fP, \fBno\fP, \fByes\fP,
 \fBoff\fP, and \fBon\fP and the values
 .SB FALSE
 and
 .SB TRUE\c
 .
-.IP \fBVNumericRepnDict\fP
+.IP \fBVistaIONumericRepnDict\fP
 maps between the keywords \fBbit\fP, \fBubyte\fP, \fBsbyte\fP, \fBshort\fP,
-\fBlong\fP, \fBfloat\fB, and \fBdouble\fP and the values \fBVBitRepn\fP through \fBVDoubleRepn\fP.
+\fBlong\fP, \fBfloat\fB, and \fBdouble\fP and the values \fBVistaIOBitRepn\fP through \fBVistaIODoubleRepn\fP.
 .SH EXAMPLES
 This dictionary describes a mapping between keywords and integers:
 .PP
 .nf
 .ft B
 .RS
-VDictEntry VBooleanDict[] = {
+VistaIODictEntry VistaIOBooleanDict[] = {
 .RS
 { "false", FALSE }, { "true", TRUE },
 { "no", FALSE }, { "yes", TRUE },
@@ -134,7 +134,7 @@ numbers:
 .nf
 .ft B
 .RS
-VDictEntry ConstantDict[] = {
+VistaIODictEntry ConstantDict[] = {
 .RS
 { "zero", 0 }, { "one", 1 },
 { "pi", 0, "3.14159" }, { "e", 0, "2.7182818" },
@@ -149,7 +149,7 @@ This dictionary describes a mapping between keywords and strings:
 .nf
 .ft B
 .RS
-VDictEntry TitleDict[] = {
+VistaIODictEntry TitleDict[] = {
 .RS
 { "Clinton", 0, "President of the U.S.A." },
 { "Major", 0, "Prime Minister of Great Britain" },

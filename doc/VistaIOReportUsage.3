@@ -1,25 +1,25 @@
-.ds Vn 2.1
-.TH VReportUsage 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOReportUsage 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VReportUsage, VReportValidOptions \- report valid command line arguments
+VistaIOReportUsage, VistaIOReportValidOptions \- report valid command line arguments
 .SH SYNOPSIS
 .nf
 .B "#include <vista/option.h>"
 .PP
 .ft B
-void VReportUsage (\fIprogram\fP, \fInoptions\fP, \fIoptions\fP, \
+void VistaIOReportUsage (\fIprogram\fP, \fInoptions\fP, \fIoptions\fP, \
 \fIother_args\fP)
 .RS
-VStringConst \fIprogram\fP, \fIother_args\fP;
+VistaIOStringConst \fIprogram\fP, \fIother_args\fP;
 int \fInoptions\fP;
-VOptionDescRec \fIoptions\fP[\fInoptions\fP];
+VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
 .RE
 .PP
 .ft B
-void VReportValidOptions (\fInoptions\fP, \fIoptions\fP)
+void VistaIOReportValidOptions (\fInoptions\fP, \fIoptions\fP)
 .RS
 int \fInoptions\fP;
-VOptionDescRec \fIoptions\fP[\fInoptions\fP];
+VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
 .RE
 .fi
 .SH ARGUMENTS
@@ -35,7 +35,7 @@ those described in the options table, or it may be
 .SB NULL\c
 .
 .SH DESCRIPTION
-\fBVReportUsage\fP prints, to the standard error stream, information about how
+\fBVistaIOReportUsage\fP prints, to the standard error stream, information about how
 to use a program. It first prints a line of the form:
 .PP
 .RS
@@ -49,10 +49,10 @@ the options table, \fIother_args\fP should be
 .SB NULL\c
 \&.
 .PP
-\fBVReportUsage\fP then calls \fBVReportValidOptions\fP to print a
+\fBVistaIOReportUsage\fP then calls \fBVistaIOReportValidOptions\fP to print a
 summary of the options described by \fInoptions\fP and \fIoptions\fP.
 .PP
-\fBVReportValidOptions\fP prints a description of each option in a table of
+\fBVistaIOReportValidOptions\fP prints a description of each option in a table of
 option descriptors. The description is intended to advise a program user.
 It indicates what keyword signals the option's presence in the command
 line, whether it is optional, how many values must follow it, what type
@@ -64,10 +64,10 @@ stream.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VParseCommand (3Vi),
-.BR VReportBadArgs (3Vi),
-.BR Voption (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOParseCommand (3Vi),
+.BR VistaIOReportBadArgs (3Vi),
+.BR VistaIOoption (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH AUTHOR

@@ -1,52 +1,52 @@
-.ds Vn 2.1
-.TH VEdges 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOEdges 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VEdges \- edge set representation
+VistaIOEdges \- edge set representation
 .SH SYNOPSIS
 .na
 .nh
-.B #include <vista/VEdges.h>
+.B #include <vista/VistaIOEdges.h>
 .PP
-.B VEdges \fIedges\fP;
+.B VistaIOEdges \fIedges\fP;
 .br
-.B VEdge \fIedge\fP;
+.B VistaIOEdge \fIedge\fP;
 .HP 10n
-.B VEdges VCreateEdges (int\ \fInrows\fP, int\ \fIncolumns\fP,
+.B VistaIOEdges VistaIOCreateEdges (int\ \fInrows\fP, int\ \fIncolumns\fP,
 .B int\ \fInedge_fields\fP, int\ \fInpoint_fields\fP)
 .HP 10n
-.B VEdge VAddEdge (VEdges\ \fIedges\fP, VFloat\ *\fIedge_fields\fP, 
-.B int\ \fInpoints\fP, VFloat\ *\fIpoints\fP, VBoolean\ \fIclosed\fP, 
-.B VBoolean\ \fIcopy\fP)
+.B VistaIOEdge VistaIOAddEdge (VistaIOEdges\ \fIedges\fP, VistaIOFloat\ *\fIedge_fields\fP, 
+.B int\ \fInpoints\fP, VistaIOFloat\ *\fIpoints\fP, VistaIOBoolean\ \fIclosed\fP, 
+.B VistaIOBoolean\ \fIcopy\fP)
 .PP
-.B VEdges VCopyEdges (VEdges \fIedges\fP)
+.B VistaIOEdges VistaIOCopyEdges (VistaIOEdges \fIedges\fP)
 .PP
-.B void VDestroyEdges (VEdges \fIedges\fP)
+.B void VistaIODestroyEdges (VistaIOEdges \fIedges\fP)
 .PP
-.B int VNEdgeFields (VEdges \fIedges\fP)
+.B int VistaIONEdgeFields (VistaIOEdges \fIedges\fP)
 .PP
-.B int VNPointFields (VEdges \fIedges\fP)
+.B int VistaIONPointFields (VistaIOEdges \fIedges\fP)
 .PP
-.B int VEdgesNRows (VEdges \fIedges\fP)
+.B int VistaIOEdgesNRows (VistaIOEdges \fIedges\fP)
 .PP
-.B int VEdgesNColumns (VEdges \fIedges\fP)
+.B int VistaIOEdgesNColumns (VistaIOEdges \fIedges\fP)
 .PP
-.B VAttrList VEdgesAttrList (VEdges \fIedges\fP)
+.B VistaIOAttrList VistaIOEdgesAttrList (VistaIOEdges \fIedges\fP)
 .PP
-.B int VNEdges (VEdges \fIedges\fP)
+.B int VistaIONEdges (VistaIOEdges \fIedges\fP)
 .PP
-.B VEdge VFirstEdge (VEdges \fIedges\fP)
+.B VistaIOEdge VistaIOFirstEdge (VistaIOEdges \fIedges\fP)
 .PP
-.B VEdge VNextEdge (VEdge \fIedge\fP)
+.B VistaIOEdge VistaIONextEdge (VistaIOEdge \fIedge\fP)
 .PP
-.B VBoolean VEdgeExists (VEdge \fIedge\fP)
+.B VistaIOBoolean VistaIOEdgeExists (VistaIOEdge \fIedge\fP)
 .PP
-.B VBoolean VEdgeClosed (VEdge \fIedge\fP)
+.B VistaIOBoolean VistaIOEdgeClosed (VistaIOEdge \fIedge\fP)
 .PP
-.B VFloat * VEdgeFields (VEdge \fIedge\fP)
+.B VistaIOFloat * VistaIOEdgeFields (VistaIOEdge \fIedge\fP)
 .PP
-.B int VEdgeNPoints (VEdge \fIedge\fP)
+.B int VistaIOEdgeNPoints (VistaIOEdge \fIedge\fP)
 .PP
-.B VFloat ** VEdgePointArray (VEdge \fIedge\fP)
+.B VistaIOFloat ** VistaIOEdgePointArray (VistaIOEdge \fIedge\fP)
 .ad
 .hy
 .SH DESCRIPTION
@@ -55,23 +55,23 @@ A Vista edge set is typically used to represent two-dimensional connected
 edge points or lines that have been extracted from images, but it can also 
 be used to represent any sets of vectors of floating point values.
 .PP
-An edge set in memory is referred to by the C pointer type \fBVEdges\fP. In 
+An edge set in memory is referred to by the C pointer type \fBVistaIOEdges\fP. In 
 data files it's identified by the type name \fBedges\fP, and in memory, by 
-the \fBVRepnKind\fP code \fBVEdgesRepn\fP. Since it is a standard object 
+the \fBVistaIORepnKind\fP code \fBVistaIOEdgesRepn\fP. Since it is a standard object 
 type with built-in support in the Vista library, edge sets can be read from 
 data files, written to data files, and manipulated as part of attribute 
-lists by routines such as \fBVReadFile\fP(3Vi), \fBVWriteFile\fP(3Vi), and 
-\fBVGetAttr\fP(3Vi). 
+lists by routines such as \fBVistaIOReadFile\fP(3Vi), \fBVistaIOWriteFile\fP(3Vi), and 
+\fBVistaIOGetAttr\fP(3Vi). 
 .PP
 A single edge, a member of an edge set, is referred to by the C pointer 
-type \fBVEdge\fP.
+type \fBVistaIOEdge\fP.
 .SS "Data Structure"
-The \fBVEdges\fP data structure heads a linked list of structures each 
+The \fBVistaIOEdges\fP data structure heads a linked list of structures each 
 representing one edge. An edge consists of an array of connected points 
 along the edge, and each point contains a selected number of floating point 
 values specifying its location and other properties. The edge itself may 
 also have a selected number of floating point fields attached to it. The 
-\fBVEdges\fP data structure also specifies the size of the display region 
+\fBVistaIOEdges\fP data structure also specifies the size of the display region 
 in which the edges are to be displayed. 
 .PP
 By convention, the first two values associated with each point give its x 
@@ -90,14 +90,14 @@ used either as an rvalue (e.g, on the right hand side of an assignment
 operator) or as an lvalue (on the left hand side of an assignment 
 operator). 
 .PP
-\fBVCreateEdges\fP initializes and returns an empty edge set.  The
+\fBVistaIOCreateEdges\fP initializes and returns an empty edge set.  The
 \fInrows\fP and \fIncolumns\fP arguments give the size of the display
 region (usually copied from the size of image from which the edges
 were derived).  \fInedge_fields\fP and \fInpoint_fields\fP give the
 number of floating point values that will be attached to each edge and
 point.
 .PP
-\fBVAddEdge\fP adds a new edge to \fIedges\fP. \fInpoints\fP is the number 
+\fBVistaIOAddEdge\fP adds a new edge to \fIedges\fP. \fInpoints\fP is the number 
 of points in this edge. The field values for each of the points is given 
 sequentially in the floating point array \fIpoints\fP. The values for the 
 fields attached to this edge are given in \fIedge_fields\fP. \fIclosed\fP 
@@ -109,57 +109,57 @@ point). If \fIcopy\fP is
 , then a new copy is made of the point and field data so that their storage 
 can be reused. 
 .PP
-\fBVCopyEdges\fP returns a copy of an edge set, made with newly-allocated 
+\fBVistaIOCopyEdges\fP returns a copy of an edge set, made with newly-allocated 
 storage.
 .PP
-\fBVDestroyEdges\fP releases the memory occupied by an edge set, including 
+\fBVistaIODestroyEdges\fP releases the memory occupied by an edge set, including 
 that occupied by all points and fields of each the edge. 
 .PP
-\fBVNEdgeFields\fP returns the number of floating point fields that are 
+\fBVistaIONEdgeFields\fP returns the number of floating point fields that are 
 attached to each edge. This number is established when the edge set is 
 first created and must not be changed later.
 .PP
-\fBVNPointFields\fP returns the number of floating point fields that are 
+\fBVistaIONPointFields\fP returns the number of floating point fields that are 
 attached to each point. By convention the first 2 fields are used to 
 represent the x and y coordinates of the point. This number is established 
 when the edge set is first created and must not be changed later. 
 .PP
-\fBVEdgesNRows\fP accesses the number of rows in the image from which the 
+\fBVistaIOEdgesNRows\fP accesses the number of rows in the image from which the 
 edge set was derived (i.e., it specifies the height of the display region).
 .PP
-\fBVEdgesNColumns\fP accesses the number of columns in the image from which 
+\fBVistaIOEdgesNColumns\fP accesses the number of columns in the image from which 
 the edge set was derived (i.e., it specifies the width of the display 
 region). 
 .PP
-\fBVEdgesAttrList\fP accesses the attribute list associated with an edge 
+\fBVistaIOEdgesAttrList\fP accesses the attribute list associated with an edge 
 set.
 .PP
-\fBVNEdges\fP returns the number of edges currently in an edge set.
+\fBVistaIONEdges\fP returns the number of edges currently in an edge set.
 .SS "Accessing an Individual Edge"
-\fBVFirstEdge\fP returns the first edge in the linked list of edge records
+\fBVistaIOFirstEdge\fP returns the first edge in the linked list of edge records
 associated with an edge set.
 .PP
-\fBVNextEdge\fP returns the next edge in a set of edges. (The edges are 
+\fBVistaIONextEdge\fP returns the next edge in a set of edges. (The edges are 
 chained in a linked list.) 
 .PP
-\fBVEdgeExists\fP returns 
+\fBVistaIOEdgeExists\fP returns 
 .SB FALSE
 if the edge pointer, \fIedge\fP, does not point to an edge. This is used to 
 detect the end of the linked list when traversing through an edge set. 
 .PP
-\fBVEdgeClosed\fP returns 
+\fBVistaIOEdgeClosed\fP returns 
 .SB TRUE
 if the edge, \fIedge\fP, is closed (i.e., its last point connects back to 
 its first point). 
 .PP
-\fBVEdgeFields\fP returns the array of floating point values for the fields
+\fBVistaIOEdgeFields\fP returns the array of floating point values for the fields
 attached to an edge.
 .PP
-\fBVEdgeNPoints\fP returns the number of points in an edge.
+\fBVistaIOEdgeNPoints\fP returns the number of points in an edge.
 .PP
-\fBVEdgePointArray\fP returns a two-dimensional array, in which the first 
+\fBVistaIOEdgePointArray\fP returns a two-dimensional array, in which the first 
 dimensionthe points and the second indexes each point fields.
-.SS "VEdges Representation in a Vista Data File"
+.SS "VistaIOEdges Representation in a Vista Data File"
 .nf
 .ft B
 \fIattribute-name\fP: edges {
@@ -194,11 +194,11 @@ points in each edge while printing the first field of each point:
 .nf
 .ft B
 .RS
-for (e = VFirstEdge(edges); VEdgeExists(e); e = VNextEdge(e))
+for (e = VistaIOFirstEdge(edges); VistaIOEdgeExists(e); e = VistaIONextEdge(e))
 .RS
-for (i = 0; i < VEdgeNPoints(e); i++)
+for (i = 0; i < VistaIOEdgeNPoints(e); i++)
 .RS
-printf("%f ", (float) VEdgePointArray(e)[i][0]);
+printf("%f ", (float) VistaIOEdgePointArray(e)[i][0]);
 .RE
 .RE
 .RE
@@ -206,9 +206,9 @@ printf("%f ", (float) VEdgePointArray(e)[i][0]);
 .SH "SEE ALSO"
 .na
 .nh
-.BR Vattribute (3Vi),
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOattribute (3Vi),
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH AUTHOR
@@ -218,14 +218,14 @@ The following table summarizes other Vista library routines that operate
 on edge sets. Each routine is documented elsewhere, by a section 3Vi man page
 named for the routine.
 .RS 2n
-.IP \fBVReadEdges\fP 15n
+.IP \fBVistaIOReadEdges\fP 15n
 Read sets of edges from a Vista data file.
-.IP \fBVWriteEdges\fP
+.IP \fBVistaIOWriteEdges\fP
 Write sets of edges to a Vista data file.
-.IP \fBVEdgesToPS\fP
+.IP \fBVistaIOEdgesToPS\fP
 Render a set of edges using PostScript.
-.IP \fBVLinkImage\fP
+.IP \fBVistaIOLinkImage\fP
 Create an edge set by linking connected, non-zero image pixels.
-.IP \fBVSegEdgesIntoLines\fP
+.IP \fBVistaIOSegEdgesIntoLines\fP
 Segment an edge set into approximating straight lines.
 .RE

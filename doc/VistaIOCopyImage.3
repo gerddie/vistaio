@@ -1,27 +1,27 @@
-.ds Vn 2.1
-.TH VCopyImage 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOCopyImage 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VCopyImage \- copy an image
+VistaIOCopyImage \- copy an image
 .SH SYNOPSIS
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .PP
-.B VImage VCopyImagePixels (\fIsrc\fP, \fIdest\fP, \fIband\fP)
+.B VistaIOImage VistaIOCopyImagePixels (\fIsrc\fP, \fIdest\fP, \fIband\fP)
 .RS
-.B VImage \fIsrc\fP, \fIdest\fP;
-.B VBand \fIband\fP;
+.B VistaIOImage \fIsrc\fP, \fIdest\fP;
+.B VistaIOBand \fIband\fP;
 .RE
 .fi
 .PP
-.B VImage VCopyImageAttrs (\fIsrc\fP, \fIdest\fP)
+.B VistaIOImage VistaIOCopyImageAttrs (\fIsrc\fP, \fIdest\fP)
 .RS
-.B VImage \fIsrc\fP, \fIdest\fP;
+.B VistaIOImage \fIsrc\fP, \fIdest\fP;
 .RE
 .PP
-.B VImage VCopyImage (\fIsrc\fP, \fIdest\fP, \fIband\fP)
+.B VistaIOImage VistaIOCopyImage (\fIsrc\fP, \fIdest\fP, \fIband\fP)
 .RS
-.B VImage \fIsrc\fP, \fIdest\fP;
-.B VBand \fIband\fP;
+.B VistaIOImage \fIsrc\fP, \fIdest\fP;
+.B VistaIOBand \fIband\fP;
 .RE
 .fi
 .SH ARGUMENTS
@@ -33,13 +33,13 @@ May specify a destination image; or may be
 to indicate that a new destination image should be created.
 .IP \fIband\fP
 May specify a particular band of the source image to be copied,
-or may be the constant \fBVAllBands\fP to indicate that all bands 
+or may be the constant \fBVistaIOAllBands\fP to indicate that all bands 
 of the source image should be copied.
 .SH DESCRIPTION
-\fBVCopyImagePixels\fP copies pixel values from the source image to the
+\fBVistaIOCopyImagePixels\fP copies pixel values from the source image to the
 destination image. (No other image properties are copied.)
 .PP
-\fBVCopyImageAttrs\fP copies attributes from the source image to the 
+\fBVistaIOCopyImageAttrs\fP copies attributes from the source image to the 
 destination image. (No pixel values are copied.) If the destination image 
 already has an attribute list, it is first deleted. Then the destination 
 image is given a copy of the source image's attribute list. Finally, if the 
@@ -61,15 +61,15 @@ unchanged from the source image to the destination image; and (b) the sizes
 of the band interpretation dimensions are copied as well.
 .RE
 .PP
-\fBVCopyImage\fP copies both pixel values and attributes from one image to
-the other. It is equivalent to calling both \fBVCopyImagePixels\fP and
-\fBVCopyImageAttrs\fP.
+\fBVistaIOCopyImage\fP copies both pixel values and attributes from one image to
+the other. It is equivalent to calling both \fBVistaIOCopyImagePixels\fP and
+\fBVistaIOCopyImageAttrs\fP.
 .PP
 You can specify 
 .SB NULL
 as a destination image to any of these routines; they will then create an
 appropriate destination image, copy to it, and return it. If you supply a
-destination image to \fBVCopyImage\fP or \fBVCopyImagePixels\fP, it must
+destination image to \fBVistaIOCopyImage\fP or \fBVistaIOCopyImagePixels\fP, it must
 have the same number of rows, number of columns, and pixel representation
 as the source image; also, it must have a number of bands consistent with
 \fIsrc\fP and \fIband\fP.
@@ -81,24 +81,24 @@ otherwise.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VCopyBand (3Vi),
-.BR VCombineBands (3Vi)
-.BR VImage (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOCopyBand (3Vi),
+.BR VistaIOCombineBands (3Vi)
+.BR VistaIOImage (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH NOTES
-\fBVCopyAttrList\fP(3Vi) is used to copy attributes from the source image 
+\fBVistaIOCopyAttrList\fP(3Vi) is used to copy attributes from the source image 
 to the destination image. Thus the destination image's attribute list 
 contains its own copy of each attribute value \(em except that for a 
-\fBVPointer\fP value, the pointer is copied but not the (opaque) data 
+\fBVistaIOPointer\fP value, the pointer is copied but not the (opaque) data 
 structure to which it points. 
 .SH DIAGNOSTICS
 .IP "``Band \fIband\fP referenced in image of \fInbands\fP band(s).''"
 The \fIband\fP argument is invalid given the number of bands in \fIsrc\fP.
 .IP "``Destination image has \fIdest_nbands\fP bands; \fIsrc_nbands\fP expected.''"
 A destination image was specified but it has the wrong number of bands.
-If \fIband\fP is \fBVAllBands\fP, the destination image must have the same
+If \fIband\fP is \fBVistaIOAllBands\fP, the destination image must have the same
 number of bands as the source image. Otherwise, it must have a single
 band.
 .IP "``Destination image has \fIdest_prop\fP \fIproperty\fP; \fIsrc_prop\fP expected.''"

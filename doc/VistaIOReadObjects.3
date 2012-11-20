@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VReadObjects 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOReadObjects 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VReadObjects \- read a series of objects from a stream
+VistaIOReadObjects \- read a series of objects from a stream
 .SH SYNOPSIS
 .nf
 .ft B
@@ -9,12 +9,12 @@ VReadObjects \- read a series of objects from a stream
 #include \fB<vista/file.h>\fP
 .PP
 .ft B
-int VReadObjects (\fIfile\fP, \fIrepn\fP, \fIattributes\fP, \fIobjects\fP)
+int VistaIOReadObjects (\fIfile\fP, \fIrepn\fP, \fIattributes\fP, \fIobjects\fP)
 .RS
 FILE *\fIfile\fP;
-VRepnKind \fIrepn\fP;
-VAttrList *\fIattributes\fP;
-VPointer (*\fIobjects\fP)[];
+VistaIORepnKind \fIrepn\fP;
+VistaIOAttrList *\fIattributes\fP;
+VistaIOPointer (*\fIobjects\fP)[];
 .RE
 .fi
 .SH ARGUMENTS
@@ -27,32 +27,32 @@ Returns a list of attributes read from the stream.
 .IP \fIedge_sets\fP
 Returns a vector of pointers to the objects read.
 .SH DESCRIPTION
-\fBVReadObjects\fP reads a Vista data file from an open stream, collects all 
+\fBVistaIOReadObjects\fP reads a Vista data file from an open stream, collects all 
 top-level objects of the type specified by \fIrepn\fP, and returns those 
 objects separately from the file's other contents. It is used by 
-\fBVReadImages\fP, for example, to read and collect images by specifying 
-\fBVImageRepn\fP for the \fIrepn\fP argument. 
+\fBVistaIOReadImages\fP, for example, to read and collect images by specifying 
+\fBVistaIOImageRepn\fP for the \fIrepn\fP argument. 
 .SH "RETURN VALUES"
-\fBVReadObjects\fP returns the number of objects obtained, or 0 if an error 
+\fBVistaIOReadObjects\fP returns the number of objects obtained, or 0 if an error 
 is encountered. A vector of the objects is allocated and returned via 
 \fIobjects\fP. Any other objects found in the file are returned as an 
 attribute list via \fIattributes\fP. 
 .SH "SEE ALSO"
 .na
 .hy
-.BR VOpenInputFile (3Vi),
-.BR VReadEdges (3Vi),
-.BR VReadFile (3Vi),
-.BR VReadImages (3Vi),
-.BR VWriteObjects (3Vi),
+.BR VistaIOOpenInputFile (3Vi),
+.BR VistaIOReadEdges (3Vi),
+.BR VistaIOReadFile (3Vi),
+.BR VistaIOReadImages (3Vi),
+.BR VistaIOWriteObjects (3Vi),
 .BR stdio (3),
 .br
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS
-Besides the following, any of the diagnostics produced by \fBVReadFile\fP 
+Besides the following, any of the diagnostics produced by \fBVistaIOReadFile\fP 
 may be generated.
 .IP "``No \fItype\fP objects present in stream.''"
 No objects of the type specified by \fIrepn\fP were encountered in the 

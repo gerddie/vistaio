@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VNew 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIONew 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VNew \- allocate storage for an instance of a data type
+VistaIONew \- allocate storage for an instance of a data type
 .SH SYNOPSIS
 .PP
 .ft B
@@ -12,7 +12,7 @@ VNew \- allocate storage for an instance of a data type
 .PP
 .ft B
 .nf
-\fItype\fP *VNew (\fItype\fP)
+\fItype\fP *VistaIONew (\fItype\fP)
 .ft
 .RS
 .B \fItype\fP;
@@ -22,29 +22,29 @@ VNew \- allocate storage for an instance of a data type
 .IP \fItype\fP 10n
 Specifies a previously declared data type.
 .SH DESCRIPTION
-\fBVNew\fP allocates storage for one instance of a data type. It is 
-a convenience macro that calls \fBVMalloc\fP(3Vi) with the following
+\fBVistaIONew\fP allocates storage for one instance of a data type. It is 
+a convenience macro that calls \fBVistaIOMalloc\fP(3Vi) with the following
 arguments specified:
 .PP
 .RS
 .nf
-.B ((\fItype\fP *) VMalloc (sizeof (\fItype\fP))
+.B ((\fItype\fP *) VistaIOMalloc (sizeof (\fItype\fP))
 .fi
 .RE
 .SH "RETURN VALUES"
-\fBVNew\fP returns a pointer to the allocated storage.
+\fBVistaIONew\fP returns a pointer to the allocated storage.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VMalloc (3Vi),
-.BR VNewString (3Vi),
-.BR VError (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOMalloc (3Vi),
+.BR VistaIONewString (3Vi),
+.BR VistaIOError (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS
-If there is insufficient memory to allocate the new block, \fBVNew\fP
-terminates by calling \fBVError\fP(3Vi) with the message ``Out of memory''.
+If there is insufficient memory to allocate the new block, \fBVistaIONew\fP
+terminates by calling \fBVistaIOError\fP(3Vi) with the message ``Out of memory''.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>
 .SH ACKNOWLEDGMENT

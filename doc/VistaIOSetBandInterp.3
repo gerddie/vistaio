@@ -1,20 +1,20 @@
-.ds Vn 2.1
-.TH VSetBandInterp 3Vi "2 June 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOSetBandInterp 3Vi "2 June 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VSetBandInterp \- set image band interpretation attributes
+VistaIOSetBandInterp \- set image band interpretation attributes
 .SH SYNOPSIS
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .fi
 .HP 10n
 .na
 .nh
 .ft B
-VBoolean VSetBandInterp (VImage\ \fIimage\fP,
-VBandInterp\ \fIframe_interp\fP, int\ \fInframes\fP,
-VBandInterp\ \fIviewpoint_interp\fP, int\ \fInviewpoints\fP,
-VBandInterp\ \fIcolor_interp\fP, int\ \fIncolors\fP,
-VBandInterp\ \fIcomponent_interp\fP, int\ \fIncomponents\fP);
+VistaIOBoolean VistaIOSetBandInterp (VistaIOImage\ \fIimage\fP,
+VistaIOBandInterp\ \fIframe_interp\fP, int\ \fInframes\fP,
+VistaIOBandInterp\ \fIviewpoint_interp\fP, int\ \fInviewpoints\fP,
+VistaIOBandInterp\ \fIcolor_interp\fP, int\ \fIncolors\fP,
+VistaIOBandInterp\ \fIcomponent_interp\fP, int\ \fIncomponents\fP);
 .ft
 .hy
 .nf
@@ -29,14 +29,14 @@ Specifies the image whose attributes are to be set.
 .PD
 Specify values for various band interpretation attributes.
 .SH DESCRIPTION
-\fBVSetBandInterp\fP provides a convenient way to simultaneously set all of
+\fBVistaIOSetBandInterp\fP provides a convenient way to simultaneously set all of
 the standard attributes describing how an image's bands are to be
 interpreted.
 .PP
 The \fIframe_interp\fP, \fIviewpoint_interp\fP, \fIcolor_interp\fP and
 \fIcomponent_interp\fP arguments supply values for the
 correspondingly-named attributes. If any of these values is the constant
-\fBVBandInterpNone\fP, the corresponding attribute is omitted from the
+\fBVistaIOBandInterpNone\fP, the corresponding attribute is omitted from the
 image.
 .PP
 Similarly, the \fInframes\fP, \fInviewpoints\fP, \fIncolors\fP, and
@@ -44,15 +44,15 @@ Similarly, the \fInframes\fP, \fInviewpoints\fP, \fIncolors\fP, and
 attributes. The product of these values should equal the total number of
 bands in the image.
 .SH "RETURN VALUES"
-\fBVSetBandInterp\fP returns 
+\fBVistaIOSetBandInterp\fP returns 
 .SB TRUE
 if successful, and 
 .SB FALSE
 on encountering an error.
 .SH "SEE ALSO"
-.BR VBandInterp (3Vi),
-.BR VImage (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOBandInterp (3Vi),
+.BR VistaIOImage (3Vi),
+.BR VistaIOlib (7Vi)
 .SH DIAGNOSTICS
 .IP "``No. bands conflicts with no. of frames, etc.''"
 The product of the numbers of frames, viewpoints, colors, and components

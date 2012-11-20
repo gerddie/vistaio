@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VWriteObjects 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOWriteObjects 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VWriteObjects \- write a series of objects to a stream
+VistaIOWriteObjects \- write a series of objects to a stream
 .SH SYNOPSIS
 .nf
 .ft B
@@ -9,14 +9,14 @@ VWriteObjects \- write a series of objects to a stream
 #include \fB<vista/file.h>\fP
 .PP
 .ft B
-VBoolean VWriteObjects (\fIfile\fP, \fIrepn\fP, \fIattributes\fP, \
+VistaIOBoolean VistaIOWriteObjects (\fIfile\fP, \fIrepn\fP, \fIattributes\fP, \
 \fInobjects\fP, \fIobjects\fP)
 .RS
 FILE *\fIfile\fP;
-VRepnKind \fIrepn\fP;
-VAttrList \fIattributes\fP;
+VistaIORepnKind \fIrepn\fP;
+VistaIOAttrList \fIattributes\fP;
 int \fInobjects\fP;
-VPointer \fIobjects\fP[\fInobjects\fP];
+VistaIOPointer \fIobjects\fP[\fInobjects\fP];
 .RE
 .fi
 .SH ARGUMENTS
@@ -31,7 +31,7 @@ Specifies the number of objects to be written.
 .IP \fIobjects\fP
 Specifies the objects to be written.
 .SH DESCRIPTION
-\fBVWriteObjects\fP writes a series of objects to an open stream as a Vista 
+\fBVistaIOWriteObjects\fP writes a series of objects to an open stream as a Vista 
 data file. The objects must be of the type specified by \fIrepn\fP.
 Objects \fIobjects\fP[0] through \fIobjects\fP[\fInimages\fP\ \-\ 1]
 are written, followed by any attributes in the list \fIattributes\fP.
@@ -39,7 +39,7 @@ The \fIattributes\fP argument may be
 .SB NULL
 if only the objects are to be written.
 .SH "RETURN VALUES"
-\fBVWriteObjects\fP returns
+\fBVistaIOWriteObjects\fP returns
 .SB TRUE
 if successful and
 .SB FALSE
@@ -48,14 +48,14 @@ be incomplete.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VOpenOutputFile (3Vi),
-.BR VWriteEdges (3Vi),
-.BR VWriteFile (3Vi),
-.BR VWriteImages (3Vi),
+.BR VistaIOOpenOutputFile (3Vi),
+.BR VistaIOWriteEdges (3Vi),
+.BR VistaIOWriteFile (3Vi),
+.BR VistaIOWriteImages (3Vi),
 .BR stdio (3),
 .br
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH AUTHOR

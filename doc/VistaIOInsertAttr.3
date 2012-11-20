@@ -1,46 +1,46 @@
-.ds Vn 2.1
-.TH VInsertAttr 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOInsertAttr 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VInsertAttr, VAppendAttr, VPrependAttr \- add an attribute to a list
+VistaIOInsertAttr, VistaIOAppendAttr, VistaIOPrependAttr \- add an attribute to a list
 .SH SYNOPSIS
 .nf
 .ft B
-void VInsertAttr (\fIposn\fP, \fIafter\fP, \fIname\fP, \fIdict\fP, \
+void VistaIOInsertAttr (\fIposn\fP, \fIafter\fP, \fIname\fP, \fIdict\fP, \
 \fIrepn\fP, \fIvalue\fP)
 .RS
-VAttrListPosn *\fIposn\fP;
-VBoolean \fIafter\fP;
-VStringConst \fIname\fP;
-VDictEntry *\fIdict\fP;
-VRepnKind \fIrepn\fP;
+VistaIOAttrListPosn *\fIposn\fP;
+VistaIOBoolean \fIafter\fP;
+VistaIOStringConst \fIname\fP;
+VistaIODictEntry *\fIdict\fP;
+VistaIORepnKind \fIrepn\fP;
 \fItype value\fP;
 .RE
 .PP
 .ft B
-void VAppendAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+void VistaIOAppendAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
 .RS
-VAttrList \fIlist\fP;
-VStringConst \fIname\fP;
-VDictEntry *\fIdict\fP;
-VRepnKind \fIrepn\fP;
+VistaIOAttrList \fIlist\fP;
+VistaIOStringConst \fIname\fP;
+VistaIODictEntry *\fIdict\fP;
+VistaIORepnKind \fIrepn\fP;
 \fItype value\fP;
 .RE
 .PP
 .ft B
-void VPrependAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+void VistaIOPrependAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
 .RS
-VAttrList \fIlist\fP;
-VStringConst \fIname\fP;
-VDictEntry *\fIdict\fP;
-VRepnKind \fIrepn\fP;
+VistaIOAttrList \fIlist\fP;
+VistaIOStringConst \fIname\fP;
+VistaIODictEntry *\fIdict\fP;
+VistaIORepnKind \fIrepn\fP;
 \fItype value\fP;
 .RE
 .PP
 .fi
-where \fItype\fP is \fBVBit\fP, \fBVUByte\fP, \fBVSByte\fP, \fBVShort\fP,
-\fBVLong\fP, \fBVFloat\fP, \fBVDouble\fP, \fBVAttrList\fP, \fBVBoolean\fP,
-\fBVBundle\fP, \fBVList\fP, \fBVPointer\fP, \fBVString\fP, \fBVEdges\fP,
-\fBVImage\fP, etc.
+where \fItype\fP is \fBVistaIOBit\fP, \fBVistaIOUByte\fP, \fBVistaIOSByte\fP, \fBVistaIOShort\fP,
+\fBVistaIOLong\fP, \fBVistaIOFloat\fP, \fBVistaIODouble\fP, \fBVistaIOAttrList\fP, \fBVistaIOBoolean\fP,
+\fBVistaIOBundle\fP, \fBVistaIOList\fP, \fBVistaIOPointer\fP, \fBVistaIOString\fP, \fBVistaIOEdges\fP,
+\fBVistaIOImage\fP, etc.
 .SH ARGUMENTS
 .IP \fIposn\fP 10n
 Specifies the attribute list position at which a new attribute is to be 
@@ -70,19 +70,19 @@ These routines provide three ways of adding a new attribute to an
 attribute list:
 .RS 2n
 .IP \(bu 2n
-\fBVInsertAttr\fP inserts the new attribute immediately before or after the
+\fBVistaIOInsertAttr\fP inserts the new attribute immediately before or after the
 existing attribute specified by \fIposn\fP.
 .IP \(bu
-\fBVAppendAttr\fP places the new attribute at the end of \fIlist\fP.
+\fBVistaIOAppendAttr\fP places the new attribute at the end of \fIlist\fP.
 .IP \(bu
-\fBVPrependAttr\fP places the new attribute at the beginning of \fIlist\fP.
+\fBVistaIOPrependAttr\fP places the new attribute at the beginning of \fIlist\fP.
 .RE
 .PP
 With the \fIdict\fP argument you can provide a dictionary for mapping 
 \fIvalue\fP to a keyword that will be stored as the attribute's value (see 
-\fBVdictionary\fP(3Vi)). For example, if you pass an attribute value of 1 
+\fBVistaIOdictionary\fP(3Vi)). For example, if you pass an attribute value of 1 
 and a dictionary that associates the value 1 with the keyword \fBubyte\fP 
-(as the dictionary\fBVRepnDict\fP does), then the string \fBubyte\fP will 
+(as the dictionary\fBVistaIORepnDict\fP does), then the string \fBubyte\fP will 
 be stored as the attribute's value. Dictionaries may be used to map both 
 numeric values and strings to keywords. If you supply a dictionary but 
 \fIvalue\fP is not mentioned in that dictionary, then \fIvalue\fP itself 
@@ -99,12 +99,12 @@ As a side effect, these routines modify the attribute list referred to by
 .SH "SEE ALSO"
 .na
 .nh
-.BR VSetAttr (3Vi),
-.BR VSetAttrValue (3Vi),
+.BR VistaIOSetAttr (3Vi),
+.BR VistaIOSetAttrValue (3Vi),
 .br
-.BR Vattribute (3Vi),
-.BR Vdictionary (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOattribute (3Vi),
+.BR VistaIOdictionary (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH AUTHOR

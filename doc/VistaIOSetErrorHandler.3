@@ -1,17 +1,17 @@
-.ds Vn 2.1
-.TH VSetErrorHandler 3Vi "16 February 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOSetErrorHandler 3Vi "16 February 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VSetErrorHandler \- register a procedure to be called on any fatal error
+VistaIOSetErrorHandler \- register a procedure to be called on any fatal error
 .SH SYNOPSIS
 .nf
 .ft B
-void VSetErrorHandler (VErrorHandler *\fIhandler\fP);
+void VistaIOSetErrorHandler (VistaIOErrorHandler *\fIhandler\fP);
 .PP
 .ft B
-typedef void VErrorHandler (VStringConst \fImessage\fP);
+typedef void VistaIOErrorHandler (VistaIOStringConst \fImessage\fP);
 .PP
 .ft B
-void VDefaultError (VStringConst \fImessage\fP);
+void VistaIODefaultError (VistaIOStringConst \fImessage\fP);
 .fi
 .SH ARGUMENTS
 .IP \fIhandler\fP 10n
@@ -19,19 +19,19 @@ Specifies the new fatal error handler.
 .IP \fImessage\fP 10n
 Specifies a null-terminated error message string to be reported. 
 .SH DESCRIPTION
-\fBVSetErrorHandler\fP registers a procedure, \fIhandler\fP, as the fatal
-error handler. That procedure is called by \fBVError\fP(3Vi) or by
-\fBVSystemError\fP(3Vi) to report any fatal error. When called, it is passed
+\fBVistaIOSetErrorHandler\fP registers a procedure, \fIhandler\fP, as the fatal
+error handler. That procedure is called by \fBVistaIOError\fP(3Vi) or by
+\fBVistaIOSystemError\fP(3Vi) to report any fatal error. When called, it is passed
 a string, \fImessage\fP, containing a textual description of the error.
 .PP
 Only one procedure serves as the fatal error handler at any one time.
 .PP
-Prior to the first call to \fBVSetErrorHandler\fP, the procedure 
-\fBVDefaultError\fP is the fatal error handler. This procedure will
+Prior to the first call to \fBVistaIOSetErrorHandler\fP, the procedure 
+\fBVistaIODefaultError\fP is the fatal error handler. This procedure will
 write the error message to the standard error stream, then terminate
 the program by calling \fBexit\fP(3) with a status value of 1. 
-\fBVDefaultError\fP can be re-established as the fatal error handler
-at any time by calling \fBVSetErrorHandler\fP with a 
+\fBVistaIODefaultError\fP can be re-established as the fatal error handler
+at any time by calling \fBVistaIOSetErrorHandler\fP with a 
 .SB NULL
 argument.
 .SH "RETURN VALUES"
@@ -46,7 +46,7 @@ stream and to a log file, one might do the following:
 FILE *log_file;
 
 void MyErrorHandler (message)
-	VStringConst message;
+	VistaIOStringConst message;
 {
 	fputs (message, stderr);
 	fputs (message, log_file);
@@ -57,14 +57,14 @@ int main (\fR...\fP)
 {
 	\fR...\fP
 	log_file = fopen ("log", "w");
-	VSetErrorHandler (MyErrorHandler);
+	VistaIOSetErrorHandler (MyErrorHandler);
 	\fR...\fP
 }
 .fi
 .RE
 .SH "SEE ALSO"
-.BR VError (3Vi),
-.BR VSetWarningHandler (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOError (3Vi),
+.BR VistaIOSetWarningHandler (3Vi),
+.BR VistaIOlib (7Vi)
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

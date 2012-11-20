@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VRepn 3Vi "21 January 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIORepn 3Vi "21 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VRepnName, VRepnSize, etc. \- obtain information about a type's representation
+VistaIORepnName, VistaIORepnSize, etc. \- obtain information about a type's representation
 .SH SYNOPSIS
 .ft B
 .nf
@@ -10,79 +10,79 @@ typedef enum {
 .fi
 .ad l
 .nh
-VUnknownRepn,
+VistaIOUnknownRepn,
 .br
-VBitRepn, VUByteRepn, VSByteRepn, VShortRepn, VLongRepn,
+VistaIOBitRepn, VistaIOUByteRepn, VistaIOSByteRepn, VistaIOShortRepn, VistaIOLongRepn,
 .br
-VFloatRepn, VDoubleRepn,
+VistaIOFloatRepn, VistaIODoubleRepn,
 .br
-VAttrListRepn, VBooleanRepn, VBundleRepn, VListRepn, VPointerRepn,
-VStringRepn,
+VistaIOAttrListRepn, VistaIOBooleanRepn, VistaIOBundleRepn, VistaIOListRepn, VistaIOPointerRepn,
+VistaIOStringRepn,
 .br
-VEdgesRepn, VImageRepn
+VistaIOEdgesRepn, VistaIOImageRepn
 .hy
 .ad
 .nf
 .RE
-} VRepnKind;
+} VistaIORepnKind;
 .PP
-.B "VBoolean VIsFloatPtRepn (VRepnKind \fIrepn\fP)"
+.B "VistaIOBoolean VistaIOIsFloatPtRepn (VistaIORepnKind \fIrepn\fP)"
 .PP
-.B "VBoolean VIsIntegerRepn (VRepnKind \fIrepn\fP)"
+.B "VistaIOBoolean VistaIOIsIntegerRepn (VistaIORepnKind \fIrepn\fP)"
 .PP
-.B "VStringConst VRepnName (VRepnKind \fIrepn\fP)"
+.B "VistaIOStringConst VistaIORepnName (VistaIORepnKind \fIrepn\fP)"
 .PP
-.B "VDouble VRepnMaxValue (VRepnKind \fIrepn\fP)"
+.B "VistaIODouble VistaIORepnMaxValue (VistaIORepnKind \fIrepn\fP)"
 .PP
-.B "VDouble VRepnMinValue (VRepnKind \fIrepn\fP)"
+.B "VistaIODouble VistaIORepnMinValue (VistaIORepnKind \fIrepn\fP)"
 .PP
-.B "int VRepnPrecision (VRepnKind \fIrepn\fP)"
+.B "int VistaIORepnPrecision (VistaIORepnKind \fIrepn\fP)"
 .PP
-.B "size_t VRepnSize (VRepnKind \fIrepn\fP)"
+.B "size_t VistaIORepnSize (VistaIORepnKind \fIrepn\fP)"
 .SH ARGUMENTS
 .IP \fIrepn\fP 10n
 Specifies the data type about which information is sought.
 .SH DESCRIPTION
 These macros return information about Vista data types, each of which is 
-identified by one of the \fBVRepnKind\fP series of integer codes. The types 
-are summarized in \fBVlib\fP(7Vi). 
+identified by one of the \fBVistaIORepnKind\fP series of integer codes. The types 
+are summarized in \fBVistaIOlib\fP(7Vi). 
 .PP
-\fBVIsFloatPtRepn\fP returns 
+\fBVistaIOIsFloatPtRepn\fP returns 
 .SB TRUE
-if \fIrepn\fP is \fBVFloatRepn\fP or \fBVDoubleRepn\fP.
+if \fIrepn\fP is \fBVistaIOFloatRepn\fP or \fBVistaIODoubleRepn\fP.
 .PP
-\fBVIsIntegerRepn\fP returns
+\fBVistaIOIsIntegerRepn\fP returns
 .SB TRUE
-if \fIrepn\fP is \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP, 
-\fBVShortRepn\fP, or \fBVLongRepn\fP. 
+if \fIrepn\fP is \fBVistaIOBitRepn\fP, \fBVistaIOUByteRepn\fP, \fBVistaIOSByteRepn\fP, 
+\fBVistaIOShortRepn\fP, or \fBVistaIOLongRepn\fP. 
 .PP
-\fBVRepnName\fP returns a string naming the specified type. For example, 
-when \fIrepn\fP is \fBVBitRepn\fP it returns ``bit''. 
+\fBVistaIORepnName\fP returns a string naming the specified type. For example, 
+when \fIrepn\fP is \fBVistaIOBitRepn\fP it returns ``bit''. 
 .PP
-\fBVRepnMaxValue\fP returns the maximum value that can be represented by the 
+\fBVistaIORepnMaxValue\fP returns the maximum value that can be represented by the 
 specified type.
 .PP
-\fBVRepnMinValue\fP returns the minimum (most negative) value that can be 
+\fBVistaIORepnMinValue\fP returns the minimum (most negative) value that can be 
 represented by the specified type. 
 .PP
-\fBVRepnPrecision\fP returns the minimum number of bits needed to represent
+\fBVistaIORepnPrecision\fP returns the minimum number of bits needed to represent
 the specified type on any machine.
 .PP
-\fBVRepnSize\fP returns the size, in bytes, of the specified type on
+\fBVistaIORepnSize\fP returns the size, in bytes, of the specified type on
 the present machine.
 .SH "SEE ALSO"
-.BR VConst (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOConst (3Vi),
+.BR VistaIOlib (7Vi)
 .SH NOTES
-\fBVRepnMaxValue\fP, \fBVRepnMinValue\fP, and \fBVRepnPrecision\fP are 
-undefined (and return 0) if \fIrepn\fP isn't \fBVBitRepn\fP through 
-\fBVDoubleRepn\fP, or \fBVBooleanRepn\fP.
+\fBVistaIORepnMaxValue\fP, \fBVistaIORepnMinValue\fP, and \fBVistaIORepnPrecision\fP are 
+undefined (and return 0) if \fIrepn\fP isn't \fBVistaIOBitRepn\fP through 
+\fBVistaIODoubleRepn\fP, or \fBVistaIOBooleanRepn\fP.
 .PP
-A new value in the \fBVRepnKind\fP series is assigned by 
-\fBVRegisterType\fP when it is called to register a new object type. That 
+A new value in the \fBVistaIORepnKind\fP series is assigned by 
+\fBVistaIORegisterType\fP when it is called to register a new object type. That 
 new value can be used in a call to any of these macros \(em all return 0 or 
 .SB FALSE
-except \fBVRepnName\fP, which returns the name of the newly registered 
+except \fBVistaIORepnName\fP, which returns the name of the newly registered 
 type.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

@@ -1,15 +1,15 @@
-.ds Vn 2.1
-.TH VMax 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOMax 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VMax, VMin \- return the maximum or minimum of two values
+VistaIOMax, VistaIOMin \- return the maximum or minimum of two values
 .SH SYNOPSIS
 .nf
 .B "#include <vista/mu.h>"
 .PP
 .ft B
-\fItype\fP VMax (\fItype a\fP, \fItype b\fP)
+\fItype\fP VistaIOMax (\fItype a\fP, \fItype b\fP)
 .PP
-\fItype\fP VMin (\fItype a\fP, \fItype b\fP)
+\fItype\fP VistaIOMin (\fItype a\fP, \fItype b\fP)
 .PP
 where \fItype\fP is a numeric type.
 .fi
@@ -17,13 +17,13 @@ where \fItype\fP is a numeric type.
 .IP "\fIa\fP, \fIb\fP" 10n
 Two numeric arguments.
 .SH DESCRIPTION
-\fBVMax\fP returns the maximum of its two arguments.
+\fBVistaIOMax\fP returns the maximum of its two arguments.
 .PP
-\fBVMin\fP returns the minimum of its two arguments.
+\fBVistaIOMin\fP returns the minimum of its two arguments.
 .PP
 Both are defined as macros in \fB<vista/mu.h>\fP.
 .SH "SEE ALSO"
-.BR Vlib (7Vi)
+.BR VistaIOlib (7Vi)
 .SH NOTES
 Do not pass an argument that produces a side effect, since it may be
 evaluated either once or twice.

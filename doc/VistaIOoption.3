@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH Voption 3Vi "6 June 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOoption 3Vi "6 June 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-Voption \- table describing command line options
+VistaIOoption \- table describing command line options
 .SH SYNOPSIS
 .PP
 .nf
@@ -15,16 +15,16 @@ typedef struct {
 .ft
 .RS
 .ft B
-VStringConst keyword;	/* keyword signaling option */
-VRepnKind repn;	/* type of value supplied by option */
+VistaIOStringConst keyword;	/* keyword signaling option */
+VistaIORepnKind repn;	/* type of value supplied by option */
 int number;	/* number of values supplied */
-VPointer value;	/* location for storing value(s) */
-VBoolean *found;	/* whether optional arg found */
-VDictEntry *dict;	/* optional dict of value keywords */
-VStringConst blurb;	/* on-line help blurb */
+VistaIOPointer value;	/* location for storing value(s) */
+VistaIOBoolean *found;	/* whether optional arg found */
+VistaIODictEntry *dict;	/* optional dict of value keywords */
+VistaIOStringConst blurb;	/* on-line help blurb */
 .ft
 .RE
-.B } VOptionDescRec;
+.B } VistaIOOptionDescRec;
 .fi
 .PP
 .nf
@@ -32,15 +32,15 @@ VStringConst blurb;	/* on-line help blurb */
 .RS
 .ft B
 int number;	/* number of arguments */
-VPointer vector;	/* vector of arguments */
+VistaIOPointer vector;	/* vector of arguments */
 .ft
 .RE
-.B } VArgVector;
+.B } VistaIOArgVector;
 .fi
 .PP
 .nf
-.B #define VRequiredOpt ((VBoolean *) \fR...\fP)
-.B #define VOptionalOpt ((VBoolean *) \fR...\fP)
+.B #define VistaIORequiredOpt ((VistaIOBoolean *) \fR...\fP)
+.B #define VistaIOOptionalOpt ((VistaIOBoolean *) \fR...\fP)
 .fi
 .DT
 .ft
@@ -48,13 +48,13 @@ VPointer vector;	/* vector of arguments */
 .SH DESCRIPTION
 Routines for parsing command line options and reporting help information on
 command usage require a description of a program's valid options. That
-description is a table whose entries are \fBVOptionDescRec\fP records.
+description is a table whose entries are \fBVistaIOOptionDescRec\fP records.
 Each table entry describes a single option. This manual page describes how
 table entries should be set up to describe options of various forms.
 .PP
 An option appears in a command line as an argument of the form 
 -\fIkeyword\fP; it may be followed by additional arguments that supply 
-values for the option. The \fBkeyword\fP field of a \fBVOptionDescRec\fP 
+values for the option. The \fBkeyword\fP field of a \fBVistaIOOptionDescRec\fP 
 contains the keyword used to identify that option (without the leading 
 ``\fB-\fP'' character). On a command line this keyword can be entered in 
 abbreviated form as long as the abbreviation is unambiguous \(em i.e., it 
@@ -62,9 +62,9 @@ matches the first characters of only a single option keyword.
 .PP
 An option is used to communicate one or more values to a program. These
 values are of the type indicated by the \fBrepn\fP field, which contains
-one of the constants \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP,
-\fBVShortRepn\fP, \fBVLongRepn\fP, \fBVFloatRepn\fP, \fBVDoubleRepn\fP,
-\fBVBooleanRepn\fP, or \fBVStringRepn\fP.
+one of the constants \fBVistaIOBitRepn\fP, \fBVistaIOUByteRepn\fP, \fBVistaIOSByteRepn\fP,
+\fBVistaIOShortRepn\fP, \fBVistaIOLongRepn\fP, \fBVistaIOFloatRepn\fP, \fBVistaIODoubleRepn\fP,
+\fBVistaIOBooleanRepn\fP, or \fBVistaIOStringRepn\fP.
 .PP
 The \fBnumber\fP field indicates how many values are to be entered with
 the option. If \fBnumber\fP is positive, exactly that many values are to be
@@ -74,11 +74,11 @@ values may be supplied (including none at all).
 The \fBvalue\fP field specifies where the entered values are to be stored.
 If \fBnumber\fP is positive, \fBvalue\fP points to a vector of \fBnumber\fP
 entries of the type indicated by the \fBrepn\fP field. (E.g., if
-\fBnumber\fP is 2 and \fBrepn\fP is \fBVShortRepn\fP then \fBvalue\fP
-points to a vector of two \fBVShort\fP's.)
+\fBnumber\fP is 2 and \fBrepn\fP is \fBVistaIOShortRepn\fP then \fBvalue\fP
+points to a vector of two \fBVistaIOShort\fP's.)
 .PP
 If \fBnumber\fP is zero, \fBvalue\fP points to a variable of type
-\fBVArgVector\fP, which is a structure that describes a variable length
+\fBVistaIOArgVector\fP, which is a structure that describes a variable length
 vector. This structure needn't be initialized prior to parsing a program's
 command line options; rather, its fields are set during parsing to indicate
 the number of values actually found and the location of memory allocated
@@ -86,13 +86,13 @@ to contain those values.  The structure's \fBnumber\fP field specifies the
 number of values found.  Its \fBvector\fP field points to a vector of
 \fBnumber\fP elements of the type specified by \fBrepn\fP.
 .PP
-The \fBfound\fP field of a \fBVOptionDescRec\fP indicates whether an option
+The \fBfound\fP field of a \fBVistaIOOptionDescRec\fP indicates whether an option
 is required (must be specified on the command line) or optional (need not
 be specified). To signal a required option (oxymoron noted), \fBfound\fP
-should contain the value \fBVRequiredOpt\fP. To signal an optional option
-(redundancy noted), \fBfound\fP should contain \fBVOptionalOpt\fP, or the
-address of a \fBVBoolean\fP variable. When a command line is parsed the
-\fBVBoolean\fP variable will be set to
+should contain the value \fBVistaIORequiredOpt\fP. To signal an optional option
+(redundancy noted), \fBfound\fP should contain \fBVistaIOOptionalOpt\fP, or the
+address of a \fBVistaIOBoolean\fP variable. When a command line is parsed the
+\fBVistaIOBoolean\fP variable will be set to
 .SB TRUE
 if the option is encountered, and 
 .SB FALSE
@@ -100,14 +100,14 @@ if it is not.
 .PP
 An option's values are entered as command line arguments in a form that
 depends on the option's \fBrepn\fP field:
-.IP "\fBVBitRepn\fP through \fBVLongRepn\fP"
+.IP "\fBVistaIOBitRepn\fP through \fBVistaIOLongRepn\fP"
 Each value may be an integer number with an optional sign. If its first
 digit is 0, it is assumed to be an octal number. If it begins with \fB0x\fP
 or \fB0X\fP (following any sign), it is assumed to be a hexadecimal number.
 Otherwise, it is assumed to be a decimal number.
-.IP "\fBVFloatRepn\fP or \fBVDoubleRepn\fP"
+.IP "\fBVistaIOFloatRepn\fP or \fBVistaIODoubleRepn\fP"
 Each value may be a floating-point number.
-.IP \fBVBooleanRepn\fP
+.IP \fBVistaIOBooleanRepn\fP
 Each value may be one of the keywords \fBfalse\fP, \fBno\fP, or \fBoff\fP
 (representing 
 .SB FALSE\c
@@ -117,7 +117,7 @@ Each value may be one of the keywords \fBfalse\fP, \fBno\fP, or \fBoff\fP
 keyword is not followed by a recognized value keyword, a value of 
 .SB TRUE
 is assumed.
-.IP \fBVStringRepn\fP
+.IP \fBVistaIOStringRepn\fP
 Each value is any command line argument not starting with a single 
 ``\fB-\fP'' character. However, an argument consisting only of ``\fB-\fP'' 
 is interpreted as a string value, and an argument beginning with at least 
@@ -127,14 +127,14 @@ distinguished from options while still permitting entry of any string value
 desired. 
 .PP
 One may specify a dictionary of keywords to supplement the recognized forms
-of option values. Dictionaries are described by the \fBVdictionary\fP(3Vi)
-manual page. The \fBdict\fP field of the \fBVOptionDescRec\fP points to
+of option values. Dictionaries are described by the \fBVistaIOdictionary\fP(3Vi)
+manual page. The \fBdict\fP field of the \fBVistaIOOptionDescRec\fP points to
 such a dictionary, or it contains
 .SB NULL
 if there is no dictionary of keywords for the option's
 values. The example below demonstrates how a dictionary is supplied.
 .PP
-Finally, the \fBblurb\fP field of the \fBVOptionDescRec\fP contains a short
+Finally, the \fBblurb\fP field of the \fBVistaIOOptionDescRec\fP contains a short
 string describing the purpose of the option or the form of its value 
 arguments. This string will be included when any help information about 
 command usage is printed.
@@ -160,15 +160,15 @@ The following code fragment defines an option table for this program:
 .nf
 .ft B
 .RS
-static VArgVector in_args;
-static VString out_arg;
-static VLong color_arg;
-static VFloat scale_args[2] = { 1.0, 1.0 };
-static VBoolean iff_arg = FALSE;
-static VBoolean in_found, out_found;
+static VistaIOArgVector in_args;
+static VistaIOString out_arg;
+static VistaIOLong color_arg;
+static VistaIOFloat scale_args[2] = { 1.0, 1.0 };
+static VistaIOBoolean iff_arg = FALSE;
+static VistaIOBoolean in_found, out_found;
 .PP
 .ft B
-static VDictEntry dictionary[] = {
+static VistaIODictEntry dictionary[] = {
 .RS
 { "red", 0 },
 { "blue", 1 },
@@ -178,17 +178,17 @@ static VDictEntry dictionary[] = {
 };
 .PP
 .ft B
-static VOptionDescRec options[] = {
+static VistaIOOptionDescRec options[] = {
 .RS
-{ "in", VStringRepn, 0, & in_args, & in_found, NULL,
+{ "in", VistaIOStringRepn, 0, & in_args, & in_found, NULL,
     "Image to be processed" },
-{ "out", VStringRepn, 1, & out_arg, & out_found, NULL,
+{ "out", VistaIOStringRepn, 1, & out_arg, & out_found, NULL,
     "File to receive result" },
-{ "color", VLongRepn, 1, & color, VRequiredOpt, & dictionary,
+{ "color", VistaIOLongRepn, 1, & color, VistaIORequiredOpt, & dictionary,
     "Color band" },
-{ "scale", VFloatRepn, 2, scale_args, VOptionalOpt, NULL,
+{ "scale", VistaIOFloatRepn, 2, scale_args, VistaIOOptionalOpt, NULL,
     "Scaling in each dimension" },
-{ "iff", VBooleanRepn, 1, & iff_arg, VOptionalOpt, NULL,
+{ "iff", VistaIOBooleanRepn, 1, & iff_arg, VistaIOOptionalOpt, NULL,
     "Output in UBC IFF format" }
 .RE
 };
@@ -211,15 +211,15 @@ This program may be invoked with any of the following commands:
 .SH "SEE ALSO"
 .nh
 .na
-.BR VParseCommand (3Vi),
-.BR VPrintOptions (3Vi),
-.BR VPrintOptionValue (3Vi),
-.BR VReportBadArgs (3Vi),
-.BR VReportUsage (3Vi),
-.BR VIdentifyFiles (3Vi),
+.BR VistaIOParseCommand (3Vi),
+.BR VistaIOPrintOptions (3Vi),
+.BR VistaIOPrintOptionValue (3Vi),
+.BR VistaIOReportBadArgs (3Vi),
+.BR VistaIOReportUsage (3Vi),
+.BR VistaIOIdentifyFiles (3Vi),
 .br
-.BR Vdictionary (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOdictionary (3Vi),
+.BR VistaIOlib (7Vi)
 .hy
 .ad
 .SH AUTHOR

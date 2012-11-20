@@ -1,20 +1,20 @@
-.ds Vn 2.1
-.TH VReadImages 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOReadImages 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VReadImages \- read a series of images from a stream
+VistaIOReadImages \- read a series of images from a stream
 .SH SYNOPSIS
 .nf
 .ft B
 #include \fB<stdio>\fP
 #include \fB<vista/file.h>\fP
-#include \fB<vista/VImage.h>\fP
+#include \fB<vista/VistaIOImage.h>\fP
 .PP
 .ft B
-int VReadImages (\fIfile\fP, \fIattributes\fP, \fIimages\fP)
+int VistaIOReadImages (\fIfile\fP, \fIattributes\fP, \fIimages\fP)
 .RS
 FILE *\fIfile\fP;
-VAttrList *\fIattributes\fP;
-VImage (*\fIimages\fP)[];
+VistaIOAttrList *\fIattributes\fP;
+VistaIOImage (*\fIimages\fP)[];
 .RE
 .fi
 .SH ARGUMENTS
@@ -25,34 +25,34 @@ Returns a list of attributes read from the stream.
 .IP \fIimages\fP
 Returns a vector of pointers to images read.
 .SH DESCRIPTION
-\fBVReadImages\fP reads a Vista data file from an open stream, collects the 
+\fBVistaIOReadImages\fP reads a Vista data file from an open stream, collects the 
 top-level images found, and returns the images separately from the file's 
 other contents. 
 .PP
-For backwards compatability \fBVReadImages\fP will also recognize and read
+For backwards compatability \fBVistaIOReadImages\fP will also recognize and read
 an image in the UBC image file format (IFF). If the first character read from
-the stream is ``I'', \fBVReadImages\fP uses \fBVReadUbcIff\fP to read and
+the stream is ``I'', \fBVistaIOReadImages\fP uses \fBVistaIOReadUbcIff\fP to read and
 return a single UBC IFF image.
 .SH "RETURN VALUES"
-\fBVReadImages\fP returns the number of images obtained, or 0 if an error 
+\fBVistaIOReadImages\fP returns the number of images obtained, or 0 if an error 
 is encountered. A vector of the images is allocated and returned via 
 \fIimages\fP. Any other objects found in the file are returned as an 
 attribute list via \fIattributes\fP.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VReadFile (3Vi),
-.BR VReadObjects (3Vi),
-.BR VReadUbcIff (3Vi),
+.BR VistaIOReadFile (3Vi),
+.BR VistaIOReadObjects (3Vi),
+.BR VistaIOReadUbcIff (3Vi),
 .BR stdio (3),
 .br
-.BR VImage (3Vi),
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOImage (3Vi),
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS
-Besides the following, any of the diagnostics produced by \fBVReadFile\fP 
+Besides the following, any of the diagnostics produced by \fBVistaIOReadFile\fP 
 may be generated.
 .IP "``No image objects present in stream.''"
 No images were encountered in the specified stream.

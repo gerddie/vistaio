@@ -1,17 +1,17 @@
-.ds Vn 2.1
-.TH VPrintParameters 3Vi "6 June 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOPrintParameters 3Vi "6 June 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VPrintParameters \- print the values of a set of parameters
+VistaIOPrintParameters \- print the values of a set of parameters
 .SH SYNOPSIS
 .B #include <vista/option.h>
 .HP 10n
 .na
 .nh
 .ft B
-void VPrintParameters (FILE\ *\fIf\fP, 
+void VistaIOPrintParameters (FILE\ *\fIf\fP, 
 int\ \fInparams\fP,
-VOptionDescRec\ \fIparams\fP[],
-VPointer\ \fIvalues\fP);
+VistaIOOptionDescRec\ \fIparams\fP[],
+VistaIOPointer\ \fIvalues\fP);
 .ft
 .hy
 .ad
@@ -25,11 +25,11 @@ Specifies a table of option descriptors. Each entry describes one parameter.
 .IP \fIvalues\fP
 Specifies the location of the structure containing the parameter values.
 .SH DESCRIPTION
-\fBVPrintParameters\fP prints the names, descriptions, and values of a set
+\fBVistaIOPrintParameters\fP prints the names, descriptions, and values of a set
 of parameters.
 .PP
 The parameters are described by a table of option descriptors (see
-\fBVoption\fP(3Vi)). The \fBvpdc\fP(1Vi) man page shows how such a table
+\fBVistaIOoption\fP(3Vi)). The \fBvpdc\fP(1Vi) man page shows how such a table
 can be created automatically from the contents of a parameter definition
 file.
 .PP
@@ -42,12 +42,12 @@ compiler.
 .na
 .nh
 .BR vpdc (1Vi),
-.BR Voption (3Vi),
-.BR VLoadParameters (3Vi),
-.BR VParseParamOptions (3Vi),
-.BR VReportValidParamOptions (3Vi),
-.BR Vpd (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOoption (3Vi),
+.BR VistaIOLoadParameters (3Vi),
+.BR VistaIOParseParamOptions (3Vi),
+.BR VistaIOReportValidParamOptions (3Vi),
+.BR VistaIOpd (5Vi),
+.BR VistaIOlib (7Vi)
 .hy
 .ad
 .SH AUTHOR

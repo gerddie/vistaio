@@ -1,31 +1,31 @@
-.ds Vn 2.1
-.TH VBandInterp 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOBandInterp 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VImageFrameInterp, VImageViewpointInterp, VImageColorInterp, VImageComponentInterp \- image band interpretation
+VistaIOImageFrameInterp, VistaIOImageViewpointInterp, VistaIOImageColorInterp, VistaIOImageComponentInterp \- image band interpretation
 .SH SYNOPSIS
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .PP
-.B VBandInterp VImageFrameInterp (VImage \fIimage\fP)
+.B VistaIOBandInterp VistaIOImageFrameInterp (VistaIOImage \fIimage\fP)
 .PP
-.B VBandInterp VImageViewpointInterp (VImage \fIimage\fP)
+.B VistaIOBandInterp VistaIOImageViewpointInterp (VistaIOImage \fIimage\fP)
 .PP
-.B VBandInterp VImageColorInterp (VImage \fIimage\fP)
+.B VistaIOBandInterp VistaIOImageColorInterp (VistaIOImage \fIimage\fP)
 .PP
-.B VBandInterp VImageComponentInterp (VImage \fIimage\fP)
+.B VistaIOBandInterp VistaIOImageComponentInterp (VistaIOImage \fIimage\fP)
 .PP
 .ft B
 .ta 4n 30n
 typedef enum {
-	VBandInterpNone,	/* no interpretation */
-	VBandInterpOther,	/* unknown interpretation */
-	VBandInterpStereoPair,	/* describing camera viewpoints */
-	VBandInterpRGB,	/* describing color channels */
-	VBandInterpComplex,	/* describing vector components */
-	VBandInterpGradient,
-	VBandInterpIntensity,
-	VBandInterpOrientation
-} VBandInterp;
+	VistaIOBandInterpNone,	/* no interpretation */
+	VistaIOBandInterpOther,	/* unknown interpretation */
+	VistaIOBandInterpStereoPair,	/* describing camera viewpoints */
+	VistaIOBandInterpRGB,	/* describing color channels */
+	VistaIOBandInterpComplex,	/* describing vector components */
+	VistaIOBandInterpGradient,
+	VistaIOBandInterpIntensity,
+	VistaIOBandInterpOrientation
+} VistaIOBandInterp;
 .DT
 .SH ARGUMENTS
 .IP \fIimage\fP 10n
@@ -41,39 +41,39 @@ Each routine examines the size of its respective dimension (e.g.,
 (e.g., \fBframe_interp\fP) and returns a value based on them. Specifically:
 .IP \(bu 2n
 if the size of the dimension is 1 and there is no band interpretation
-attribute, it returns \fBVBandInterpNone\fP
+attribute, it returns \fBVistaIOBandInterpNone\fP
 .IP \(bu
-\fBVImageViewpointInterp\fP returns \fBVBandInterpStereoPair\fP if
+\fBVistaIOImageViewpointInterp\fP returns \fBVistaIOBandInterpStereoPair\fP if
 \fIimage\fP is a standard stereo pair (i.e., \fBnviewpoints:\ 2\fP and
 \fBviewpoint_interp: stereo_pair\fP)
 .IP \(bu
-\fBVImageColorInterp\fP returns \fBVBandInterpRGB\fP if \fIimage\fP is a
+\fBVistaIOImageColorInterp\fP returns \fBVistaIOBandInterpRGB\fP if \fIimage\fP is a
 standard RGB color image (i.e., \fBncolors:\ 3\fP and \fBcolor_interp:
 rgb\fP)
 .IP \(bu
-\fBVImageComponentInterp\fP returns \fBVBandInterpComplex\fP if \fIimage\fP 
+\fBVistaIOImageComponentInterp\fP returns \fBVistaIOBandInterpComplex\fP if \fIimage\fP 
 is a standard complex image (i.e., \fBncomponents:\ 2\fP and 
 \fBcomponent_interp: complex\fP) 
 .IP \(bu
-\fBVImageComponentInterp\fP returns \fBVBandInterpGradient\fP if
+\fBVistaIOImageComponentInterp\fP returns \fBVistaIOBandInterpGradient\fP if
 \fIimage\fP is a standard gradient image (i.e., \fBncomponents:\ 1\fP or
 \fB2\fP, and \fBcomponent_interp: gradient\fP)
 .IP \(bu
-\fBVImageComponentInterp\fP returns \fBVBandInterpIntensity\fP if 
+\fBVistaIOImageComponentInterp\fP returns \fBVistaIOBandInterpIntensity\fP if 
 \fIimage\fP is a standard intensity image (i.e., \fBncomponents:\ 1\fP and 
 \fBcomponent_interp: intensity\fP) 
 .IP \(bu
-\fBVImageComponentInterp\fP returns \fBVBandInterpOrientation\fP if 
+\fBVistaIOImageComponentInterp\fP returns \fBVistaIOBandInterpOrientation\fP if 
 \fIimage\fP is a standard orientation image (i.e., \fBncomponents:\ 1\fP 
 and \fBcomponent_interp: orientation\fP) 
 .IP \(bu
-each routine returns \fBVBandInterpOther\fP otherwise
+each routine returns \fBVistaIOBandInterpOther\fP otherwise
 .SH "SEE ALSO"
-.BR VSetBandInterp (3Vi),
-.BR VImage (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOSetBandInterp (3Vi),
+.BR VistaIOImage (3Vi),
+.BR VistaIOlib (7Vi)
 .SH DIAGNOSTICS
-A warning is issued and VBandInterpOther is returned if a dimension's size 
+A warning is issued and VistaIOBandInterpOther is returned if a dimension's size 
 (e.g., \fBncolors\fP) and the corresponding band interpretation attribute 
 (e.g., \fBcolor_interp\fP) are inconsistent. 
 .PP

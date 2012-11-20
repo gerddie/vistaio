@@ -1,18 +1,18 @@
-.ds Vn 2.1
-.TH VParseFilterCmd 3Vi "28 January 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOParseFilterCmd 3Vi "28 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VParseFilterCmd \- parse command line options and filenames
+VistaIOParseFilterCmd \- parse command line options and filenames
 .SH SYNOPSIS
 .nf
 .ft B
 #include <vista/option.h>
 .PP
 .ft B
-void VParseFilterCmd (\fInoptions\fP, \fIoptions\fP, \fIargc\fP, \fIargv\fP, \
+void VistaIOParseFilterCmd (\fInoptions\fP, \fIoptions\fP, \fIargc\fP, \fIargv\fP, \
 \fIinput\fP, \fIoutput\fP)
 .RS
 int \fInoptions\fP, \fIargc\fP;
-VOptionDescRec \fIoptions\fP[\fInoptions\fP];
+VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
 char **\fIargv\fP;
 FILE **\fIinput\fP;
 FILE **\fIoutput\fP;
@@ -33,26 +33,26 @@ the command line, or else it defaults to the standard input stream. If
 \fIinput\fP is 
 .SB NULL\c
 , then it is assumed that no input file is required. Note that the file is 
-opened and ready for input when \fBVParseFilterCmd\fP returns. 
+opened and ready for input when \fBVistaIOParseFilterCmd\fP returns. 
 .IP \fIoutput\fP
 Similar to \fIinput\fP, except that it returns the output file, which
 defaults to the standard output stream.
 .SH DESCRIPTION
-\fBVParseFilterCmd\fP is used to parse command line options and filenames 
+\fBVistaIOParseFilterCmd\fP is used to parse command line options and filenames 
 for most Vista programs. It implements the standard Vista command line 
 options \fB-help\fP, \fB-in\fP, and \fB-out\fP, and reports all errors in 
 parsing or in attempting to open the input and output files. Its major 
 limitation is that it allows at most one input file and one output file. 
 .PP
 Options particular to a program are specified in a table given by the 
-\fInoptions\fP and \fIoptions\fP arguments. See the \fBVoption\fP(3Vi) 
+\fInoptions\fP and \fIoptions\fP arguments. See the \fBVistaIOoption\fP(3Vi) 
 manual page for the form of this table. 
 .PP
-The \fIargc\fP and \fIargv\fP arguments to \fBVParseFilterCmd\fP are 
+The \fIargc\fP and \fIargv\fP arguments to \fBVistaIOParseFilterCmd\fP are 
 normally identical to the parameters of the program's \fBmain\fP function. 
 .PP
-\fBVParseFilterCmd\fP uses the first command line argument, \fIargv\fP[0], 
-in a call to \fBVSetProgramName\fP(3Vi) to record the program's name for 
+\fBVistaIOParseFilterCmd\fP uses the first command line argument, \fIargv\fP[0], 
+in a call to \fBVistaIOSetProgramName\fP(3Vi) to record the program's name for 
 future error messages. 
 .PP
 The remaining command line arguments are then processed sequentially. An 
@@ -62,27 +62,27 @@ keyword may be parsed as values associated with the option. The values are
 stored at locations specified by the options table. 
 .PP
 In addition to the options specified by the options table, 
-\fBVParseFilterCmd\fP recognizes the options \fB-help\fP, \fB-in\fP, and 
-\fB-out\fP. When it encounters \fB-help\fP, \fBVParseFilterCmd\fP prints 
+\fBVistaIOParseFilterCmd\fP recognizes the options \fB-help\fP, \fB-in\fP, and 
+\fB-out\fP. When it encounters \fB-help\fP, \fBVistaIOParseFilterCmd\fP prints 
 the command usage information and exits. The \fB-in\fP and \fB-out\fP 
 arguments are used to identify input and output files, as is standard for 
 Vista programs. 
 .SH "SEE ALSO"
 .na
 .nh
-.BR VParseCommand (3Vi),
-.BR VIdentifyFiles (3Vi),
-.BR Voption (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOParseCommand (3Vi),
+.BR VistaIOIdentifyFiles (3Vi),
+.BR VistaIOoption (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH NOTES
-\fBVParseFilterCmd\fP may modify the \fIargv\fP vector of command line
+\fBVistaIOParseFilterCmd\fP may modify the \fIargv\fP vector of command line
 arguments.
 .SH DIAGNOSTICS
-\fBVParseFilterCmd\fP reports errors in command line options by printing 
+\fBVistaIOParseFilterCmd\fP reports errors in command line options by printing 
 directly to the standard error stream. For all major errors, 
-\fBVParseFilterCmd\fP also exits the program with a status code of 1 rather 
+\fBVistaIOParseFilterCmd\fP also exits the program with a status code of 1 rather 
 than return to the caller. Error reports include the program name obtained 
 from \fIargv\fP[0]. The following messages may be produced: 
 .IP "``Duplicate -\fIoption\fP option; ignoring all but last.''"

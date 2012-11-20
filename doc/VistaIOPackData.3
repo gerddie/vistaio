@@ -1,34 +1,34 @@
-.ds Vn 2.1
-.TH VPackData 3Vi "21 January 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOPackData 3Vi "21 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VPackData, VUnpackData \- pack or unpack a vector of values
+VistaIOPackData, VistaIOUnpackData \- pack or unpack a vector of values
 .SH SYNOPSIS
 .nf
 .ft B
-typedef enum { VLsbFirst, VMsbFirst } VPackOrder;
+typedef enum { VistaIOLsbFirst, VistaIOMsbFirst } VistaIOPackOrder;
 .HP 10n
 .na
 .nh
 .ft B
-void VPackData (\fIrepn\fP, \fInels\fP, \fIunpacked\fP, \
+void VistaIOPackData (\fIrepn\fP, \fInels\fP, \fIunpacked\fP, \
 \fIorder\fP, \fIplength\fP, \fIppacked\fP, \fIpalloced\fP)
 .RS
-VRepnKind \fIrepn\fP;
+VistaIORepnKind \fIrepn\fP;
 size_t \fInels\fP, *\fIplength\fP;
-VPointer \fIunpacked\fP, *\fIppacked\fP;
-VPackOrder \fIorder\fP;
-VBoolean *\fIpalloced\fP;
+VistaIOPointer \fIunpacked\fP, *\fIppacked\fP;
+VistaIOPackOrder \fIorder\fP;
+VistaIOBoolean *\fIpalloced\fP;
 .RE
 .HP 10n
 .ft B
-void VUnpackData (\fIrepn\fP, \fInels\fP, \fIpacked\fP, \
+void VistaIOUnpackData (\fIrepn\fP, \fInels\fP, \fIpacked\fP, \
 \fIorder\fP, \fIplength\fP, \fIpunpacked\fP, \fIpalloced\fP)
 .RS
-VRepnKind \fIrepn\fP;
+VistaIORepnKind \fIrepn\fP;
 size_t \fInels\fP, *\fIplength\fP;
-VPointer \fIpacked\fP, *\fIpunpacked\fP;
-VPackOrder \fIorder\fP;
-VBoolean *\fIpalloced\fP;
+VistaIOPointer \fIpacked\fP, *\fIpunpacked\fP;
+VistaIOPackOrder \fIorder\fP;
+VistaIOBoolean *\fIpalloced\fP;
 .hy
 .ad
 .fi
@@ -61,35 +61,35 @@ if memory was allocated by the routine to contain the results, and
 .SB FALSE
 otherwise.
 .SH DESCRIPTION
-\fBVPackData\fP packs a vector of values into a block of contiguous bytes. 
+\fBVistaIOPackData\fP packs a vector of values into a block of contiguous bytes. 
 Typically, it is used when preparing to output a series of values to a 
-Vista data file. \fBVUnpackData\fP performs the inverse, unpacking a 
+Vista data file. \fBVistaIOUnpackData\fP performs the inverse, unpacking a 
 vector of values from a block of contiguous bytes. It is used when 
 decoding a series of values read from a Vista data file.
 .PP
 Unpacked values reside in memory in a form dependent upon machine 
 architecture. Packed values, on the other hand, are represented in a 
 machine-independent manner using the fewest bits possible. If the values 
-are of type \fBVBit\fP, for example, they might occupy one byte each in 
+are of type \fBVistaIOBit\fP, for example, they might occupy one byte each in 
 unpacked form, but in packed form each occupies a single bit. The types 
 of values that can be (un)packed, and their form when packed, is as 
 follows:
 .RS
-.IP \fBVBit\fP 12n
+.IP \fBVistaIOBit\fP 12n
 is packed as a single bit.
-.IP \fBVUByte\fP
+.IP \fBVistaIOUByte\fP
 is packed as an unsigned integer in a single 8-bit byte.
-.IP \fBVSByte\fP
+.IP \fBVistaIOSByte\fP
 is packed as a two's-complement integer in a single 8-bit byte.
-.IP \fBVShort\fP
+.IP \fBVistaIOShort\fP
 is packed as a two's-complement integer in two 8-bit bytes.
-.IP \fBVLong\fP
+.IP \fBVistaIOLong\fP
 is packed as a two's-complement integer in four 8-bit bytes.
-.IP \fBVFloat\fP
+.IP \fBVistaIOFloat\fP
 is packed as an IEEE-format floating-point number in four 8-bit bytes.
-.IP \fBVDouble\fP
+.IP \fBVistaIODouble\fP
 is packed as an IEEE-format floating-point number in eight 8-bit bytes.
-.IP \fBVBoolean\fP
+.IP \fBVistaIOBoolean\fP
 is packed as a single bit.
 .RE
 .PP
@@ -100,13 +100,13 @@ The \fIorder\fP argument specifies the order with which bits are packed
 into a byte, or multi-byte, packed values are separated into bytes. If the 
 packed values each require a single bit, \fIorder\fP specifies whether 
 successive values are to be packed into a byte from least-significant bit 
-to most significant (\fBVLsbFirst\fP), or vice versa (\fBVMsbFirst\fP). If 
+to most significant (\fBVistaIOLsbFirst\fP), or vice versa (\fBVistaIOMsbFirst\fP). If 
 the packed values each require multiple bytes, \fIorder\fP specifies 
 whether those bytes are to be packed from least-significant byte to most 
-significant (\fBVLsbFirst\fP), or vice versa (\fBVMsbFirst\fP). Data in 
-Vista data files is packed with \fIorder\fP\ =\ \fBVMsbFirst\fP.
+significant (\fBVistaIOLsbFirst\fP), or vice versa (\fBVistaIOMsbFirst\fP). Data in 
+Vista data files is packed with \fIorder\fP\ =\ \fBVistaIOMsbFirst\fP.
 .PP
-For a call to \fBVPackData\fP, \fInels\fP specifies the number of values to 
+For a call to \fBVistaIOPackData\fP, \fInels\fP specifies the number of values to 
 be packed and \fIunpacked\fP points to a vector containing them. You can 
 specify where to place the packed values in either of two ways:
 .RS 2n
@@ -118,9 +118,9 @@ in \fIpalloced\fP, passing a pointer to the address of your buffer in
 \fIplength\fP. On return, the actual length of the packed values will have 
 been stored at *\fIplength\fP.
 .IP \(bu
-You can let \fBVPackData\fP determine the location of the packed values by 
-passing in \fIpalloced\fP a pointer to a \fBVBoolean\fP variable. 
-\fBVPackData\fP then returns, via \fIppacked\fP and \fIplength\fP, the 
+You can let \fBVistaIOPackData\fP determine the location of the packed values by 
+passing in \fIpalloced\fP a pointer to a \fBVistaIOBoolean\fP variable. 
+\fBVistaIOPackData\fP then returns, via \fIppacked\fP and \fIplength\fP, the 
 location and length of the packed data. Depending on the type of values to 
 be packed, their arrangement in memory, and \fIorder\fP, actual packing may 
 or may not be needed. That is, the packed and unpacked forms of the value 
@@ -128,7 +128,7 @@ may actually be identical. In this case, the returned location and length
 refer to the unpacked data, and \fIpalloced\fP returns 
 .SB FALSE
 to indicate that no separate buffer for the packed data was allocated. If, 
-however, the packed form differs from the unpacked form, \fBVPackData\fP 
+however, the packed form differs from the unpacked form, \fBVistaIOPackData\fP 
 will allocate memory for the packed data. The location and length of this 
 memory are returned instead, and \fIpalloced\fP returns 
 .SB TRUE
@@ -136,9 +136,9 @@ to indicate that this memory should be freed when the packed values are no
 longer needed.
 .RE
 .PP
-\fBVUnpackData\fP is called in an analogous manner. The \fInels\fP argument 
+\fBVistaIOUnpackData\fP is called in an analogous manner. The \fInels\fP argument 
 specifies the number of values to be unpacked and \fIpacked\fP points to a 
-vector containing them. As for \fBVPackData\fP, you can specify where to 
+vector containing them. As for \fBVistaIOPackData\fP, you can specify where to 
 place the unpacked values in either of two ways indicated by 
 \fIpalloced\fP.
 .SH "RETURN VALUES"
@@ -156,28 +156,28 @@ any storage used to represent the packed bits:
 .nf
 .ft B
 size_t nbits, length;
-VBit *bits;
-VPointer packed;
-VBoolean alloced;
+VistaIOBit *bits;
+VistaIOPointer packed;
+VistaIOBoolean alloced;
 FILE *file;
 .PP
 \&...
 .ft B
-VPackData (VBitRepn, nbits, bits, VMsbFirst, & length, & packed, & alloced);
+VistaIOPackData (VistaIOBitRepn, nbits, bits, VistaIOMsbFirst, & length, & packed, & alloced);
 fwrite ((char *) packed, 1, length, file);
 if (alloced)
 .RS
-VFree (packed);
+VistaIOFree (packed);
 .RE
 .RE
 .fi
 .SH NOTES
 Packing or unpacking can be done in place. 
-For example, in a call to \fBVPackData\fP, \fIunpacked\fP and 
+For example, in a call to \fBVistaIOPackData\fP, \fIunpacked\fP and 
 *\fIppacked\fP can point to the same storage.
 .SH LIMITATIONS
-The present implementation cannot pack values of type \fBVUByte\fP,
-\fBVSByte\fP, \fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, or \fBVDouble\fP if
+The present implementation cannot pack values of type \fBVistaIOUByte\fP,
+\fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, or \fBVistaIODouble\fP if
 their packed and unpacked sizes differ.
 .SH DIAGNOSTICS
 .IP "``Byte order not recognized.''"
@@ -190,8 +190,8 @@ is needed to support the new architecture.
 A buffer was supplied for the results of (un)packing, but the buffer is 
 too small.
 .IP "``(Un)packing \fItype\fP from \fImbits\fP to \fInbits\fP bits is not supported.''"
-The present implementation cannot (un)pack values of type \fBVUByte\fP, 
-\fBVSByte\fP, \fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, or \fBVDouble\fP if 
+The present implementation cannot (un)pack values of type \fBVistaIOUByte\fP, 
+\fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP, \fBVistaIOFloat\fP, or \fBVistaIODouble\fP if 
 their packed and unpacked sizes differ. If asked to do so the routine will 
 abort the program with this message. 
 .SH AUTHOR

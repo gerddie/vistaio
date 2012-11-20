@@ -1,20 +1,20 @@
-.ds Vn 2.1
-.TH VReadEdges 3Vi "4 April 1995" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOReadEdges 3Vi "4 April 1995" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VReadEdges \- read a series of edge sets from a stream
+VistaIOReadEdges \- read a series of edge sets from a stream
 .SH SYNOPSIS
 .nf
 .ft B
 #include \fB<stdio>\fP
 #include \fB<vista/file.h>\fP
-#include \fB<vista/VEdges.h>\fP
+#include \fB<vista/VistaIOEdges.h>\fP
 .PP
 .ft B
-int VReadEdges (\fIfile\fP, \fIattributes\fP, \fIedge_sets\fP)
+int VistaIOReadEdges (\fIfile\fP, \fIattributes\fP, \fIedge_sets\fP)
 .RS
 FILE *\fIfile\fP;
-VAttrList *\fIattributes\fP;
-VEdges (*\fIedge_sets\fP)[];
+VistaIOAttrList *\fIattributes\fP;
+VistaIOEdges (*\fIedge_sets\fP)[];
 .RE
 .fi
 .SH ARGUMENTS
@@ -25,28 +25,28 @@ Returns a list of attributes read from the stream.
 .IP \fIedge_sets\fP
 Returns a vector of pointers to edge sets read.
 .SH DESCRIPTION
-\fBVReadEdges\fP reads a Vista data file from an open stream, collects the 
+\fBVistaIOReadEdges\fP reads a Vista data file from an open stream, collects the 
 top-level edge sets found, and returns the edge sets separately from the 
 file's other contents. 
 .SH "RETURN VALUES"
-\fBVReadEdges\fP returns the number of edge sets obtained, or 0 if an error 
+\fBVistaIOReadEdges\fP returns the number of edge sets obtained, or 0 if an error 
 is encountered. A vector of the edge sets is allocated and returned via 
 \fIedge_sets\fP. Any other objects found in the file are returned as an 
 attribute list via \fIattributes\fP. 
 .SH "SEE ALSO"
 .na
 .nh
-.BR VReadFile (3Vi),
-.BR VReadObjects (3Vi),
+.BR VistaIOReadFile (3Vi),
+.BR VistaIOReadObjects (3Vi),
 .BR stdio (3),
 .br
-.BR VEdges (3Vi),
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOEdges (3Vi),
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS
-Besides the following, any of the diagnostics produced by \fBVReadFile\fP 
+Besides the following, any of the diagnostics produced by \fBVistaIOReadFile\fP 
 may be generated.
 .IP "``No edges objects present in stream.''"
 No edge sets were encountered in the specified stream.

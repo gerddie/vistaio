@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VBundle 3Vi "21 January 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOBundle 3Vi "21 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VBundle \- representation for Vista object with binary data
+VistaIOBundle \- representation for Vista object with binary data
 .SH DESCRIPTION
 .SS Introduction
 Since Vista allows you to invent your own types of objects and to store
@@ -10,68 +10,68 @@ to gracefully handle objects that are unfamiliar to them. A program such as
 \fBvcat\fP(1Vi), for example, must at least be able to copy your custom
 objects intact, binary data and all, from input to output. Unfamiliar
 objects are represented internally by the Vista library using the
-\fBVBundle\fP data structure, which is described here.
-.SS "The VBundle Representation"
+\fBVistaIOBundle\fP data structure, which is described here.
+.SS "The VistaIOBundle Representation"
 .nf
 .ft B
 .ta 25n
 typedef struct {
 .RS
-VAttrList list;	/* object's attribute list value */
+VistaIOAttrList list;	/* object's attribute list value */
 size_t length;	/* length of binary data */
-VPointer data;	/* pointer to binary data */
+VistaIOPointer data;	/* pointer to binary data */
 char type_name[1];	/* beginning of object's type's name */
 .RE
-} VBundleRec, *VBundle;
+} VistaIOBundleRec, *VistaIOBundle;
 .DT
 .fi
 .PP
 An arbitrary object, possessing a type name, an attribute list, and
 possibly some binary data, can be completely represented in memory by a
-\fBVBundle\fP, which is a pointer to a variable-length structure. The
+\fBVistaIOBundle\fP, which is a pointer to a variable-length structure. The
 structure has four fields. In \fBtype_name\fP is the name of the object's
 type as a null-terminated string. In \fBlist\fP is a handle to its
 attribute list. If the object includes binary data, \fBlength\fP is the
 data's length in bytes and \fBdata\fP points to storage obtained from
-\fBVMalloc\fP(3Vi) containing the data. If, on the other hand, the object
+\fBVistaIOMalloc\fP(3Vi) containing the data. If, on the other hand, the object
 include no binary data, \fBlength\fP is zero.
 .PP
-Any attribute list member can have a \fBVBundle\fP as its value. The 
-attribute's value representation is denoted by the \fBVRepnKind\fP constant 
-\fBVBundleRepn\fP. Such attributes can be created, copied, deleted, 
+Any attribute list member can have a \fBVistaIOBundle\fP as its value. The 
+attribute's value representation is denoted by the \fBVistaIORepnKind\fP constant 
+\fBVistaIOBundleRepn\fP. Such attributes can be created, copied, deleted, 
 and accessed much like any other.
 .PP
-\fBVReadFile\fP(3Vi) reads a data file and returns its contents as an
+\fBVistaIOReadFile\fP(3Vi) reads a data file and returns its contents as an
 attribute list while recording objects with unfamiliar types as
-\fBVBundle\fP attributes. \fBVWriteFile\fP(3Vi) writes a data file from
-the contents of an attribute list while interpreting \fBVBundle\fP
+\fBVistaIOBundle\fP attributes. \fBVistaIOWriteFile\fP(3Vi) writes a data file from
+the contents of an attribute list while interpreting \fBVistaIOBundle\fP
 attributes. When the two are used together, an object with any type and any
 binary data will be passed unchanged from input to output while being
-stored in memory as a \fBVBundle\fP.
+stored in memory as a \fBVistaIOBundle\fP.
 .SS Routines
-The following routines create and destroy a \fBVBundle\fP:
+The following routines create and destroy a \fBVistaIOBundle\fP:
 .HP 10n
 .na
 .nh
 .ft B
-VBundle VCreateBundle (VStringConst\ \fItype_name\fP, 
-VAttrList\ \fIlist\fP, size_t\ \fIlength\fP, VPointer \fIdata\fP)
+VistaIOBundle VistaIOCreateBundle (VistaIOStringConst\ \fItype_name\fP, 
+VistaIOAttrList\ \fIlist\fP, size_t\ \fIlength\fP, VistaIOPointer \fIdata\fP)
 .ft
 .ad
 .hy
 .IP "" 0.5i
-\fBVCreateBundle\fP allocates a \fBVBundleRec\fP structure of the
+\fBVistaIOCreateBundle\fP allocates a \fBVistaIOBundleRec\fP structure of the
 appropriate size and fills in its fields. In particular, the \fIlist\fP and
-\fIdata\fP arguments are simply stored in the new \fBVBundleRec\fP (i.e.,
+\fIdata\fP arguments are simply stored in the new \fBVistaIOBundleRec\fP (i.e.,
 the structures they point to are not copied).
 .PP
-.B "void VDestroyBundle (VBundle \fIbundle\fP)"
+.B "void VistaIODestroyBundle (VistaIOBundle \fIbundle\fP)"
 .IP
-\fBVDestroyBundle\fP releases all storage occupied by a \fBVBundle\fP,
+\fBVistaIODestroyBundle\fP releases all storage occupied by a \fBVistaIOBundle\fP,
 including its attribute list and any binary data block.
 .SH "SEE ALSO"
-.BR Vattribute (3Vi),
-.BR Vtype (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOattribute (3Vi),
+.BR VistaIOtype (3Vi),
+.BR VistaIOlib (7Vi)
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

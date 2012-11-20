@@ -1,21 +1,21 @@
-.ds Vn 2.1
-.TH VConst 3Vi "26 January 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOConst 3Vi "26 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VConst \- generate constants of the appropriate type
+VistaIOConst \- generate constants of the appropriate type
 .SH SYNOPSIS
-.B "VFloat VFloatConst (\fIf\fP)"
+.B "VistaIOFloat VistaIOFloatConst (\fIf\fP)"
 .PP
-.B "VDouble VDoubleConst (\fIf\fP)"
+.B "VistaIODouble VistaIODoubleConst (\fIf\fP)"
 .PP
-.B "VBit VBitConst (\fIi\fP)"
+.B "VistaIOBit VistaIOBitConst (\fIi\fP)"
 .PP
-.B "VUByte VUByteConst (\fIi\fP)"
+.B "VistaIOUByte VistaIOUByteConst (\fIi\fP)"
 .PP
-.B "VSByte VSByteConst (\fIi\fP)"
+.B "VistaIOSByte VistaIOSByteConst (\fIi\fP)"
 .PP
-.B "VShort VShortConst (\fIi\fP)"
+.B "VistaIOShort VistaIOShortConst (\fIi\fP)"
 .PP
-.B "VLong VLongConst (\fIi\fP)"
+.B "VistaIOLong VistaIOLongConst (\fIi\fP)"
 .SH ARGUMENTS
 .IP \fIf\fP 10n
 Specifies a floating-point constant.
@@ -58,20 +58,20 @@ for (i = 0; i < 10000000; i++)
 .fi
 .RE
 .PP
-The \fBVFloatConst\fP and \fBVDoubleConst\fP macros allow you to avoid
-unnecessary coercions in expressions involving values of type \fBVFloat\fP
-and \fBVDouble\fP.  Whether or not \fBVFloat\fP and \fBVDouble\fP are
+The \fBVistaIOFloatConst\fP and \fBVistaIODoubleConst\fP macros allow you to avoid
+unnecessary coercions in expressions involving values of type \fBVistaIOFloat\fP
+and \fBVistaIODouble\fP.  Whether or not \fBVistaIOFloat\fP and \fBVistaIODouble\fP are
 equivalent to \fBfloat\fP and \fBdouble\fP may depend on what platform your
 code is being compiled for.  Regardless, you can generate constants of the
-appropriate type by using the \fBVFloatConst\fP and \fBVDoubleConst\fP macros.
-On a platform where \fBVFloat\fP is defined as \fBfloat\fP,
-\fBVFloatConst(1.0)\fP expands to \fB1.0f\fP; where \fBVFloat\fP is defined
-as \fBdouble\fP, it expands to \fB1.0\fP.  Similarly, \fBVDoubleConst\fP
+appropriate type by using the \fBVistaIOFloatConst\fP and \fBVistaIODoubleConst\fP macros.
+On a platform where \fBVistaIOFloat\fP is defined as \fBfloat\fP,
+\fBVistaIOFloatConst(1.0)\fP expands to \fB1.0f\fP; where \fBVistaIOFloat\fP is defined
+as \fBdouble\fP, it expands to \fB1.0\fP.  Similarly, \fBVistaIODoubleConst\fP
 may or may not append an \fBf\fP character to the constant, depending on
-how \fBVDouble\fP is defined.
+how \fBVistaIODouble\fP is defined.
 .PP
-Similarly, the \fBVBitConst\fP, \fBVUByteConst\fP, \fBVSByteConst\fP,
-\fBVShortConst\fP, and \fBVLongConst\fP take an integer constant; each one,
+Similarly, the \fBVistaIOBitConst\fP, \fBVistaIOUByteConst\fP, \fBVistaIOSByteConst\fP,
+\fBVistaIOShortConst\fP, and \fBVistaIOLongConst\fP take an integer constant; each one,
 depending on the platform, may or may not append an \fBl\fP character to
 the constant to specify that it is of type \fBlong\fP. On platforms where
 \fBint\fP and \fBlong\fP have different representations, using these macros
@@ -84,15 +84,15 @@ you should write them like this to avoid unnecessary coercions:
 .nf
 .ft B
 int i;
-VFloat f = 0.0;
+VistaIOFloat f = 0.0;
 
 for (i = 0; i < 10000000; i++)
-    f += VFloatConst (1.0);
+    f += VistaIOFloatConst (1.0);
 .fi
 .RE
 .SH "SEE ALSO"
-.BR VRepn (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIORepn (3Vi),
+.BR VistaIOlib (7Vi)
 .SH NOTES
 The macros can be used with a C compiler that doesn't meet the ANSI standard,
 but in that case they may not eliminate all type coercions between

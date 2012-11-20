@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VReadFile 3Vi "26 January 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOReadFile 3Vi "26 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VReadFile \- read a Vista data file
+VistaIOReadFile \- read a Vista data file
 .SH SYNOPSIS
 .nf
 .ft B
@@ -9,14 +9,14 @@ VReadFile \- read a Vista data file
 #include \fB<vista/file.h>\fP
 .PP
 .ft B
-VAttrList VReadFile (\fIfile\fP, \fIfilter\fP)
+VistaIOAttrList VistaIOReadFile (\fIfile\fP, \fIfilter\fP)
 .RS
 FILE *\fIfile\fP;
-VReadFileFilterProc *\fIfilter\fP;
+VistaIOReadFileFilterProc *\fIfilter\fP;
 .RE
 .PP
 .ft B
-typedef VBoolean VReadFileFilterProc (VBundle, VRepnKind);
+typedef VistaIOBoolean VistaIOReadFileFilterProc (VistaIOBundle, VistaIORepnKind);
 .fi
 .SH ARGUMENTS
 .IP \fIfile\fP 10n
@@ -27,11 +27,11 @@ read from the file, or it may be
 .SB NULL
 to indicate that all binary data should be read.
 .SH DESCRIPTION
-\fBVReadFile\fP reads the contents of a Vista data file, which should be in 
-format described by \fBVfile\fP(5Vi). It returns a list of the attributes 
+\fBVistaIOReadFile\fP reads the contents of a Vista data file, which should be in 
+format described by \fBVistaIOfile\fP(5Vi). It returns a list of the attributes 
 found in the file. Attribute values in that list will have been converted 
-to internal form, as described by \fBVattribute\fP(3Vi) and 
-\fBVtype\fP(3Vi). 
+to internal form, as described by \fBVistaIOattribute\fP(3Vi) and 
+\fBVistaIOtype\fP(3Vi). 
 .PP
 With the \fIfilter\fP argument you may supply a function that gets to 
 decide for each attribute value that is an object whether or not that 
@@ -44,54 +44,54 @@ Your filter function should be declared:
 .ft B
 .nf
 .RS
-VBoolean \fIMyFilter\fP (\fIbundle\fP, \fIrepn\fP)
+VistaIOBoolean \fIMyFilter\fP (\fIbundle\fP, \fIrepn\fP)
 .RS
-VBundle \fIbundle\fP;
-VRepnKind \fIrepn\fP;
+VistaIOBundle \fIbundle\fP;
+VistaIORepnKind \fIrepn\fP;
 .RE
 .RE
 .fi
 .PP
 Your filter function will be called once for each object encountered at any
-level in the file. It will be passed a \fBVBundle\fP representing the
+level in the file. It will be passed a \fBVistaIOBundle\fP representing the
 object (including its type name and attribute list, but not its binary
 data), and the \fIrepn\fP value obtained by looking up its type name (i.e.,
-the value returned by \fBVLookupType\fP(3Vi) on the type name, which could
-be \fBVUnknownRepn\fP). The object's binary data will be read only if the
+the value returned by \fBVistaIOLookupType\fP(3Vi) on the type name, which could
+be \fBVistaIOUnknownRepn\fP). The object's binary data will be read only if the
 filter function returns
 .SB TRUE\c
 \&. If it returns 
 .SB FALSE\c
-, the object will be represented in the attribute list as a \fBVBundle\fP, 
+, the object will be represented in the attribute list as a \fBVistaIOBundle\fP, 
 without binary data \(em it will not be converted to internal form (e.g., 
-not to a \fBVImage\fP). If no filter function is supplied (i.e., 
+not to a \fBVistaIOImage\fP). If no filter function is supplied (i.e., 
 \fIfilter\fP is 
 .SB NULL\c
-), \fBVReadFile\fP will read all binary data associated with all objects.
+), \fBVistaIOReadFile\fP will read all binary data associated with all objects.
 .PP
-For backwards compatability \fBVReadFile\fP will recognize and read the 
+For backwards compatability \fBVistaIOReadFile\fP will recognize and read the 
 contents of a UBC image file format (IFF) file. If the first character read 
-from the stream is ``I'', \fBVReadFile\fP uses \fBVReadUbcIff\fP to read a 
-single UBC IFF image. The image is returned as a \fBVImage\fP attribute 
+from the stream is ``I'', \fBVistaIOReadFile\fP uses \fBVistaIOReadUbcIff\fP to read a 
+single UBC IFF image. The image is returned as a \fBVistaIOImage\fP attribute 
 value in a list containing a single attribute. In this case, the 
 \fIfilter\fP argument has no effect. 
 .SH "RETURN VALUE"
-\fBVReadData\fP returns an attribute list representing the file's contents, or
+\fBVistaIOReadData\fP returns an attribute list representing the file's contents, or
 .SB NULL
 if an error is encountered. In the case of an error, the stream may
 not have been completely read.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VReadObjects (3Vi),
-.BR VReadUbcIff (3Vi),
+.BR VistaIOReadObjects (3Vi),
+.BR VistaIOReadUbcIff (3Vi),
 .BR stdio (3),
 .br
-.BR VBundle (3Vi),
-.BR Vattribute (3Vi),
-.BR Vtype (3Vi),
-.BR Vfile (5Vi),
-.BR Vlib (7Vi)
+.BR VistaIOBundle (3Vi),
+.BR VistaIOattribute (3Vi),
+.BR VistaIOtype (3Vi),
+.BR VistaIOfile (5Vi),
+.BR VistaIOlib (7Vi)
 .hy
 .ad
 .SH NOTES

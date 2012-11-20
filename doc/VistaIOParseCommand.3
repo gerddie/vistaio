@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VParseCommand 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOParseCommand 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VParseCommand \- parse command line arguments
+VistaIOParseCommand \- parse command line arguments
 .SH SYNOPSIS
 .PP
 .nf
@@ -9,11 +9,11 @@ VParseCommand \- parse command line arguments
 .fi
 .PP
 .nf
-.B VBoolean VParseCommand (\fInoptions\fP, \fIoptions\fP, \fIargc\fP, \fIargv\fP)
+.B VistaIOBoolean VistaIOParseCommand (\fInoptions\fP, \fIoptions\fP, \fIargc\fP, \fIargv\fP)
 .RS
 .ft B
 int \fInoptions\fP, *\fIargc\fP;
-VOptionDescRec \fIoptions\fP[\fInoptions\fP];
+VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
 char **\fIargv\fP;
 .ft
 .fi
@@ -29,19 +29,19 @@ the number of arguments that were not recognized as valid options.
 Specifies a vector of command line arguments to be parsed, and returns
 a vector of the arguments that were not recognized as valid options.
 .SH DESCRIPTION
-\fBVParseCommand\fP parses command line arguments according to a table that
-describes valid command line options. The \fBVoption\fP(3Vi) manual page
+\fBVistaIOParseCommand\fP parses command line arguments according to a table that
+describes valid command line options. The \fBVistaIOoption\fP(3Vi) manual page
 describes this table's contents and specifies the forms that command line 
 options may take.  The \fInoptions\fP and \fIoptions\fP arguments specify the
 length and location of the table.
 .PP
-The \fIargc\fP and \fIargv\fP arguments to \fBVParseCommand\fP are normally
+The \fIargc\fP and \fIargv\fP arguments to \fBVistaIOParseCommand\fP are normally
 identical to the parameters of the program's \fBmain\fP function. (Note,
 however, that the address of \fBmain\fP's \fIargc\fP is passed rather than
 the actual value of \fIargc\fP.)
 .PP
-\fBVParseCommand\fP uses the first command line
-argument, \fIargv\fP[0], in a call to \fBVSetProgramName\fP(3Vi) to record the
+\fBVistaIOParseCommand\fP uses the first command line
+argument, \fIargv\fP[0], in a call to \fBVistaIOSetProgramName\fP(3Vi) to record the
 program's name for future error messages.
 .PP
 The remaining command line arguments are then processed sequentially from
@@ -50,32 +50,32 @@ examined to determine whether it is an initial substring of any option
 keyword defined in the options table. If so, arguments following the
 keyword may be parsed as values associated with the option. The values are
 stored at locations specified by the options table. If a variable number of
-values are associated with the option, \fBVParseCommand\fP will allocate a
+values are associated with the option, \fBVistaIOParseCommand\fP will allocate a
 vector of the appropriate length for them. Following the value arguments,
-\fBVParseCommand\fP expects either another option keyword or the end of the
+\fBVistaIOParseCommand\fP expects either another option keyword or the end of the
 list of command line arguments.
 .PP
-If \fBVParseCommand\fP encounters an argument that could be an option
+If \fBVistaIOParseCommand\fP encounters an argument that could be an option
 keyword (based on its position among the command line arguments) but
 that isn't among the keywords defined in the table, it merely passes over
 it without complaint. Any such arguments that are not recognized are
 returned to the caller (see ``RETURN VALUES'', below).
 .PP
-\fBVParseCommand\fP checks that each required option appears once in the
+\fBVistaIOParseCommand\fP checks that each required option appears once in the
 command line, and that each optional option appears at most once. If an
 option appears more than once, a message is printed and only values
 supplied with the last appearance of the option are retained. The options
 table entry for an optional option may specify the location of a
-\fBVBoolean\fP that is to be set to indicate whether the option was
-encountered. \fBVParseCommand\fP will set the \fBVBoolean\fP to
+\fBVistaIOBoolean\fP that is to be set to indicate whether the option was
+encountered. \fBVistaIOParseCommand\fP will set the \fBVistaIOBoolean\fP to
 .SB TRUE
 if the option was encountered, and to 
 .SB FALSE
 otherwise.
 .PP
 In addition to the options specified by the options table,
-\fBVParseCommand\fP recognizes the option \fB-help\fP. When it encounters
-\fB-help\fP, \fBVParseCommand\fP ignores the remaining arguments on the command
+\fBVistaIOParseCommand\fP recognizes the option \fB-help\fP. When it encounters
+\fB-help\fP, \fBVistaIOParseCommand\fP ignores the remaining arguments on the command
 line, sets *\fIargc\fP to 1 to indicate that all arguments have been accounted
 for, and returns 
 .SB FALSE
@@ -83,7 +83,7 @@ to indicate that the command line parse was not completed successfully.
 These returned indications normally cause the caller to print command usage
 information as shown in the code example below.
 .SH "RETURN VALUES"
-\fBVParseCommand\fP returns 
+\fBVistaIOParseCommand\fP returns 
 .SB FALSE
 if an option that appears among the command line arguments lacks the
 correct number of values of the appropriate form.  It also returns
@@ -91,30 +91,30 @@ correct number of values of the appropriate form.  It also returns
 if a required option is missing from the command line arguments. Finally,
 it returns
 .SB FALSE
-if it encounters a \fB-help\fP option. Otherwise, \fBVParseCommand\fP 
+if it encounters a \fB-help\fP option. Otherwise, \fBVistaIOParseCommand\fP 
 returns 
 .SB TRUE\c
 \&. Thus, 
 .SB TRUE
 indicates that
-the command were parsed successfully by \fBVParseCommand\fP and that the
+the command were parsed successfully by \fBVistaIOParseCommand\fP and that the
 program may continue on that basis.
 .PP
-\fBVParseCommand\fP also returns a revised \fIargv\fP containing only the 
+\fBVistaIOParseCommand\fP also returns a revised \fIargv\fP containing only the 
 command
 line arguments that it did not recognize as valid options. In *\fIargc\fP it
-returns the number of such arguments. \fBVParseCommand\fP moves elements of the
+returns the number of such arguments. \fBVistaIOParseCommand\fP moves elements of the
 \fIargv\fP vector of strings so that all arguments that are not part of valid
 options are in the first *\fIargc\fP elements.
 At minimum, there will be one: the
 program's name. Others might be options that,
 for some reason, the programmer chooses not to handle with
-\fBVParseCommand\fP \(em e.g., X
+\fBVistaIOParseCommand\fP \(em e.g., X
 Windows parameters that must be given to \fBXtDisplayInitialize\fP(3Xt) 
 instead.
 .SH EXAMPLES
 The following code fragment parses command line arguments using
-\fBVParseCommand\fP. Any arguments not recognized by \fBVParseCommand\fP
+\fBVistaIOParseCommand\fP. Any arguments not recognized by \fBVistaIOParseCommand\fP
 are then parsed by some other means (e.g., by \fBXtDisplayInitialize\fP(3Xt)).
 Finally, if any arguments remain, having not been recognized during either
 parsing, they are printed along with information on the valid program
@@ -125,13 +125,13 @@ options.
 #include <vista/option.h>
 .PP
 .ft B
-static VOptionDescRec options[] = { /* option table entries */ };
+static VistaIOOptionDescRec options[] = { /* option table entries */ };
 .PP
 .ft B
 int main (int argc, char **argv)
 {
 .RS
-if (! VParseCommand (VNumber (options), options, & argc, argv))
+if (! VistaIOParseCommand (VistaIONumber (options), options, & argc, argv))
 .RS
 goto Usage;
 .RE
@@ -143,13 +143,13 @@ goto Usage;
 .ft B
 if (argc > 1) {
 .RS
-VReportBadArgs (argc, argv);
+VistaIOReportBadArgs (argc, argv);
 .RE
 .RE
 Usage:
 .RS
 .RS
-VReportUsage (argv[0], VNumber (options), options, NULL);
+VistaIOReportUsage (argv[0], VistaIONumber (options), options, NULL);
 fprintf (stderr, "    plus any X Windows options.\\n\\n");
 exit (1);
 .RE
@@ -163,15 +163,15 @@ exit (1);
 .SH "SEE ALSO"
 .nh
 .na
-.BR VReportBadArgs (3Vi),
-.BR VReportUsage (3Vi),
-.BR VIdentifyFiles (3Vi),
-.BR Voption (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOReportBadArgs (3Vi),
+.BR VistaIOReportUsage (3Vi),
+.BR VistaIOIdentifyFiles (3Vi),
+.BR VistaIOoption (3Vi),
+.BR VistaIOlib (7Vi)
 .hy
 .ad
 .SH DIAGNOSTICS
-\fBVParseCommand\fP reports errors in command line options by printing
+\fBVistaIOParseCommand\fP reports errors in command line options by printing
 directly to the standard error stream. Error reports include the program
 name obtained from \fIargv\fP[0]. The following messages may be produced:
 .IP "``Duplicate -\fIoption\fP option; ignoring all but last.''"
@@ -187,13 +187,13 @@ command line. Only \fIm\fP were present, however.
 The option -\fIoption\fP is required but it was not present on the command
 line.
 .PP
-In addition, \fBVParseCommand\fP may invoke \fBVError\fP with the following
+In addition, \fBVistaIOParseCommand\fP may invoke \fBVistaIOError\fP with the following
 message:
 .IP "``Parsing of command options with \fItype\fP values is not implemented.''"
 Options, as described in the options table, must take values that are of
-type \fBVBit\fP, \fBVUByte\fP, \fBVSByte\fP, \fBVShort\fP, \fBVLong\fP,
-\fBVFloat\fP, \fBVDouble\fP, \fBVBoolean\fP, or \fBVString\fP.
-\fBVParseCommand\fP encountered a table entry describing an option of type
+type \fBVistaIOBit\fP, \fBVistaIOUByte\fP, \fBVistaIOSByte\fP, \fBVistaIOShort\fP, \fBVistaIOLong\fP,
+\fBVistaIOFloat\fP, \fBVistaIODouble\fP, \fBVistaIOBoolean\fP, or \fBVistaIOString\fP.
+\fBVistaIOParseCommand\fP encountered a table entry describing an option of type
 \fItype\fP instead.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

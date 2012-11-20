@@ -1,28 +1,28 @@
-.ds Vn 2.1
-.TH VSameImage 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOSameImage 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VSameImageRange, VSameImageSize \- test whether two images share certain properties
+VistaIOSameImageRange, VistaIOSameImageSize \- test whether two images share certain properties
 .SH SYNOPSIS
 .nf
-.B "#include <vista/VImage.h>"
+.B "#include <vista/VistaIOImage.h>"
 .PP
 .ft B
-VBoolean VSameImageRange (\fIimage1\fP, \fIimage2\fP)
+VistaIOBoolean VistaIOSameImageRange (\fIimage1\fP, \fIimage2\fP)
 .RS
-VImage \fIimage1\fP, \fIimage2\fP;
+VistaIOImage \fIimage1\fP, \fIimage2\fP;
 .RE
 .PP
 .ft B
-VBoolean VSameImageSize (\fIimage1\fP, \fIimage2\fP)
+VistaIOBoolean VistaIOSameImageSize (\fIimage1\fP, \fIimage2\fP)
 .RS
-VImage \fIimage1\fP, \fIimage2\fP;
+VistaIOImage \fIimage1\fP, \fIimage2\fP;
 .RE
 .fi
 .SH ARGUMENTS
 .IP "\fIimage1\fP, \fIimage2\fP" 10n
 Specify the images whose properties are to be compared.
 .SH DESCRIPTION
-\fBVSameImageRange\fP returns
+\fBVistaIOSameImageRange\fP returns
 .SB TRUE
 if \fIimage1\fP and \fIimage2\fP have the
 same number of bands, rows, and columns, and the same pixel representation;
@@ -30,16 +30,16 @@ it returns
 .SB FALSE
 otherwise.
 .PP
-\fBVSameImageSize\fP returns 
+\fBVistaIOSameImageSize\fP returns 
 .SB TRUE
 if \fIimage1\fP and \fIimage2\fP have the same
 number of bands, rows, and columns; it returns 
 .SB FALSE
 otherwise.
 .PP
-Both are macros defined in \fB<vista/VImage.h>\fP.
+Both are macros defined in \fB<vista/VistaIOImage.h>\fP.
 .SH "SEE ALSO"
-.BR VImage (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOImage (3Vi),
+.BR VistaIOlib (7Vi)
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

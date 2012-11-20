@@ -1,16 +1,16 @@
-.ds Vn 2.1
-.TH VDecodeAttrValue 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIODecodeAttrValue 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VDecodeAttrValue \- decode an attribute value
+VistaIODecodeAttrValue \- decode an attribute value
 .SH SYNOPSIS
 .nf
 .ft B
-VBoolean VDecodeAttrValue (\fIstr\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+VistaIOBoolean VistaIODecodeAttrValue (\fIstr\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
 .RS
-VStringConst \fIstr\fP;
-VDictEntry *\fIdict\fP;
-VRepnKind \fIrepn\fP;
-VPointer \fIvalue\fP;
+VistaIOStringConst \fIstr\fP;
+VistaIODictEntry *\fIdict\fP;
+VistaIORepnKind \fIrepn\fP;
+VistaIOPointer \fIvalue\fP;
 .RE
 .SH ARGUMENTS
 .IP \fIstr\fP 10n
@@ -22,25 +22,25 @@ as a keyword, or it may be
 .
 .IP \fIrepn\fP
 Specifies the representation in which the value is to be returned. It must 
-be one of \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP, 
-\fBVShortRepn\fP, \fBVLongRepn\fP, \fBVFloatRepn\fP, \fBVDoubleRepn\fP, 
-\fBVBooleanRepn\fP, or \fBVStringRepn\fP. 
+be one of \fBVistaIOBitRepn\fP, \fBVistaIOUByteRepn\fP, \fBVistaIOSByteRepn\fP, 
+\fBVistaIOShortRepn\fP, \fBVistaIOLongRepn\fP, \fBVistaIOFloatRepn\fP, \fBVistaIODoubleRepn\fP, 
+\fBVistaIOBooleanRepn\fP, or \fBVistaIOStringRepn\fP. 
 .IP \fIvalue\fP
 Specifies a location at which the value is be returned.
 .SH DESCRIPTION
-\fBVDecodeAttrValue\fP decodes the string \fIstr\fP, returning its value in 
+\fBVistaIODecodeAttrValue\fP decodes the string \fIstr\fP, returning its value in 
 the form specified by \fIrepn\fP. 
 .PP
 If a dictionary, \fIdict\fP, has been provided, the routine determines 
 whether \fIstr\fP is a keyword defined in the dictionary. If so, it uses 
 the value associated with that keyword rather than the attribute's original 
-value. (See the \fBVdictionary\fP(3Vi) manual page.) 
+value. (See the \fBVistaIOdictionary\fP(3Vi) manual page.) 
 .PP
 The value obtained directly from \fIstr\fP, or indirectly via the 
 dictionary, is converted to the representation \fIrepn\fP and then stored 
 at the location pointed to by \fIvalue\fP.
 .SH "RETURN VALUES"
-\fBVDecodeAttrValue\fP returns
+\fBVistaIODecodeAttrValue\fP returns
 .SB TRUE
 if successful and
 .SB FALSE
@@ -49,19 +49,19 @@ cannot be interpreted as a value of the type indicated by \fIrepn\fP.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VEncodeAttrValue (3Vi),
-.BR VGetAttr (3Vi),
-.BR Vattribute (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOEncodeAttrValue (3Vi),
+.BR VistaIOGetAttr (3Vi),
+.BR VistaIOattribute (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH NOTES
 The \fIvalue\fP argument must point to sufficient storage to contain a 
-value of the representation requested. Neither \fBVDecodeAttrValue\fP nor 
+value of the representation requested. Neither \fBVistaIODecodeAttrValue\fP nor 
 the C compiler can automatically check that this is so. 
 .SH DIAGNOSTICS
 .IP "``Can't decode to \fIrepn\fP.''"
-The \fIrepn\fP argument is not one of \fBVBitRepn\fP, \fBVUByteRepn\fP, ...,
-\fBVBooleanRepn\fP, or \fBVStringRepn\fP. 
+The \fIrepn\fP argument is not one of \fBVistaIOBitRepn\fP, \fBVistaIOUByteRepn\fP, ...,
+\fBVistaIOBooleanRepn\fP, or \fBVistaIOStringRepn\fP. 
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

@@ -1,14 +1,14 @@
-.ds Vn 2.1
-.TH VOpenFile 3Vi "6 June 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOOpenFile 3Vi "6 June 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VOpenInputFile, VOpenOutputFile \- open file with error checking
+VistaIOOpenInputFile, VistaIOOpenOutputFile \- open file with error checking
 .SH SYNOPSIS
 .nf
 .B "#include <vista/file.h>"
 .PP
-.B "FILE *VOpenInputFile (VStringConst \fIfilename\fP, VBoolean \fInofail\fP);"
+.B "FILE *VistaIOOpenInputFile (VistaIOStringConst \fIfilename\fP, VistaIOBoolean \fInofail\fP);"
 .PP
-.B "FILE *VOpenOutputFile (VStringConst \fIfilename\fP, VBoolean \fInofail\fP);"
+.B "FILE *VistaIOOpenOutputFile (VistaIOStringConst \fIfilename\fP, VistaIOBoolean \fInofail\fP);"
 .fi
 .SH ARGUMENTS
 .IP \fIfilename\fP 10n
@@ -43,10 +43,10 @@ or doesn't return at all (depending on \fInofail\fP).
 .SH "SEE ALSO"
 .na
 .nh
-.BR VIdentifyFiles (3Vi),
-.BR VReadObjects (3Vi),
-.BR VWriteObjects (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOIdentifyFiles (3Vi),
+.BR VistaIOReadObjects (3Vi),
+.BR VistaIOWriteObjects (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS

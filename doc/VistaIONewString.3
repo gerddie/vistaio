@@ -1,7 +1,7 @@
-.ds Vn 2.1
-.TH VNewString 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIONewString 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VNewString \- allocate a copy of a string
+VistaIONewString \- allocate a copy of a string
 .SH SYNOPSIS
 .PP
 .ft B
@@ -12,39 +12,39 @@ VNewString \- allocate a copy of a string
 .PP
 .ft B
 .nf
-VString VNewString (\fIstring\fP)
+VistaIOString VistaIONewString (\fIstring\fP)
 .ft
 .RS
-.B VString \fIstring\fP;
+.B VistaIOString \fIstring\fP;
 .RE
 .nf
 .SH ARGUMENTS
 .IP \fIstring\fP 10n
 Specifies a null-terminated string.
 .SH DESCRIPTION
-\fBVNewString\fP copies a string into a newly-allocated block of memory,
-which it obtains using \fBVMalloc\fP(3Vi). It is a convenience macro that
-calls \fBVMalloc\fP(3Vi) with the following arguments specified:
+\fBVistaIONewString\fP copies a string into a newly-allocated block of memory,
+which it obtains using \fBVistaIOMalloc\fP(3Vi). It is a convenience macro that
+calls \fBVistaIOMalloc\fP(3Vi) with the following arguments specified:
 .PP
 .RS
 .nf
-.B (strcpy (VMalloc (strlen (\fIstring\fP) + 1), \fIstring\fP))
+.B (strcpy (VistaIOMalloc (strlen (\fIstring\fP) + 1), \fIstring\fP))
 .fi
 .RE
 .SH "RETURN VALUES"
-\fBVNewString\fP returns a pointer to the new copy of the string.
+\fBVistaIONewString\fP returns a pointer to the new copy of the string.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VMalloc (3Vi),
-.BR VNew (3Vi),
-.BR VError (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOMalloc (3Vi),
+.BR VistaIONew (3Vi),
+.BR VistaIOError (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS
-If there is insufficient memory to allocate the new block, \fBVNewString\fP
-terminates by calling \fBVError\fP(3Vi) with the message ``Out of memory''.
+If there is insufficient memory to allocate the new block, \fBVistaIONewString\fP
+terminates by calling \fBVistaIOError\fP(3Vi) with the message ``Out of memory''.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>
 .SH ACKNOWLEDGMENT

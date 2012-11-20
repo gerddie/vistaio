@@ -1,17 +1,17 @@
-.ds Vn 2.1
-.TH VSetWarningHandler 3Vi "16 February 1994" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOSetWarningHandler 3Vi "16 February 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VSetWarningHandler \- register a procedure to be called on any nonfatal error
+VistaIOSetWarningHandler \- register a procedure to be called on any nonfatal error
 .SH SYNOPSIS
 .nf
 .ft B
-void VSetWarningHandler (VWarningHandler *\fIhandler\fP)
+void VistaIOSetWarningHandler (VistaIOWarningHandler *\fIhandler\fP)
 .PP
 .ft B
-typedef void VWarningHandler (VStringConst \fImessage\fP);
+typedef void VistaIOWarningHandler (VistaIOStringConst \fImessage\fP);
 .PP
 .ft B
-void VDefaultWarning (VStringConst \fImessage\fP);
+void VistaIODefaultWarning (VistaIOStringConst \fImessage\fP);
 .fi
 .SH ARGUMENTS
 .IP \fIhandler\fP 10n
@@ -19,19 +19,19 @@ Specifies the new nonfatal error handler.
 .IP \fImessage\fP 10n
 Specifies a null-terminated error message string to be reported. 
 .SH DESCRIPTION
-\fBVSetWarningHandler\fP registers a procedure, \fIhandler\fP, as the
-nonfatal error handler. That procedure is called by \fBVWarning\fP(3Vi) or
-by \fBVSystemWarning\fP(3Vi) to report any nonfatal error. When called it
+\fBVistaIOSetWarningHandler\fP registers a procedure, \fIhandler\fP, as the
+nonfatal error handler. That procedure is called by \fBVistaIOWarning\fP(3Vi) or
+by \fBVistaIOSystemWarning\fP(3Vi) to report any nonfatal error. When called it
 is passed a string, \fImessage\fP, containing a textual description of the
 error.
 .PP
 Only one procedure serves as the nonfatal error handler at any one time.
 .PP
-Prior to the first call to \fBVSetWarningHandler\fP, the procedure
-\fBVDefaultWarning\fP is the nonfatal error handler. This procedure will
+Prior to the first call to \fBVistaIOSetWarningHandler\fP, the procedure
+\fBVistaIODefaultWarning\fP is the nonfatal error handler. This procedure will
 write the error message to the standard error stream, then return.
-\fBVDefaultWarning\fP can be re-established as the fatal error handler at
-any time by calling \fBVSetWarningHandler\fP with a
+\fBVistaIODefaultWarning\fP can be re-established as the fatal error handler at
+any time by calling \fBVistaIOSetWarningHandler\fP with a
 .SB NULL
 argument.
 .SH EXAMPLES
@@ -44,7 +44,7 @@ stream and to a log file, one might do the following:
 FILE *log_file;
 
 void MyWarningHandler (message)
-	VStringConst message;
+	VistaIOStringConst message;
 {
 	fputs (message, stderr);
 	fputs (message, log_file);
@@ -54,14 +54,14 @@ int main (\fR...\fP)
 {
 	\fR...\fP
 	log_file = fopen ("log", "w");
-	VSetWarningHandler (MyWarningHandler);
+	VistaIOSetWarningHandler (MyWarningHandler);
 	\fR...\fP
 }
 .fi
 .RE
 .SH "SEE ALSO"
-.BR VWarning (3Vi),
-.BR VSetErrorHandler (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOWarning (3Vi),
+.BR VistaIOSetErrorHandler (3Vi),
+.BR VistaIOlib (7Vi)
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

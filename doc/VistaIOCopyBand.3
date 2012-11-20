@@ -1,15 +1,15 @@
-.ds Vn 2.1
-.TH VCopyBand 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOCopyBand 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VCopyBand \- copy image pixel values
+VistaIOCopyBand \- copy image pixel values
 .SH SYNOPSIS
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .PP
-.B VBoolean VCopyBand (\fIsrc\fP, \fIsrc_band\fP, \fIdest\fP, \fIdest_band\fP)
+.B VistaIOBoolean VistaIOCopyBand (\fIsrc\fP, \fIsrc_band\fP, \fIdest\fP, \fIdest_band\fP)
 .RS
-.B VImage \fIsrc\fP, \fIdest\fP;
-.B VBand \fIsrc_band\fP, \fIdest_band\fP;
+.B VistaIOImage \fIsrc\fP, \fIdest\fP;
+.B VistaIOBand \fIsrc_band\fP, \fIdest_band\fP;
 .RE
 .fi
 .SH ARGUMENTS
@@ -17,7 +17,7 @@ VCopyBand \- copy image pixel values
 Specifies the image to copy from (the source image).
 .IP \fIsrc_band\fP
 May specify a particular band of the source image to copy from,
-or may be \fBVAllBands\fP to indicate that all bands of the source
+or may be \fBVistaIOAllBands\fP to indicate that all bands of the source
 image should be copied.
 .IP \fIdest\fP
 Specifies the image to copy to (the destination image). 
@@ -25,15 +25,15 @@ Specifies the image to copy to (the destination image).
 Specifies the first band of the destination image to receive
 pixel values from the source image.
 .SH DESCRIPTION
-\fBVCopyBand\fP copies pixel values from a source image, \fIsrc\fP,
+\fBVistaIOCopyBand\fP copies pixel values from a source image, \fIsrc\fP,
 to a destination image, \fIdest\fP. The two images must have the
 same pixel representation, number of rows, and number of columns.
 .PP
-If \fIsrc_band\fP is the constant \fBVAllBands\fP, all of the source 
+If \fIsrc_band\fP is the constant \fBVistaIOAllBands\fP, all of the source 
 image's bands
 of pixel values are copied to the destination image beginning at
 the destination band \fIdest_band\fP. The destination image must have
-at least \fIdest_band\fP\ +\ \fBVImageNBands\fP\ (\fIsrc\fP)\ -\ 1 bands.
+at least \fIdest_band\fP\ +\ \fBVistaIOImageNBands\fP\ (\fIsrc\fP)\ -\ 1 bands.
 .PP
 Otherwise, \fIsrc_band\fP specifies a single band of the source image.
 That band is copied to a single band, \fIdest_band\fP, of the destination
@@ -43,7 +43,7 @@ bands.
 Unlike most Vista image processing routines, this one does not copy the
 source image's attributes to the destination image.
 .SH "RETURN VALUES"
-\fBVCopyImage\fP returns 
+\fBVistaIOCopyImage\fP returns 
 .SB TRUE
 if it is successful
 and 
@@ -52,10 +52,10 @@ otherwise.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VCopyImage (3Vi),
-.BR VCombineBands (3Vi),
-.BR VImage (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOCopyImage (3Vi),
+.BR VistaIOCombineBands (3Vi),
+.BR VistaIOImage (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH DIAGNOSTICS

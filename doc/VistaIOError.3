@@ -1,19 +1,19 @@
-.ds Vn 2.1
-.TH VError 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOError 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VError, VSystemError \- report a fatal error
+VistaIOError, VistaIOSystemError \- report a fatal error
 .SH SYNOPSIS
 .nf
 .ft B
-void VError (\fIformat\fP \fR[\fB, \fIarg\fR...]\fB)
+void VistaIOError (\fIformat\fP \fR[\fB, \fIarg\fR...]\fB)
 .RS
-VStringConst \fIformat\fP;
+VistaIOStringConst \fIformat\fP;
 .RE
 .PP
 .ft B
-void VSystemError (\fIformat\fR \fR[\fB, \fIarg\fR...]\fB)
+void VistaIOSystemError (\fIformat\fR \fR[\fB, \fIarg\fR...]\fB)
 .RS
-VStringConst \fIformat\fP;
+VistaIOStringConst \fIformat\fP;
 .RE
 .fi
 .SH ARGUMENTS
@@ -23,11 +23,11 @@ Specifies the format of the message that is to be reported.
 .IP \fIarg\fP 10n
 Specifies values that are to be included in the formatted message.
 .SH DESCRIPTION
-\fBVError\fP is called to report a fatal error. It composes an error
+\fBVistaIOError\fP is called to report a fatal error. It composes an error
 message and passes it to the fatal error handler, which typically prints
-the message and terminates the program (see \fBVSetErrorHandler\fP(3Vi)).
+the message and terminates the program (see \fBVistaIOSetErrorHandler\fP(3Vi)).
 .PP
-The message composed by \fBVError\fP is of the form:
+The message composed by \fBVistaIOError\fP is of the form:
 .PP
 .RS
 .nf
@@ -36,14 +36,14 @@ The message composed by \fBVError\fP is of the form:
 .RE
 .PP
 \fIProgram\fP, the program's name, is included if it has been previously 
-established with a call to \fBVSetProgramName\fP. \fIDescription\fP is a
+established with a call to \fBVistaIOSetProgramName\fP. \fIDescription\fP is a
 string that has been formatted by \fBsprintf\fP using format, plus
 all of the optional arguments, \fIarg\fP.
 .PP
-\fBVSystemError\fP is identical to \fBVError\fP except that it also
+\fBVistaIOSystemError\fP is identical to \fBVistaIOError\fP except that it also
 includes in the message a phrase based on the current value of the external
 variable \fBerrno\fP, which is used by system calls to return diagnostic
-codes. The message composed by \fBVSystemError\fP is of the form:
+codes. The message composed by \fBVistaIOSystemError\fP is of the form:
 .PP
 .RS
 .nf
@@ -54,11 +54,11 @@ codes. The message composed by \fBVSystemError\fP is of the form:
 \fIDiagnostic\fP is a short phrase corresponding to the value of \fBerrno\fP.
 This phrase is drawn from the table used by \fBperror\fP(3).
 .SH "RETURN VALUES"
-Neither \fBVError\fP nor \fBVSystemError\fP ever return.
+Neither \fBVistaIOError\fP nor \fBVistaIOSystemError\fP ever return.
 .SH EXAMPLES
 In this first example, the values of \fBattr_name\fP, \fBact_value\fP,
 and \fBexp_value\fP are incorporated into the error message produced by
-\fBVError\fP.
+\fBVistaIOError\fP.
 .PP
 .RS
 .nf
@@ -67,29 +67,29 @@ char *attr_name;
 float act_value, exp_value;
 
 if (act_value != exp_value)
-	VError ("MyRoutine: Attribute %s is %f rather than %f",
+	VistaIOError ("MyRoutine: Attribute %s is %f rather than %f",
 		attr_name, act_value, exp_value);
 .fi
 .RE
 .PP
 In this second example, the diagnostic phrase corresponding
 to the value of \fBerrno\fP is incorporated into the error message produced by
-\fBVSystemError\fP.
+\fBVistaIOSystemError\fP.
 .PP
 .RS
 .nf
 .ft B
 if (ioctl (fd, request, arg) == -1)
-	VSystemError ("MyRoutine: ioctl failed");
+	VistaIOSystemError ("MyRoutine: ioctl failed");
 .fi
 .RE
 .SH "SEE ALSO"
 .na
 .nh
-.BR VWarning (3Vi),
-.BR VSetErrorHandler (3Vi),
-.BR VSetProgramName (3Vi),
-.BR Vlib (7Vi),
+.BR VistaIOWarning (3Vi),
+.BR VistaIOSetErrorHandler (3Vi),
+.BR VistaIOSetProgramName (3Vi),
+.BR VistaIOlib (7Vi),
 .BR perror (3)
 .ad
 .hy

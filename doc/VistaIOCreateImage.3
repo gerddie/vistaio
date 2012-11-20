@@ -1,23 +1,23 @@
-.ds Vn 2.1
-.TH VCreateImage 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOCreateImage 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VCreateImage, VCreateImageLike \- allocate memory for an image
+VistaIOCreateImage, VistaIOCreateImageLike \- allocate memory for an image
 .SH SYNOPSIS
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .PP
 .ft B
-VImage VCreateImage (\fInbands\fP, \fInrows\fP, \fIncolumns\fP, \
+VistaIOImage VistaIOCreateImage (\fInbands\fP, \fInrows\fP, \fIncolumns\fP, \
 \fIpixel_repn\fP)
 .RS
 int \fInbands\fP, \fInrows\fP, \fIncolumns\fP;
-VRepnKind \fIpixel_repn\fP;
+VistaIORepnKind \fIpixel_repn\fP;
 .RE
 .fi
 .PP
-.B VImage VCreateImageLike (\fIsrc\fP)
+.B VistaIOImage VistaIOCreateImageLike (\fIsrc\fP)
 .RS
-.B VImage \fIsrc\fP;
+.B VistaIOImage \fIsrc\fP;
 .RE
 .SH ARGUMENTS
 .IP \fInbands\fP 10n
@@ -28,12 +28,12 @@ Specifies the number of rows in the new image.
 Specifies the number of columns in the new image.
 .IP \fIpixel_repn\fP
 Specifies the representation of pixels in the new image.
-It must be one of \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP,
-\fBVShortRepn\fP, \fBVLongRepn\fP, \fBVFloatRepn\fP, or \fBVDoubleRepn\fP.
+It must be one of \fBVistaIOBitRepn\fP, \fBVistaIOUByteRepn\fP, \fBVistaIOSByteRepn\fP,
+\fBVistaIOShortRepn\fP, \fBVistaIOLongRepn\fP, \fBVistaIOFloatRepn\fP, or \fBVistaIODoubleRepn\fP.
 .IP \fIsrc\fP
 Specifies an image having the properties desired of the new image.
 .SH DESCRIPTION
-\fBVCreateImage\fP allocates memory for a new image with the specified
+\fBVistaIOCreateImage\fP allocates memory for a new image with the specified
 properties. Fields of the new image structure are initialized, as are the
 image's row and band indices. Its pixel values, however, are not
 initialized.  The new image is given an empty attribute list. The size of
@@ -41,7 +41,7 @@ its frame band interpretation dimension (\fBnframes\fP) is set to
 \fInbands\fP; its other band interpretation dimensions (\fBnviewpoints\fP,
 \fBncolors\fP, and \fBncomponents\fP) are set to 1.
 .PP
-\fBVCreateImageLike\fP allocates memory for a new image with the same
+\fBVistaIOCreateImageLike\fP allocates memory for a new image with the same
 properties as \fIsrc\fP (same pixel representation, and same numbers of
 bands, rows, and columns).  Fields of the new image structure are
 initialized, as are the image's row and band indices. Its pixel values,
@@ -55,8 +55,8 @@ structure. Otherwise, ther return
 .SB \fBNULL\c
 .
 .SH "SEE ALSO"
-.BR VDestroyImage (3Vi),
-.BR VImage (3Vi)
+.BR VistaIODestroyImage (3Vi),
+.BR VistaIOImage (3Vi)
 .SH DIAGNOSTICS
 .IP "``Invalid number of \fIdimension\fP: \fIvalue\fP.''"
 \fIDimension \fP is ``bands'', ``rows'', or ``columns''. 

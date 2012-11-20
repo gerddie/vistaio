@@ -1,26 +1,26 @@
-.ds Vn 2.1
-.TH VCombineBands 3Vi "24 April 1993" "Vista Version \*(Vn"
+.ds VistaIOn 2.1
+.TH VistaIOCombineBands 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
-VCombineBands, VCombineBandsVa \- copy a series of image bands
+VistaIOCombineBands, VistaIOCombineBandsVa \- copy a series of image bands
 .SH SYNOPSIS
 .PP
 .nf
-.B #include <vista/VImage.h>
+.B #include <vista/VistaIOImage.h>
 .PP
 .ft B
-VImage VCombineBands (\fInels\fP, \fIsrc_images\fP, \fIsrc_bands\fP, \
+VistaIOImage VistaIOCombineBands (\fInels\fP, \fIsrc_images\fP, \fIsrc_bands\fP, \
 \fIdest\fP)
 .RS
 int \fInels\fP;
-VImage \fIsrc_images\fP[], \fIdest\fP;
-VBand \fIsrc_bands\fP[];
+VistaIOImage \fIsrc_images\fP[], \fIdest\fP;
+VistaIOBand \fIsrc_bands\fP[];
 .RE
 .PP
 .ft B
-VImage VCombineBandsVa (\fIdest\fP, \fIsrc_image1\fP, \fIsrc_band1\fP, \fR...\fP, NULL)
+VistaIOImage VistaIOCombineBandsVa (\fIdest\fP, \fIsrc_image1\fP, \fIsrc_band1\fP, \fR...\fP, NULL)
 .RS
-VImage \fIdest\fP, \fIsrc_image1\fP;
-VBand \fIsrc_band1\fP;
+VistaIOImage \fIdest\fP, \fIsrc_image1\fP;
+VistaIOBand \fIsrc_band1\fP;
 .RE
 .fi
 .SH ARGUMENTS
@@ -32,7 +32,7 @@ the source images).
 .IP \fIsrc_bands\fP
 Specifies an array identifying the bands to be copied.
 Each element may specify a particular band of the corresponding source
-image, or it may be the constant \fBVAllBands\fP to indicate that all 
+image, or it may be the constant \fBVistaIOAllBands\fP to indicate that all 
 bands of the corresponding source image should be copied.
 .IP \fIdest\fP
 May specify an image to copy to (i.e., the destination image), or
@@ -44,19 +44,19 @@ Specifies the first image containing a band or bands to be copied (i.e.,
 the first source image).
 .IP \fIsrc_band1\fP
 May specify a particular band of \fIsrc_image1\fP to be copied, or it may
-be the constant \fBVAllBands\fP to indicate that all bands of
+be the constant \fBVistaIOAllBands\fP to indicate that all bands of
 \fIsrc_image1\fP should be copied.
 .SH DESCRIPTION
-\fBVCombineBands\fP copies bands of pixel values from various source images
+\fBVistaIOCombineBands\fP copies bands of pixel values from various source images
 to a destination image. The source images are listed in the array
 \fIsrc_images\fP, and the band(s) to be copied from each is listed in the
 array \fIsrc_bands\fP. Both arrays must have \fInels\fP elements.
-A \fIsrc_bands\fP element may be \fBVAllBands\fP, indicating
+A \fIsrc_bands\fP element may be \fBVistaIOAllBands\fP, indicating
 that all bands of the corresponding source image are to be copied, or
 it may be a particular band number, indicating that only that band
 of the corresponding source image is to be copied.
 .PP
-\fBVCombineBandsVa\fP is similiar except that the source images and band numbers
+\fBVistaIOCombineBandsVa\fP is similiar except that the source images and band numbers
 are specified by a variable-length argument list. The argument list contains
 one or more pairs of the form \fIsrc_image1\fP, \fIsrc_band1\fP, and it is terminated
 by the value 
@@ -87,10 +87,10 @@ otherwise.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VCopyBand (3Vi),
-.BR VCopyImage (3Vi),
-.BR VImage (3Vi),
-.BR Vlib (7Vi)
+.BR VistaIOCopyBand (3Vi),
+.BR VistaIOCopyImage (3Vi),
+.BR VistaIOImage (3Vi),
+.BR VistaIOlib (7Vi)
 .ad
 .hy
 .SH NOTES
