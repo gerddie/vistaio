@@ -1,0 +1,58 @@
+.ds Vn 2.1
+.TH VWriteImages 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VWriteImages \- write a series of images to a stream
+.SH SYNOPSIS
+.nf
+.ft B
+#include \fB<stdio>\fP
+#include \fB<vista/file.h>\fP
+#include \fB<vista/VImage.h>\fP
+.PP
+.ft B
+VBoolean VWriteImages (\fIfile\fP, \fIattributes\fP, \fInimages\fP, \fIimages\fP)
+.RS
+FILE *\fIfile\fP;
+VAttrList \fIattributes\fP;
+int \fInimages\fP;
+VImage \fIimages\fP[\fInimages\fP];
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIfile\fP 10n
+Specifies the open stream to which the images should be written.
+.IP \fIattributes\fP 10n
+Specifies a list of attributes to be written to the stream.
+.IP \fInimages\fP 10n
+Specifies the number of images to be written.
+.IP \fIimages\fP 10n
+Specifies the images to be written.
+.SH DESCRIPTION
+\fBVWriteImages\fP writes a series of images to an open stream as a Vista 
+data file. Images \fIimages\fP[0] through \fIimages\fP[\fInimages\fP\ \-\ 1]
+are written, followed by any attributes in the list \fIattributes\fP.
+The \fIattributes\fP argument may be 
+.SB NULL
+if only images are to be written.
+.SH "RETURN VALUES"
+\fBVWriteImages\fP returns
+.SB TRUE
+if successful and
+.SB FALSE
+otherwise. In the case of an error, data written to the stream may 
+be incomplete.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VWriteFile (3Vi),
+.BR VWriteObjects (3Vi),
+.BR VWriteUbcIff (3Vi),
+.BR stdio (3),
+.br
+.BR VImage (3Vi),
+.BR Vfile (5Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

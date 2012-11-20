@@ -1,0 +1,230 @@
+.ds Vn 2.1
+.TH VIdentifyFiles 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VIdentifyFiles \- identify files specified by command line arguments
+.SH SYNOPSIS
+.nf
+.B #include <vista/option.h>
+.PP
+.ft B
+VBoolean VIdentifyFiles (\fInoptions\fP, \fIoptions\fP, \fIkeyword\fP, \
+\fIargc\fP, \fIargv\fP, \fIfd\fP)
+.RS
+int \fInoptions\fP;
+VOptionDescRec \fIoptions\fP[\fInoptions\fP];
+VStringConst \fIkeyword\fP;
+int *\fIargc\fP;
+char **\fIargv\fP;
+int \fIfd\fP;
+.fi
+.SH ARGUMENTS
+.IP \fInoptions\fP 10n
+Specifies the number of entries in the table of option descriptors.
+.IP \fIoptions\fP
+Specifies the location of the table of option descriptors.
+.IP \fIkeyword\fP
+Specifies the option keyword that is used on the command line to 
+specify filenames.
+.IP \fIargc\fP
+Specifies the number of command line arguments to be parsed, and returns 
+the number of arguments that were not recognized as valid filenames.
+.IP \fIargv\fP
+Specifies a vector of command line arguments to be parsed, and returns
+a vector of the arguments that were not recognized as valid filenames.
+.IP \fIfd\fP
+May specify an open file descriptor that should be checked to ensure it
+corresponds to a file or pipe if no filenames are explicitly given by
+command line arguments. Or it may be -1 to indicate that no such
+checking should be done.
+.SH DESCRIPTION
+By convention, a Vista program that reads one or more files can be told
+of those files in any of three ways:
+.RS 2n
+.IP (a) 4n
+the filenames can be supplied as arguments to a command line option (e.g.,
+\fBvxview\ -in\fP\ \fIfile1\ file2\fP\ ...);
+.IP (b)
+the filenames can be supplied as command line arguments not associated
+with any particular option (e.g., \fBvxview\fP\ \fIfile1\ file2\fP\ ...);
+or
+.IP (c)
+a file can be directed to the program's standard input stream
+(e.g., \fBvxview\ <\fP\ \fIfile1\fP).
+.RE
+.PP
+In parsing a command's arguments, these alternatives are considered in
+order. That is, first the program looks for an appropriate command line
+option (e.g., \fB-in\fP). If no such option has been specified, it checks
+for command line arguments not associated with any option. If those are
+also absent, it tries to read its file from the standard input stream.
+.PP
+Similarly, an output file may be specified using a command line
+option (e.g., \fBvconvolve\ -out\fP \fIfile1\fP), or, by omitting the 
+option and directing the program's standard output stream
+(e.g., \fBvconvolve\ >\fP\ \fIfile1\fP).
+.PP
+\fBVIdentifyFiles\fP identifies a program's input files or output files 
+according to this convention. It is called after \fBVParseCommand\fP(3Vi) 
+has parsed any command line arguments that can be identified as options, 
+leaving the remaining arguments in \fI*argc\fP and \fIargv\fP. 
+\fBVIdentifyFiles\fP is then called once to identify any input files, and 
+perhaps again to identify an output file. 
+.PP
+The \fInoptions\fP and \fIoptions\fP parameters specify the table used 
+earlier by \fBVParseCommand\fP to parse command line options. (See 
+\fBVoption\fP(3Vi) for details.) The \fIargc\fP and \fIargv\fP parameters 
+specify a list of command line arguments that \fBVParseCommand\fP has 
+returned as unparsed (including the program's name, which should be first 
+in this list). The \fIkeyword\fP parameter specifies the command line 
+option that may be used to specify filenames (e.g., ``in'' or ``out''), 
+absent any ``-'' prefix. The entry in the option table for the option 
+specified by \fIkeyword\fP must (a) refer to a ``found'' flag that 
+\fBVParseCommand\fP can use to record whether or not the option is present 
+on the command line, and (b) refer to a location where the option's 
+arguments can be stored. 
+.PP
+\fBVIdentifyFiles\fP consults the ``found'' flag to determine whether the
+option was present on the command line. If it was, \fBVIdentifyFiles\fP
+returns immediately. Otherwise, it then examines \fI*argc\fP to determine
+whether an appropriate number of unparsed command line arguments exist. If
+there are a sufficient number of arguments present, they are interpreted as
+filenames and stored at the location indicated by the option table entry
+.PP
+Finally, if no filenames are found either as arguments to a -\fIkeyword\fP
+option or as additional command line arguments, \fBVIdentifyFiles\fP
+considers the possibility that a file has been attached to a file
+descriptor such as the standard input or output stream. You may wish to
+ensure that a file is allowed to default to one of these streams only if
+the stream has been associated with a file or pipe, and not a terminal.  In
+that case, pass as \fIfd\fP the file descriptor that will serve as the
+default source or destination of the file, and \fBVIdentifyFiles\fP will
+check that it is indeed associated with a file or pipe. Otherwise, pass -1
+for \fIfd\fP and it will not perform this check.
+.SH "RETURN VALUES"
+\fBVIdentifyFiles\fP returns 
+.SB TRUE
+if it finds one or more files specified on the
+command line, and if the number of files specified is compatible with the
+\fInumber\fP field of the option table entry. It returns 
+.SB FALSE
+if no files were specified, if the wrong number of files were specified, or
+if the file would default to a file descriptor but the file descriptor \fIfd\fP
+is not associated with a file or pipe.
+.PP
+On successful return \fBVIdentifyFiles\fP will have eliminated, from the
+list represented by \fI*argc\fP and \fIargv\fP, any command line arguments
+that it identified as filenames. Also, the filenames found will be stored
+at the location indicated by the option table entry for 
+\fIkeyword\fP. A default to the standard input or output stream will be
+identified by a filename of ``-''.
+.SH EXAMPLE
+The following fragment is drawn from a program that reads one or more
+files and writes a single file. The input files may be specified with a
+\fB-in\fP option, as extra command line arguments, or by being directed to
+the standard input stream. The output file may be specified with a
+\fB-out\fP option, and, if that option is not present, the file will be
+written to the standard output stream regardless of whether it is associated
+with a file or a terminal.
+.PP
+.nf
+.ft B
+VArgVector in_filenames;
+VStringConst out_filename;
+VBoolean in_found, out_found;
+
+VOptionDescRec options[] = {
+	{ "in", VStringRepn, 0, & in_filenames, & in_found, 
+		NULL, "Input file(s)" },
+	{ "out", VStringRepn, 1, & out_filename, & out_found, 
+		NULL, "Output file" }
+};
+
+main (int argc, char **argv)
+{
+	/* Parse command line options: */
+	if (! VParseCommand (VNumber (options), options,
+					& argc, argv)) {
+Usage:		VReportUsage (argv[0], VNumber (options), options,
+					"file1 file2...");
+		exit (1);
+	}
+
+	/* Identify input file(s): */
+	if (! VIdentifyFiles (VNumber (options), options, "in",
+					& argc, argv, 0))
+		goto Usage;
+
+	/* Any remaining unparsed arguments are erroneous: */
+	if (argc > 1) {
+		VReportBadArgs (argc, argv);
+		goto Usage;
+	}
+
+	/* Identify output file: */
+	if (! VIdentifyFiles (VNumber (options), options, "out",
+					& argc, argv, -1))
+		goto Usage;
+
+	/* Open and process each input file: */
+	for (i = 0; i < in_filenames.number; i++) {
+		filename = ((VStringConst *) in_filename.vector)[i];
+		if (strcmp (filename, "-") != 0) {
+			f = fopen (filename, "r");
+			if (f == NULL)
+				VError ("Unable to open file \\"%s\\"", filename);
+		} else f = stdin;
+
+		\fR...\fP
+
+	}
+}
+.ft
+.fi
+.SH "SEE ALSO"
+.na
+.nh
+.BR VOpenFile (3Vi),
+.BR VParseCommand (3Vi),
+.BR VReportBadArgs (3Vi),
+.BR VReportUsage (3Vi),
+.br
+.BR Voption (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH DIAGNOSTICS
+\fBVIdentifyFiles\fP reports errors in command line options by printing 
+directly to the standard error stream. Error reports include the program name
+obtained from \fIargv\fP[0]. The following messages may be produced:
+.TP
+``\fIn\fP files must be specified by -\fIkeyword\fP or extra command arguments''
+The program requires that \fIn\fP files be specified (\fIn\fP > 1). Neither a 
+-\fIkeyword\fP option was present on the command line, nor were there at least
+\fIn\fP unparsed arguments that could be interpreted as filenames.
+.TP
+``No file specified by -\fIkeyword\fP, extra command argument, or <''
+The program requires that at least one file be specified, and it 
+can be specified in any of three ways. However, it wasn't specified 
+in any form.
+.PP
+In addition, \fBVIdentifyFiles\fP may invoke \fBVError\fP with the
+following messages:
+.TP
+``Option -\fIkeyword\fP not defined in option table''
+The \fIkeyword\fP parameter specified a keyword not defined in the 
+option table.
+.TP
+``No value storage for option -\fIkeyword''\fP
+The \fIkeyword\fP parameter specifies an option table entry whose \fIvalue\fP
+field is 
+.SB NULL\c
+.
+.TP
+``No "found" flag for option -\fIkeyword''\fP
+The \fIkeyword\fP parameter specifies an option table entry whose 
+\fIfound\fP field doesn't point to a dedicated \fBVBoolean\fP variable.
+.TP
+``Failed to fstat() fd \fIfd\fP''
+An \fBfstat\fP() call failed on the supplied file descriptor, \fIfd\fP.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

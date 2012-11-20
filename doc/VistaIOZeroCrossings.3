@@ -1,0 +1,98 @@
+'\" t
+.ds Vn 2.1
+.TH VZeroCrossings 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VZeroCrossings \- mark zero crossings in an image
+.SH SYNOPSIS
+.nf
+.B "#include <vista/VImage.h>"
+.PP
+.ft B
+VImage VZeroCrossings (\fIsrc\fP, \fIdest\fP, \fIband\fP)
+.RS
+VImage \fIsrc\fP, \fIdest\fP;
+VBand \fIband\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIsrc\fP 10n
+Specifies the source image in which zero crossings are to be located.
+.IP \fIdest\fP
+May specify a destination image to contain the results, or
+.SB NULL
+to indicate that a new destination image should be created.
+.IP \fIband\fP
+May specify a particular band of the source image to be processed,
+or may be the constant \fBVAllBands\fP to indicate that all bands 
+of the source image should be processed.
+.SH DESCRIPTION
+\fBVZeroCrossings\fP marks the zero crossings of an image. It examines
+pixels of the source image, \fIsrc\fP, and sets destination pixels
+according to whether they correspond to zero crossings. If a destination
+pixel does not lie on a zero crossing, it is set to zero. If it does, it is
+set to the gradient of the zero crossing. The gradient is simply computed
+as the magnitude of the difference between pixels on each side of the zero
+crossing.
+.PP
+If the \fIdest\fP argument is
+.SB NULL\c
+, \fBVZeroCrossings\fP creates a destination image with the appropriate
+properties. Otherwise, \fIdest\fP specifies an existing destination image to
+be used.
+.PP
+The destination image is smaller than the source image by one row and one
+column. It has either the same number of bands as the source image (if
+\fIband\fP is \fBVAllBands\fP), or a single band (if \fIband\fP specifies
+a particular band). Its pixel representation depends on that of the
+source image as defined by the following table:
+.PP
+.TS
+center ;
+c c .
+Source Representation	Destination Representation
+_
+\fBVBit\fP	\fInot supported\fP
+\fBVUByte\fP	\fInot supported\fP
+\fBVSByte\fP	\fBVUByte\fP
+\fBVShort\fP	\fBVLong\fP
+\fBVLong\fP	\fBVLong\fP
+\fBVFloat\fP	\fBVFloat\fP
+\fBVDouble\fP	\fBVDouble\fP
+.TE
+.SH "RETURN VALUES"
+\fBVZeroCrossings\fP returns the destination image if successful and 
+.SB NULL
+otherwise.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VCanny (3Vi),
+.BR VLinkImage (3Vi),
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.hy
+.ad
+.SH NOTES
+\fBVZeroCrossings\fP labels the destination image as a gradient image by
+giving it the attributes \fBncomponents:\ 1\fP and 
+\fBcomponent_interp: gradient\fP.
+.SH DIAGNOSTICS
+.IP "``Band \fIband\fP referenced in image of \fInbands\fP band(s).''"
+The \fIband\fP argument is invalid given the number of bands in \fIsrc\fP.
+.IP "``Source image has unsigned pixels.''"
+How can an image of unsigned pixels have zero crossings? Such source images
+are not supported.
+.IP "``Destination image has \fIdest_nbands\fP bands; \fIsrc_nbands\fP expected.''"
+A destination image was specified but it has the wrong number of bands.
+If \fIband\fP is \fBVAllBands\fP, the destination image must have the same
+number of bands as the source image. Otherwise, it must have a single
+band.
+.IP "``Destination image has \fIdest_prop\fP \fIproperty\fP; \fIsrc_prop\fP expected.''"
+\fIProperty\fP is one of ``pixels'', ``rows'', or ``columns''.
+A destination image was specified but it does not have the same
+pixel representation, number of rows, and number of columns as the
+source image.
+.SH AUTHORS
+.na
+.nh
+David\ Lowe\ <lowe@cs.ubc.ca>,\ Art\ Pope\ <pope@cs.ubc.ca>

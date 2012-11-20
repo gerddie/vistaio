@@ -1,0 +1,47 @@
+.ds Vn 2.1
+.TH VGetPixel 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VGetPixel, VSetPixel \- get and set pixel values
+.SH SYNOPSIS
+.nf
+.B #include <vista/VImage.h>
+.PP
+.ft B
+VDouble VGetPixel (\fIimage\fP, \fIband\fP, \fIrow\fP, \fIcolumn\fP)
+.RS
+VImage \fIimage\fP;
+int \fIband\fP, \fIrow\fP, \fIcolumn\fP;
+.RE
+.PP
+.ft B
+void VSetPixel (\fIimage\fP, \fIband\fP, \fIrow\fP, \fIcolumn\fP, \fIvalue\fP)
+.RS
+VImage \fIimage\fP;
+int \fIband\fP, \fIrow\fP, \fIcolumn\fP;
+VDouble \fIvalue\fP;
+.fi
+.SH ARGUMENTS
+.IP \fIimage\fP 10n
+Specifies the image containing the pixel.
+.IP "\fIband\fP, \fIrow\fP, \fIcolumn\fP"
+Specify the band, row, and column of the pixel.
+.IP \fIvalue\fP
+Specifies the pixel's new value.
+.SH DESCRIPTION
+\fBVGetPixel\fP fetches the value of the specified pixel and returns it as
+a \fBVDouble\fP, casting it from the image's actual pixel representation
+if necessary.
+.PP
+\fBVSetPixel\fP sets the specified pixel to \fIvalue\fP, casting it to 
+the image's actual pixel representation if necessary.
+.SH "RETURN VALUES"
+\fBVGetPixel\fP returns the value of the specified pixel.
+.SH "SEE ALSO"
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.SH NOTES
+If the image is known to have a particular pixel representation then the
+\fBVPixel\fP macro (see \fBVImage\fP(3Vi)) can be used, instead, yielding
+greater efficiency.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

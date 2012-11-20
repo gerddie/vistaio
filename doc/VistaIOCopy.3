@@ -1,0 +1,36 @@
+.ds Vn 2.1
+.TH VCopy 3Vi "19 January 1993" "Vista Version \*(Vn"
+.SH NAME
+VCopy, VZero - copy or zero an array
+.SH SYNTAX
+.nf
+.B "#include <vista/mu.h>"
+.PP
+.ft B
+void VCopy (\fIfrom\fP, \fIto\fP, \fInels\fP)
+.RS
+\fItype\fP *\fIfrom\fP, *\fIto\fP;
+size_t \fInels\fP;
+.RE
+.PP
+.ft B
+void VZero (\fIarray\fP, \fInels\fP)
+.RS
+\fItype\fP *\fIarray\fP;
+size_t \fInels\fP;
+.RE
+.fi
+where \fItype\fP is any C type.
+.SH ARGUMENTS
+.IP "\fIfrom\fP, \fIto\fP, \fIarray\fP" 10n
+Each specifies a pointer to the first element of an array of \fItype\fP.
+.IP \fInels\fP
+Specifies the number of array elements.
+.SH DESCRIPTION
+The \fBVCopy\fP macro copies \fInels\fP array elements (each of type
+\fItype\fP) from \fIfrom\fP to \fIto\fP.
+.PP
+The \fBVZero\fP macro writes zeros into \fInels\fP array elements (each of
+type \fItype\fP) beginning at \fIarray\fP.
+.SH "SEE ALSO"
+.BR Vlib (7Vi)

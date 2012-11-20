@@ -1,0 +1,226 @@
+.ds Vn 2.1
+.TH Voption 3Vi "6 June 1994" "Vista Version \*(Vn"
+.SH NAME
+Voption \- table describing command line options
+.SH SYNOPSIS
+.PP
+.nf
+.B #include <vista/option.h>
+.fi
+.PP
+.nf
+.ft B
+.ta 25n
+typedef struct {
+.ft
+.RS
+.ft B
+VStringConst keyword;	/* keyword signaling option */
+VRepnKind repn;	/* type of value supplied by option */
+int number;	/* number of values supplied */
+VPointer value;	/* location for storing value(s) */
+VBoolean *found;	/* whether optional arg found */
+VDictEntry *dict;	/* optional dict of value keywords */
+VStringConst blurb;	/* on-line help blurb */
+.ft
+.RE
+.B } VOptionDescRec;
+.fi
+.PP
+.nf
+.B typedef struct {
+.RS
+.ft B
+int number;	/* number of arguments */
+VPointer vector;	/* vector of arguments */
+.ft
+.RE
+.B } VArgVector;
+.fi
+.PP
+.nf
+.B #define VRequiredOpt ((VBoolean *) \fR...\fP)
+.B #define VOptionalOpt ((VBoolean *) \fR...\fP)
+.fi
+.DT
+.ft
+.fi
+.SH DESCRIPTION
+Routines for parsing command line options and reporting help information on
+command usage require a description of a program's valid options. That
+description is a table whose entries are \fBVOptionDescRec\fP records.
+Each table entry describes a single option. This manual page describes how
+table entries should be set up to describe options of various forms.
+.PP
+An option appears in a command line as an argument of the form 
+-\fIkeyword\fP; it may be followed by additional arguments that supply 
+values for the option. The \fBkeyword\fP field of a \fBVOptionDescRec\fP 
+contains the keyword used to identify that option (without the leading 
+``\fB-\fP'' character). On a command line this keyword can be entered in 
+abbreviated form as long as the abbreviation is unambiguous \(em i.e., it 
+matches the first characters of only a single option keyword. 
+.PP
+An option is used to communicate one or more values to a program. These
+values are of the type indicated by the \fBrepn\fP field, which contains
+one of the constants \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP,
+\fBVShortRepn\fP, \fBVLongRepn\fP, \fBVFloatRepn\fP, \fBVDoubleRepn\fP,
+\fBVBooleanRepn\fP, or \fBVStringRepn\fP.
+.PP
+The \fBnumber\fP field indicates how many values are to be entered with
+the option. If \fBnumber\fP is positive, exactly that many values are to be
+supplied on the command line. If \fBnumber\fP is zero, any number of
+values may be supplied (including none at all).
+.PP
+The \fBvalue\fP field specifies where the entered values are to be stored.
+If \fBnumber\fP is positive, \fBvalue\fP points to a vector of \fBnumber\fP
+entries of the type indicated by the \fBrepn\fP field. (E.g., if
+\fBnumber\fP is 2 and \fBrepn\fP is \fBVShortRepn\fP then \fBvalue\fP
+points to a vector of two \fBVShort\fP's.)
+.PP
+If \fBnumber\fP is zero, \fBvalue\fP points to a variable of type
+\fBVArgVector\fP, which is a structure that describes a variable length
+vector. This structure needn't be initialized prior to parsing a program's
+command line options; rather, its fields are set during parsing to indicate
+the number of values actually found and the location of memory allocated
+to contain those values.  The structure's \fBnumber\fP field specifies the
+number of values found.  Its \fBvector\fP field points to a vector of
+\fBnumber\fP elements of the type specified by \fBrepn\fP.
+.PP
+The \fBfound\fP field of a \fBVOptionDescRec\fP indicates whether an option
+is required (must be specified on the command line) or optional (need not
+be specified). To signal a required option (oxymoron noted), \fBfound\fP
+should contain the value \fBVRequiredOpt\fP. To signal an optional option
+(redundancy noted), \fBfound\fP should contain \fBVOptionalOpt\fP, or the
+address of a \fBVBoolean\fP variable. When a command line is parsed the
+\fBVBoolean\fP variable will be set to
+.SB TRUE
+if the option is encountered, and 
+.SB FALSE
+if it is not.
+.PP
+An option's values are entered as command line arguments in a form that
+depends on the option's \fBrepn\fP field:
+.IP "\fBVBitRepn\fP through \fBVLongRepn\fP"
+Each value may be an integer number with an optional sign. If its first
+digit is 0, it is assumed to be an octal number. If it begins with \fB0x\fP
+or \fB0X\fP (following any sign), it is assumed to be a hexadecimal number.
+Otherwise, it is assumed to be a decimal number.
+.IP "\fBVFloatRepn\fP or \fBVDoubleRepn\fP"
+Each value may be a floating-point number.
+.IP \fBVBooleanRepn\fP
+Each value may be one of the keywords \fBfalse\fP, \fBno\fP, or \fBoff\fP
+(representing 
+.SB FALSE\c
+, or \fBtrue\fP, \fByes\fP, or \fBon\fP (representing 
+.SB TRUE\c
+. In addition, if a Boolean option requires a single value and the option
+keyword is not followed by a recognized value keyword, a value of 
+.SB TRUE
+is assumed.
+.IP \fBVStringRepn\fP
+Each value is any command line argument not starting with a single 
+``\fB-\fP'' character. However, an argument consisting only of ``\fB-\fP'' 
+is interpreted as a string value, and an argument beginning with at least 
+two ``\fB-\fP'' characters is interpreted as a string value beginning with 
+one fewer ``\fB-\fP''. These conventions allow string values to be 
+distinguished from options while still permitting entry of any string value 
+desired. 
+.PP
+One may specify a dictionary of keywords to supplement the recognized forms
+of option values. Dictionaries are described by the \fBVdictionary\fP(3Vi)
+manual page. The \fBdict\fP field of the \fBVOptionDescRec\fP points to
+such a dictionary, or it contains
+.SB NULL
+if there is no dictionary of keywords for the option's
+values. The example below demonstrates how a dictionary is supplied.
+.PP
+Finally, the \fBblurb\fP field of the \fBVOptionDescRec\fP contains a short
+string describing the purpose of the option or the form of its value 
+arguments. This string will be included when any help information about 
+command usage is printed.
+.SH EXAMPLES
+Consider a program that accepts the following options:
+.RS 2n
+.IP "\fB-in\fP" 10n
+Optional, and followed by any number of string values.
+.IP "\fB-out\fP"
+Optional, and followed by a single string value.
+.IP "\fB-color\fP"
+Required, and followed by one of the keywords \fBred\fP, \fBgreen\fP, or
+\fBblue\fP.
+.IP "\fB-scale\fP"
+Optional, and followed by two floating-point numbers. If not specified, 
+this option's values should both default to 1.0. 
+.IP "\fB-iff\fP"
+An optional boolean flag.
+.RE
+.PP
+The following code fragment defines an option table for this program:
+.PP
+.nf
+.ft B
+.RS
+static VArgVector in_args;
+static VString out_arg;
+static VLong color_arg;
+static VFloat scale_args[2] = { 1.0, 1.0 };
+static VBoolean iff_arg = FALSE;
+static VBoolean in_found, out_found;
+.PP
+.ft B
+static VDictEntry dictionary[] = {
+.RS
+{ "red", 0 },
+{ "blue", 1 },
+{ "green", 2 },
+{ NULL }
+.RE
+};
+.PP
+.ft B
+static VOptionDescRec options[] = {
+.RS
+{ "in", VStringRepn, 0, & in_args, & in_found, NULL,
+    "Image to be processed" },
+{ "out", VStringRepn, 1, & out_arg, & out_found, NULL,
+    "File to receive result" },
+{ "color", VLongRepn, 1, & color, VRequiredOpt, & dictionary,
+    "Color band" },
+{ "scale", VFloatRepn, 2, scale_args, VOptionalOpt, NULL,
+    "Scaling in each dimension" },
+{ "iff", VBooleanRepn, 1, & iff_arg, VOptionalOpt, NULL,
+    "Output in UBC IFF format" }
+.RE
+};
+.RE
+.fi
+.PP
+This program may be invoked with any of the following commands:
+.RS
+.PP
+\fBprogram -color red\fP
+.PP
+\fBprogram -in file1 file2 -color red\fP
+.PP
+\fBprogram -in - -out file3 -color blue -scale 0.5 0.5\fP
+.PP
+\fBprogram -color green -iff\fP
+.PP
+\fBprogram -iff false -color red\fP
+.RE
+.SH "SEE ALSO"
+.nh
+.na
+.BR VParseCommand (3Vi),
+.BR VPrintOptions (3Vi),
+.BR VPrintOptionValue (3Vi),
+.BR VReportBadArgs (3Vi),
+.BR VReportUsage (3Vi),
+.BR VIdentifyFiles (3Vi),
+.br
+.BR Vdictionary (3Vi),
+.BR Vlib (7Vi)
+.hy
+.ad
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

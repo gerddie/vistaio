@@ -1,0 +1,61 @@
+.ds Vn 2.1
+.TH VSetBandInterp 3Vi "2 June 1994" "Vista Version \*(Vn"
+.SH NAME
+VSetBandInterp \- set image band interpretation attributes
+.SH SYNOPSIS
+.nf
+.B #include <vista/VImage.h>
+.fi
+.HP 10n
+.na
+.nh
+.ft B
+VBoolean VSetBandInterp (VImage\ \fIimage\fP,
+VBandInterp\ \fIframe_interp\fP, int\ \fInframes\fP,
+VBandInterp\ \fIviewpoint_interp\fP, int\ \fInviewpoints\fP,
+VBandInterp\ \fIcolor_interp\fP, int\ \fIncolors\fP,
+VBandInterp\ \fIcomponent_interp\fP, int\ \fIncomponents\fP);
+.ft
+.hy
+.nf
+.SH ARGUMENTS
+.IP \fIimage\fP 10n
+Specifies the image whose attributes are to be set.
+.IP "\fIframe_interp\fP, \fInframes\fP"
+.PD 0
+.IP "\fIviewpoint_interp\fP, \fInviewpoints\fP"
+.IP "\fIcolor_interp\fP, \fIncolors\fP"
+.IP "\fIcomponent_interp\fP, \fIncomponents\fP"
+.PD
+Specify values for various band interpretation attributes.
+.SH DESCRIPTION
+\fBVSetBandInterp\fP provides a convenient way to simultaneously set all of
+the standard attributes describing how an image's bands are to be
+interpreted.
+.PP
+The \fIframe_interp\fP, \fIviewpoint_interp\fP, \fIcolor_interp\fP and
+\fIcomponent_interp\fP arguments supply values for the
+correspondingly-named attributes. If any of these values is the constant
+\fBVBandInterpNone\fP, the corresponding attribute is omitted from the
+image.
+.PP
+Similarly, the \fInframes\fP, \fInviewpoints\fP, \fIncolors\fP, and
+\fIncomponents\fP arguments supply values for other correspondingly-named
+attributes. The product of these values should equal the total number of
+bands in the image.
+.SH "RETURN VALUES"
+\fBVSetBandInterp\fP returns 
+.SB TRUE
+if successful, and 
+.SB FALSE
+on encountering an error.
+.SH "SEE ALSO"
+.BR VBandInterp (3Vi),
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.SH DIAGNOSTICS
+.IP "``No. bands conflicts with no. of frames, etc.''"
+The product of the numbers of frames, viewpoints, colors, and components
+specified is isn't equal to the number of bands in the image.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

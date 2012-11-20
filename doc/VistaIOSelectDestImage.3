@@ -1,0 +1,133 @@
+.ds Vn 2.1
+.TH VSelectDestImage 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VSelectDestImage \- select a destination for an image operation
+.SH SYNOPSIS
+.nf
+.B "#include <vista/VImage.h>"
+.PP
+.ft B
+VImage VSelectDestImage (\fIroutine\fP, \fIdest\fP, \fInbands\fP, \
+\fInrows\fP, \fIncolumns\fP, \fIpixel_repn\fP)
+.RS
+VStringConst \fIroutine\fP;
+VImage \fIdest\fP;
+int \fInbands\fP, \fInrows\fP, \fIncolumns\fP;
+VRepnKind \fIpixel_repn\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIroutine\fP 10n
+Names the routine that is using \fBVSelectDestImage\fP to check its arguments. 
+This name is included in any error messages produced by \fBVSelectDestImage\fP.
+.IP \fIdest\fP
+Is the destination image specified for the operation. 
+If \fIdest\fP is 
+.SB NULL
+a suitable destination image will be created. 
+Otherwise the image \fIdest\fP will be checked to
+ensure it has the appropriate properties.
+.IP \fInbands\fP
+Specifies the number of bands the destination image should have.
+.IP \fInrows\fP
+Specifies the number of rows the destination image should have.
+.IP \fIncolumns\fP
+Specifies the number of columns the destination image should have.
+.IP \fIpixel_repn\fP
+Specifies the pixel representation that the destination image should have.
+.SH DESCRIPTION
+\fBVSelectDestImage\fP establishes a destination for an image operation. If 
+a destination image is supplied to \fBVSelectDestImage\fP, it checks that 
+the image has the properties specified by \fInbands\fP, \fInrows\fP, 
+\fIncolumns\fP, and \fIpixel_repn\fP. Otherwise, it creates a suitable 
+destination image. In both cases, the destination image is returned. 
+.SH "RETURN VALUES"
+\fBVSelectDestImage\fP returns the destination image if an appropriate one
+exists or can be created; it returns 
+.SB NULL
+otherwise.
+.SH EXAMPLES
+There are two recipes for using \fBVSelectDestImage\fP in a routine that 
+performs an image processing operation. One is suitable for operations that 
+can be carried out with the same image serving as both the source and 
+destination images (e.g., thresholding each pixel value). A routine 
+performing such an operation has the form: 
+.PP
+.nf
+.ft B
+VImage ProcessImage (src, dest, \fR...\fP)
+VImage src, dest;
+{
+	VImage result;
+
+	/* Establish a destination image, result: */
+	result = VSelectDestImage ("ProcessImage", dest, \fR...\fP);
+	if (! result)
+		return NULL;       /* dest has wrong properties */
+
+	\fRPerform the operation\fP
+
+	/* On successful completion: */
+	VCopyImageAttrs (src, result);
+	return result;
+
+	/* On failure: */
+	if (result != dest)
+		VDestroyImage (result);
+	return NULL;
+}
+.ft
+.fi
+.PP
+Another recipe is needed if the source and destination images must differ
+\(em i.e., if the operation's results cannot be stored directly back into
+the source image as they are being computed. (This might be the case, for
+example, if several source pixel values are needed to compute each
+destination pixel value.)  The routine must ensure that a separate image is
+used to store the operation's result even when a single image is supplied
+as both the source and destination of the operation. It has this form:
+.PP
+.nf
+.ft B
+VImage ProcessImage (src, dest, \fR...\fP)
+VImage src, dest;
+{
+	VImage result;
+
+	/* Establish a destination image, result: */
+	result = VSelectDestImage ("ProcessImage", dest, \fR...\fP);
+	if (! result)
+		return NULL;       /* dest has wrong properties */
+	if (src == dest)
+		result = VCreateImage (\fR...\fP);
+
+	\fRPerform the operation\fP
+
+	/* On successful completion: */
+	if (src == dest) {
+		VCopyImagePixels (result, dest, VAllBands);
+		VDestroyImage (result);
+		return dest;
+	} else {
+		VCopyImageAttrs (src, result);
+		return result;
+	}
+
+	/* On failure: */
+	if (result != dest)
+		VDestroyImage (result);
+	return NULL;
+}
+.ft
+.fi
+.SH "SEE ALSO"
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.SH DIAGNOSTICS
+.IP "``\fIRoutine\fP: Destination image has \fIactual\fP \fIproperty\fP; \fIreqd\fP expected.''"
+\fIProperty\fP is one of ``bands'', ``rows'', ``columns'', or ``pixels''. 
+The destination image does not have the correct size or pixel 
+representation. \fIRoutine\fP will be the name supplied by the 
+\fIroutine\fP argument. 
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

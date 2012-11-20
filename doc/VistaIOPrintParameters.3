@@ -1,0 +1,54 @@
+.ds Vn 2.1
+.TH VPrintParameters 3Vi "6 June 1994" "Vista Version \*(Vn"
+.SH NAME
+VPrintParameters \- print the values of a set of parameters
+.SH SYNOPSIS
+.B #include <vista/option.h>
+.HP 10n
+.na
+.nh
+.ft B
+void VPrintParameters (FILE\ *\fIf\fP, 
+int\ \fInparams\fP,
+VOptionDescRec\ \fIparams\fP[],
+VPointer\ \fIvalues\fP);
+.ft
+.hy
+.ad
+.SH ARGUMENTS
+.IP \fIf\fP 10n
+Specifies the stream to which the parameters are to be printed.
+.IP \fInparams\fP
+Specifies the number of entries in the table of option descriptors.
+.IP \fIparams\fP
+Specifies a table of option descriptors. Each entry describes one parameter.
+.IP \fIvalues\fP
+Specifies the location of the structure containing the parameter values.
+.SH DESCRIPTION
+\fBVPrintParameters\fP prints the names, descriptions, and values of a set
+of parameters.
+.PP
+The parameters are described by a table of option descriptors (see
+\fBVoption\fP(3Vi)). The \fBvpdc\fP(1Vi) man page shows how such a table
+can be created automatically from the contents of a parameter definition
+file.
+.PP
+Parameter values must be stored in the structure pointed to by \fIvalues\fP.
+The offset at which a parameter lies within that structure must be supplied
+by the \fIvalue\fP field of the parameter's \fIparams\fP table entry.
+Appropriate definitions having this property are produced by the \fBvpdc\fP
+compiler.
+.SH "SEE ALSO"
+.na
+.nh
+.BR vpdc (1Vi),
+.BR Voption (3Vi),
+.BR VLoadParameters (3Vi),
+.BR VParseParamOptions (3Vi),
+.BR VReportValidParamOptions (3Vi),
+.BR Vpd (5Vi),
+.BR Vlib (7Vi)
+.hy
+.ad
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

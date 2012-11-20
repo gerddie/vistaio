@@ -1,0 +1,82 @@
+.ds Vn 2.1
+.TH VMalloc 3Vi "3 June 1994" "Vista Version \*(Vn"
+.SH NAME
+VMalloc, VCalloc, VRealloc, VFree \- memory allocation functions
+.SH SYNOPSIS
+.nf
+.ft B
+VPointer VMalloc (size_t \fIsize\fP);
+.PP
+.ft B
+VPointer VCalloc (size_t \fInum\fP, size_t \fIelsize\fP);
+.PP
+.ft B
+VPointer VRealloc (VPointer \fIptr\fP, size_t \fIsize\fP);
+.PP
+.ft B
+void VFree (VPointer \fIptr\fP);
+.fi
+.SH ARGUMENTS
+.IP \fIsize\fP 10n
+Specifies the number of bytes desired.
+.IP \fInum\fP
+Specifies the number of array elements desired.
+.IP \fIelsize\fP
+Specifies the size of an array element, in bytes.
+.IP \fIptr\fP
+Specifies a pointer to the old storage or to the block of storage that is 
+to be freed. 
+.SH DESCRIPTION
+The \fBVMalloc\fP function returns a pointer to a block of storage of at least 
+\fIsize\fP bytes. It returns 
+.SB NULL\c
+, however, if \fIsize\fP is zero.
+.PP
+The \fBVCalloc\fP function allocates space for \fInum\fP array elements of
+the size \fIelsize\fP, initializing the space to zero bits. Like
+\fBVMalloc\fP, it returns
+.SB NULL
+if asked to allocate zero space.
+.PP
+The \fBVRealloc\fP function changes a block of storage, pointed to by 
+\fIptr\fP, to be of size \fIsize\fP (possibly moving it). If necessary, it 
+allocates a new block at a different location, copies the old contents (or 
+as much as will fit) into the new block, and then frees the old block. If 
+\fIptr\fP is 
+.SB NULL\c
+, \fBVRealloc\fP allocates the new storage without copying the old contents;
+that is, it simply calls \fBVMalloc\fP. If \fIsize\fP is zero, it frees
+storage pointed to by \fIptr\fP and returns
+.SB NULL.
+.PP
+The \fBVFree\fP function frees storage, allowing it to be reused. If
+\fIptr\fP is 
+.SB NULL\c
+, \fBVFree\fP has no effect.
+.SH "RETURN VALUES"
+\fBVMalloc\fP, \fBVCalloc\fP, and \fBVRealloc\fP each return a pointer to 
+the allocated storage. 
+.PP
+\fBVFree\fP does not return a value.
+.SH "SEE ALSO"
+.na
+.nh
+.BR malloc (3),
+.BR VNew (3Vi),
+.BR VNewString (3Vi),
+.BR VError (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH DIAGNOSTICS
+If there is insufficient memory to allocate a requested block,
+\fBVMalloc\fP, \fBVCalloc\fP, or \fBVRealloc\fP will terminate by calling
+\fBVError\fP(3Vi) with the message ``Memory allocation failure''.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>
+.SH ACKNOWLEDGMENT
+These functions and this manual page are based on similar ones
+included in the X Toolkit Intrinsics, which is 
+Copyright 1985, 1986, 1987, 1988
+Massachusetts Institute of Technology, Cambridge, Massachusetts,
+and Digital Equipment Corporation, Maynard, Massachusetts.

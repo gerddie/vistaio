@@ -1,0 +1,104 @@
+.ds Vn 2.1
+.TH VParseFilterCmd 3Vi "28 January 1994" "Vista Version \*(Vn"
+.SH NAME
+VParseFilterCmd \- parse command line options and filenames
+.SH SYNOPSIS
+.nf
+.ft B
+#include <vista/option.h>
+.PP
+.ft B
+void VParseFilterCmd (\fInoptions\fP, \fIoptions\fP, \fIargc\fP, \fIargv\fP, \
+\fIinput\fP, \fIoutput\fP)
+.RS
+int \fInoptions\fP, \fIargc\fP;
+VOptionDescRec \fIoptions\fP[\fInoptions\fP];
+char **\fIargv\fP;
+FILE **\fIinput\fP;
+FILE **\fIoutput\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fInoptions\fP 10n
+Specifies the number of entries in the table of option descriptors.
+.IP \fIoptions\fP
+Specifies the location of the table of option descriptors.
+.IP \fIargc\fP
+Specifies the number of command line arguments to be parsed.
+.IP \fIargv\fP
+Specifies a vector of command line arguments to be parsed.
+.IP \fIinput\fP
+Returns a pointer to the input file. The input file is set as specified in 
+the command line, or else it defaults to the standard input stream. If 
+\fIinput\fP is 
+.SB NULL\c
+, then it is assumed that no input file is required. Note that the file is 
+opened and ready for input when \fBVParseFilterCmd\fP returns. 
+.IP \fIoutput\fP
+Similar to \fIinput\fP, except that it returns the output file, which
+defaults to the standard output stream.
+.SH DESCRIPTION
+\fBVParseFilterCmd\fP is used to parse command line options and filenames 
+for most Vista programs. It implements the standard Vista command line 
+options \fB-help\fP, \fB-in\fP, and \fB-out\fP, and reports all errors in 
+parsing or in attempting to open the input and output files. Its major 
+limitation is that it allows at most one input file and one output file. 
+.PP
+Options particular to a program are specified in a table given by the 
+\fInoptions\fP and \fIoptions\fP arguments. See the \fBVoption\fP(3Vi) 
+manual page for the form of this table. 
+.PP
+The \fIargc\fP and \fIargv\fP arguments to \fBVParseFilterCmd\fP are 
+normally identical to the parameters of the program's \fBmain\fP function. 
+.PP
+\fBVParseFilterCmd\fP uses the first command line argument, \fIargv\fP[0], 
+in a call to \fBVSetProgramName\fP(3Vi) to record the program's name for 
+future error messages. 
+.PP
+The remaining command line arguments are then processed sequentially. An 
+argument is examined to determine whether it is an initial substring of any 
+option keyword defined in the options table. If so, arguments following the 
+keyword may be parsed as values associated with the option. The values are 
+stored at locations specified by the options table. 
+.PP
+In addition to the options specified by the options table, 
+\fBVParseFilterCmd\fP recognizes the options \fB-help\fP, \fB-in\fP, and 
+\fB-out\fP. When it encounters \fB-help\fP, \fBVParseFilterCmd\fP prints 
+the command usage information and exits. The \fB-in\fP and \fB-out\fP 
+arguments are used to identify input and output files, as is standard for 
+Vista programs. 
+.SH "SEE ALSO"
+.na
+.nh
+.BR VParseCommand (3Vi),
+.BR VIdentifyFiles (3Vi),
+.BR Voption (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH NOTES
+\fBVParseFilterCmd\fP may modify the \fIargv\fP vector of command line
+arguments.
+.SH DIAGNOSTICS
+\fBVParseFilterCmd\fP reports errors in command line options by printing 
+directly to the standard error stream. For all major errors, 
+\fBVParseFilterCmd\fP also exits the program with a status code of 1 rather 
+than return to the caller. Error reports include the program name obtained 
+from \fIargv\fP[0]. The following messages may be produced: 
+.IP "``Duplicate -\fIoption\fP option; ignoring all but last.''"
+The specified option was found more than once on the command line.
+.IP "``Option -\fIoption\fP has incorrect value \fIarg\fP.''"
+One of the values associated with -\fIoption\fP on the command line
+is \fIarg\fP, which is of the wrong form with respect to the type of value
+required.
+.IP "``Option -\fIoption\fP requires \fIm\fP value(s); found only \fIn\fP.''"
+The option keyword -\fIoption\fP must be followed by \fIn\fP values on the
+command line. Only \fIm\fP were present, however.
+.IP "``Option -\fIoption\fP must be specified.''"
+The option -\fIoption\fP is required but it was not present on the command
+line.
+.IP "``Unable to open input/output file \fIfilename\fP.''"
+An error was detected while attempting to open a file named on the command 
+line. 
+.SH AUTHOR
+David Lowe <lowe@cs.ubc.ca>

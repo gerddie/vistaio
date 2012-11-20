@@ -1,0 +1,62 @@
+.ds Vn 2.1
+.TH VWriteFile 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VWriteFile \- write a Vista data file
+.SH SYNOPSIS
+.nf
+.ft B
+#include \fB<stdio>\fP
+#include \fB<vista/file.h>\fP
+.PP
+.ft B
+VBoolean VWriteFile (\fIfile\fP, \fIlist\fP)
+.RS
+FILE *\fIfile\fP;
+VAttrList \fIlist\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIfile\fP 10n
+Specifies the open stream to which the data file should be written.
+.IP \fIlist\fP
+Specifies the list of attributes to be written.
+.SH DESCRIPTION
+\fBVWriteFile\fP writes an attribute list as a Vista data file in the 
+format described by \fBVfile\fP(5Vi). Attributes are written in the order 
+that they appear in the list. As they are written, attribute values are 
+converted from internal form (e.g., a \fBVImage\fP data structure) to 
+external form according to the conventions described by 
+\fBVattribute\fP(3Vi) and \fBVtype\fP(3Vi). 
+.SH "RETURN VALUE"
+If \fBVWriteFile\fP is successful it returns
+.SB TRUE\c
+\&. In this case it will have written everything from the Vista data file 
+header to the last byte of binary data. If \fBVWriteFile\fP encounters an 
+error, however, it returns 
+.SB FALSE
+while perhaps leaving the file incomplete.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VWriteImages (3Vi),
+.BR VWriteObjects (3Vi),
+.BR VWriteUbcIff (3Vi),
+.BR stdio (3),
+.br
+.BR Vtype (3Vi),
+.BR Vfile (5Vi),
+.BR Vlib (7Vi)
+.hy
+.ad
+.SH NOTES
+Data is written to the stream sequentially, permitting the stream to be a 
+pipe. No rewind is performed either before writing or after.
+.SH DIAGNOSTICS
+.IP "``\fIname\fP attribute has unwriteable representation: \fIrepn\fP.''"
+The named attribute has a value that cannot be converted to external 
+form. A \fBVPointer\fP value, for example, has no external form.
+.IP "``Write to stream failed.''"
+A write to \fIfile\fP failed because of an I/O error or a corrupt data 
+structure.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

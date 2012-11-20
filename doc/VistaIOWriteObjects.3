@@ -1,0 +1,62 @@
+.ds Vn 2.1
+.TH VWriteObjects 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VWriteObjects \- write a series of objects to a stream
+.SH SYNOPSIS
+.nf
+.ft B
+#include \fB<stdio>\fP
+#include \fB<vista/file.h>\fP
+.PP
+.ft B
+VBoolean VWriteObjects (\fIfile\fP, \fIrepn\fP, \fIattributes\fP, \
+\fInobjects\fP, \fIobjects\fP)
+.RS
+FILE *\fIfile\fP;
+VRepnKind \fIrepn\fP;
+VAttrList \fIattributes\fP;
+int \fInobjects\fP;
+VPointer \fIobjects\fP[\fInobjects\fP];
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIfile\fP 10n
+Specifies the open stream to which the objects should be written.
+.IP \fIrepn\fP
+Specifies the kind of objects to be written.
+.IP \fIattributes\fP
+Specifies a list of attributes to be written to the stream.
+.IP \fInobjects\fP
+Specifies the number of objects to be written.
+.IP \fIobjects\fP
+Specifies the objects to be written.
+.SH DESCRIPTION
+\fBVWriteObjects\fP writes a series of objects to an open stream as a Vista 
+data file. The objects must be of the type specified by \fIrepn\fP.
+Objects \fIobjects\fP[0] through \fIobjects\fP[\fInimages\fP\ \-\ 1]
+are written, followed by any attributes in the list \fIattributes\fP.
+The \fIattributes\fP argument may be 
+.SB NULL
+if only the objects are to be written.
+.SH "RETURN VALUES"
+\fBVWriteObjects\fP returns
+.SB TRUE
+if successful and
+.SB FALSE
+otherwise. In the case of an error, data written to the stream may 
+be incomplete.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VOpenOutputFile (3Vi),
+.BR VWriteEdges (3Vi),
+.BR VWriteFile (3Vi),
+.BR VWriteImages (3Vi),
+.BR stdio (3),
+.br
+.BR Vfile (5Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

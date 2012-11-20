@@ -1,0 +1,111 @@
+.ds Vn 2.1
+.TH VInsertAttr 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VInsertAttr, VAppendAttr, VPrependAttr \- add an attribute to a list
+.SH SYNOPSIS
+.nf
+.ft B
+void VInsertAttr (\fIposn\fP, \fIafter\fP, \fIname\fP, \fIdict\fP, \
+\fIrepn\fP, \fIvalue\fP)
+.RS
+VAttrListPosn *\fIposn\fP;
+VBoolean \fIafter\fP;
+VStringConst \fIname\fP;
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+\fItype value\fP;
+.RE
+.PP
+.ft B
+void VAppendAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+.RS
+VAttrList \fIlist\fP;
+VStringConst \fIname\fP;
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+\fItype value\fP;
+.RE
+.PP
+.ft B
+void VPrependAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+.RS
+VAttrList \fIlist\fP;
+VStringConst \fIname\fP;
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+\fItype value\fP;
+.RE
+.PP
+.fi
+where \fItype\fP is \fBVBit\fP, \fBVUByte\fP, \fBVSByte\fP, \fBVShort\fP,
+\fBVLong\fP, \fBVFloat\fP, \fBVDouble\fP, \fBVAttrList\fP, \fBVBoolean\fP,
+\fBVBundle\fP, \fBVList\fP, \fBVPointer\fP, \fBVString\fP, \fBVEdges\fP,
+\fBVImage\fP, etc.
+.SH ARGUMENTS
+.IP \fIposn\fP 10n
+Specifies the attribute list position at which a new attribute is to be 
+inserted.
+.IP \fIafter\fP
+Specifies whether a new attribute is to be inserted before \fIposn\fP (\c
+.SB FALSE\c
+) or after \fIposn\fP (\c
+.SB TRUE\c
+).
+.IP \fIlist\fP
+Specifies the attribute list to which a new attribute is to be appended 
+or prepended.
+.IP \fIname\fP
+Specifies a name for the new attribute.
+.IP \fIdict\fP
+May specify a dictionary to be used in translating the value supplied
+to a keyword that should be stored as the attribute's value, or it may be
+.SB NULL\c
+.
+.IP \fIrepn\fP
+Specifies the representation of the new attribute value.
+.IP \fIvalue\fP
+Specifies the new attribute value.
+.SH DESCRIPTION
+These routines provide three ways of adding a new attribute to an 
+attribute list:
+.RS 2n
+.IP \(bu 2n
+\fBVInsertAttr\fP inserts the new attribute immediately before or after the
+existing attribute specified by \fIposn\fP.
+.IP \(bu
+\fBVAppendAttr\fP places the new attribute at the end of \fIlist\fP.
+.IP \(bu
+\fBVPrependAttr\fP places the new attribute at the beginning of \fIlist\fP.
+.RE
+.PP
+With the \fIdict\fP argument you can provide a dictionary for mapping 
+\fIvalue\fP to a keyword that will be stored as the attribute's value (see 
+\fBVdictionary\fP(3Vi)). For example, if you pass an attribute value of 1 
+and a dictionary that associates the value 1 with the keyword \fBubyte\fP 
+(as the dictionary\fBVRepnDict\fP does), then the string \fBubyte\fP will 
+be stored as the attribute's value. Dictionaries may be used to map both 
+numeric values and strings to keywords. If you supply a dictionary but 
+\fIvalue\fP is not mentioned in that dictionary, then \fIvalue\fP itself 
+will be stored with the attribute. 
+.PP
+If \fIvalue\fP is a number or a character string, the routine makes its own
+copy of the value as a character string for storing in the attribute. If,
+on the other hand, \fIvalue\fP is an attribute list, pointer, image, edge
+set, etc., then the routine stores a pointer in the attribute but it does
+not make a copy of the object pointed to.
+.SH "RETURN VALUES"
+As a side effect, these routines modify the attribute list referred to by
+\fIlist\fP or \fIposn\fP.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VSetAttr (3Vi),
+.BR VSetAttrValue (3Vi),
+.br
+.BR Vattribute (3Vi),
+.BR Vdictionary (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

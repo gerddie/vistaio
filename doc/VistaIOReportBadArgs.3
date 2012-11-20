@@ -1,0 +1,93 @@
+.ds Vn 2.1
+.TH VReportBadArgs 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VReportBadArgs \- report unrecognized command line arguments
+.SH SYNOPSIS
+.nf
+.ft B
+#include <vista/option.h>
+.PP
+.ft B
+void VReportBadArgs (\fIargc\fP, \fIargv\fP)
+.RS
+int \fIargc\fP;
+char **\fIargv\fP;
+.fi
+.SH ARGUMENTS
+.IP \fIargc\fP
+Specifies the number of unrecognized command line arguments.
+.IP \fIargv\fP
+Specifies a vector of unrecognized command line arguments.
+.SH DESCRIPTION
+\fBVReportBadArgs\fP is usually called after \fBVParseCommand\fP has indicated
+a problem parsing command line arguments. It prints a message listing those
+arguments that \fBVParseCommand\fP could not comprehend.
+.PP
+\fBVParseCommand\fP leaves the program name and any unrecognized arguments
+in the first \fIargc\fP entries of the \fIargv\fP vector.
+\fBVReportBadArgs\fP finds them there: it assumes that \fIargv\fP[0]
+contains the program's name, and that \fIargv\fP[1] through
+\fIargv\fP[\fIargc\fP\ \-\ 1] are the arguments that could not be parsed.
+The message it prints to the standard error stream is of the form:
+.PP
+.RS
+\fIprogram\fB: Unrecognized arguments: \fIarg1 arg2\fR ...
+.RE
+.PP
+where \fIprogram\fP is the first element of \fIargv\fP
+and \fIarg1\fP, \fIarg2\fP, etc. are the remaining elements.
+.SH EXAMPLES
+The following code fragment parses command line arguments using
+\fBVParseCommand\fP. Any arguments not recognized by \fBVParseCommand\fP
+are then parsed by some other means (e.g., by \fBXtDisplayInitialize\fP(3Xt)).
+Finally, if any arguments remain, having not been recognized during either
+parsing, they are printed along with information on the valid program
+options.
+.PP
+.nf
+.B "#include <vista/option.h>"
+.PP
+.B "static VOptionDescRec options[] = { /* option table entries */ };"
+.PP
+.ft B
+int main (int argc, char **argv)
+{
+.RS
+if (! VParseCommand (VNumber (options), options, & argc, argv))
+.RS
+goto Usage;
+.RE
+.PP
+Parse arguments remaining in argv[1] ... argv[argc - 1].
+.PP
+.ft B
+if (argc > 1) {
+.RS
+VReportBadArgs (argc, argv);
+.RE
+.RE
+Usage:
+.RS
+.RS
+VReportUsage (argv[0], VNumber (options), options, NULL);
+fprintf (stderr, "    plus any X Windows options.\\n\\n");
+exit (1);
+.RE
+}
+.PP
+\&...
+.PP
+.RE
+.B }
+.fi
+.SH "SEE ALSO"
+.na
+.nh
+.BR VParseCommand (3Vi),
+.BR VReportUsage (3Vi),
+.BR Voption (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

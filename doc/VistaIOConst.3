@@ -1,0 +1,104 @@
+.ds Vn 2.1
+.TH VConst 3Vi "26 January 1994" "Vista Version \*(Vn"
+.SH NAME
+VConst \- generate constants of the appropriate type
+.SH SYNOPSIS
+.B "VFloat VFloatConst (\fIf\fP)"
+.PP
+.B "VDouble VDoubleConst (\fIf\fP)"
+.PP
+.B "VBit VBitConst (\fIi\fP)"
+.PP
+.B "VUByte VUByteConst (\fIi\fP)"
+.PP
+.B "VSByte VSByteConst (\fIi\fP)"
+.PP
+.B "VShort VShortConst (\fIi\fP)"
+.PP
+.B "VLong VLongConst (\fIi\fP)"
+.SH ARGUMENTS
+.IP \fIf\fP 10n
+Specifies a floating-point constant.
+.IP \fIi\fP 10n
+Specifies an integer constant.
+.SH DESCRIPTION
+In expressions that get executed within inner loops, you may wish to avoid
+unnecessary coercions between the C types \fBfloat\fP and \fBdouble\fP, or
+between \fBint\fP and \fBlong\fP. By allowing you to specify constants of
+the appropriate type in a portable, platform-independent manner, these
+macros allow you to avoid unintended coercions.
+.PP
+In ANSI C, one can specify that a floating point constant is of type
+\fBfloat\fP be appending an \fBf\fP character to it. This can be used to
+avoid coercions in expressions involving other \fBfloat\fP values. For
+example, this fragment of code uses a \fBfloat\fP constant within its loop:
+.PP
+.RS
+.nf
+.ft B
+int i;
+float f = 0.0;
+
+for (i = 0; i < 10000000; i++)
+    f += 1.0f;
+.fi
+.RE
+.PP
+It runs about three times faster than this one, which uses a \fBdouble\fP
+constant:
+.PP
+.RS
+.nf
+.ft B
+int i;
+float f = 0.0;
+
+for (i = 0; i < 10000000; i++)
+    f += 1.0;
+.fi
+.RE
+.PP
+The \fBVFloatConst\fP and \fBVDoubleConst\fP macros allow you to avoid
+unnecessary coercions in expressions involving values of type \fBVFloat\fP
+and \fBVDouble\fP.  Whether or not \fBVFloat\fP and \fBVDouble\fP are
+equivalent to \fBfloat\fP and \fBdouble\fP may depend on what platform your
+code is being compiled for.  Regardless, you can generate constants of the
+appropriate type by using the \fBVFloatConst\fP and \fBVDoubleConst\fP macros.
+On a platform where \fBVFloat\fP is defined as \fBfloat\fP,
+\fBVFloatConst(1.0)\fP expands to \fB1.0f\fP; where \fBVFloat\fP is defined
+as \fBdouble\fP, it expands to \fB1.0\fP.  Similarly, \fBVDoubleConst\fP
+may or may not append an \fBf\fP character to the constant, depending on
+how \fBVDouble\fP is defined.
+.PP
+Similarly, the \fBVBitConst\fP, \fBVUByteConst\fP, \fBVSByteConst\fP,
+\fBVShortConst\fP, and \fBVLongConst\fP take an integer constant; each one,
+depending on the platform, may or may not append an \fBl\fP character to
+the constant to specify that it is of type \fBlong\fP. On platforms where
+\fBint\fP and \fBlong\fP have different representations, using these macros
+may prevent unintended coercions between the two representations.
+.PP
+So if your want your inner loops to run blindingly fast on any platform,
+you should write them like this to avoid unnecessary coercions:
+.PP
+.RS
+.nf
+.ft B
+int i;
+VFloat f = 0.0;
+
+for (i = 0; i < 10000000; i++)
+    f += VFloatConst (1.0);
+.fi
+.RE
+.SH "SEE ALSO"
+.BR VRepn (3Vi),
+.BR Vlib (7Vi)
+.SH NOTES
+The macros can be used with a C compiler that doesn't meet the ANSI standard,
+but in that case they may not eliminate all type coercions between
+\fBfloat\fP and \fBdouble\fP.
+.PP
+If you're more concerned about your code being easy to read, you may be
+better off not using these macros.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

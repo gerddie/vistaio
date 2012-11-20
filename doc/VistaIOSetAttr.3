@@ -1,0 +1,107 @@
+.ds Vn 2.1
+.TH VSetAttr 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VSetAttr \- set an attribute's value
+.SH SYNOPSIS
+.nf
+.ft B
+void VSetAttr (\fIlist\fP, \fIname\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+.RS
+VAttrList \fIlist\fP;
+VStringConst \fItype\fP;
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+\fItype value\fP;
+.RE
+.PP
+.ft B
+void VSetAttrValue (\fIposn\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+.RS
+VAttrListPosn \fIposn\fP;
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+\fItype value\fP;
+.RE
+.PP
+.fi
+where \fItype\fP, according to \fIrepn\fP, is \fBVBit\fP, \fBVUByte\fP,
+\fBVSByte\fP, \fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, \fBVDouble\fP,
+\fBVAttrList\fP, \fBVBoolean\fP, \fBVBundle\fP, \fBVList\fP,
+\fBVPointer\fP, \fBVString\fP, \fBVEdges\fP, \fBVImage\fP, etc.
+.SH ARGUMENTS
+.IP \fIlist\fP 10n
+Specifies and returns the attribute list in which an attribute
+is to be set.
+.IP \fIname\fP
+Specifies by name of the attribute to be set.
+.IP \fIposn\fP
+Specifies by position the attribute to be set.
+.IP \fIdict\fP
+May specify a dictionary to be used in translating the value supplied
+to a keyword that should be stored as the attribute's value, or it may be
+.SB NULL\c
+.
+.IP \fIrepn\fP
+Specifies the representation of the new attribute value.
+.IP \fIvalue\fP
+Specifies the new attribute value.
+.SH DESCRIPTION
+These routines both set an attribute's value, but they differ in how the 
+attribute is identified:
+.RS 2n
+.IP \(bu 2n
+\fBVSetAttr\fP sets the value of an attribute named \fIname\fP in the 
+attribute list \fIlist\fP. If \fIlist\fP does not already contain an 
+attribute named \fIname\fP then a new attribute with that name is appended 
+to it. Otherwise, only the first attribute named \fIname\fP is located and 
+changed.
+.IP \(bu
+\fBVSetAttrValue\fP sets the value of the attribute whose position within 
+an attribute list is \fIposn\fP.
+.RE
+.PP
+With the \fIdict\fP argument you can provide a dictionary for mapping 
+\fIvalue\fP to a keyword that will be stored as the attribute's value (see 
+\fBVdictionary\fP(3Vi)). For example, if you pass an attribute value of 1 
+and a dictionary that associates the value 1 with the keyword \fBubyte\fP 
+(as the dictionary\fBVRepnDict\fP does), then the string \fBubyte\fP will 
+be stored as the attribute's value. Dictionaries may be used to map both 
+numeric values and strings to keywords. If you supply a dictionary but 
+\fIvalue\fP is not mentioned in that dictionary, then \fIvalue\fP itself 
+will be stored with the attribute. 
+.PP
+If \fIvalue\fP is a number or character string, the routine makes its own
+copy of the value as a character string for storing in the attribute. If,
+on the other hand, \fIvalue\fP is an attribute list, pointer, image, edge
+set, etc., then the routine stores a pointer in the attribute but it does
+not make a copy of the object pointed to.
+.SH "RETURN VALUES"
+As a side effect, these routines modify the attribute list referred to by
+\fIlist\fP or \fIposn\fP.
+.SH EXAMPLES
+The following code fragment sets an image's name:
+.PP
+.nf
+.RS
+.B VImage image;
+.PP
+.ft B
+VSetAttr (VImageAttrList (image), VNameAttr, NULL,
+.RS
+VStringRepn, "Mona Lisa");
+.RE
+.RE
+.fi
+.SH "SEE ALSO"
+.na
+.nh
+.BR VGetAttr (3Vi),
+.BR VGetAttrValue (3Vi),
+.br
+.BR Vattribute (3Vi),
+.BR Vdictionary (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

@@ -1,0 +1,83 @@
+.ds Vn 2.1
+.TH VBandInterp 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VImageFrameInterp, VImageViewpointInterp, VImageColorInterp, VImageComponentInterp \- image band interpretation
+.SH SYNOPSIS
+.nf
+.B #include <vista/VImage.h>
+.PP
+.B VBandInterp VImageFrameInterp (VImage \fIimage\fP)
+.PP
+.B VBandInterp VImageViewpointInterp (VImage \fIimage\fP)
+.PP
+.B VBandInterp VImageColorInterp (VImage \fIimage\fP)
+.PP
+.B VBandInterp VImageComponentInterp (VImage \fIimage\fP)
+.PP
+.ft B
+.ta 4n 30n
+typedef enum {
+	VBandInterpNone,	/* no interpretation */
+	VBandInterpOther,	/* unknown interpretation */
+	VBandInterpStereoPair,	/* describing camera viewpoints */
+	VBandInterpRGB,	/* describing color channels */
+	VBandInterpComplex,	/* describing vector components */
+	VBandInterpGradient,
+	VBandInterpIntensity,
+	VBandInterpOrientation
+} VBandInterp;
+.DT
+.SH ARGUMENTS
+.IP \fIimage\fP 10n
+Specifies an image for which band interpretation information is sought.
+.SH DESCRIPTION
+These four routines return information about how an image's bands are to be 
+interpreted. Each reports on one of four band interpretation dimensions: 
+motion sequence frame, camera viewpoint, color channel, or vector 
+component. 
+.SH "RETURN VALUES"
+Each routine examines the size of its respective dimension (e.g., 
+\fBnframes\fP), plus any band interpretation attribute for its dimension 
+(e.g., \fBframe_interp\fP) and returns a value based on them. Specifically:
+.IP \(bu 2n
+if the size of the dimension is 1 and there is no band interpretation
+attribute, it returns \fBVBandInterpNone\fP
+.IP \(bu
+\fBVImageViewpointInterp\fP returns \fBVBandInterpStereoPair\fP if
+\fIimage\fP is a standard stereo pair (i.e., \fBnviewpoints:\ 2\fP and
+\fBviewpoint_interp: stereo_pair\fP)
+.IP \(bu
+\fBVImageColorInterp\fP returns \fBVBandInterpRGB\fP if \fIimage\fP is a
+standard RGB color image (i.e., \fBncolors:\ 3\fP and \fBcolor_interp:
+rgb\fP)
+.IP \(bu
+\fBVImageComponentInterp\fP returns \fBVBandInterpComplex\fP if \fIimage\fP 
+is a standard complex image (i.e., \fBncomponents:\ 2\fP and 
+\fBcomponent_interp: complex\fP) 
+.IP \(bu
+\fBVImageComponentInterp\fP returns \fBVBandInterpGradient\fP if
+\fIimage\fP is a standard gradient image (i.e., \fBncomponents:\ 1\fP or
+\fB2\fP, and \fBcomponent_interp: gradient\fP)
+.IP \(bu
+\fBVImageComponentInterp\fP returns \fBVBandInterpIntensity\fP if 
+\fIimage\fP is a standard intensity image (i.e., \fBncomponents:\ 1\fP and 
+\fBcomponent_interp: intensity\fP) 
+.IP \(bu
+\fBVImageComponentInterp\fP returns \fBVBandInterpOrientation\fP if 
+\fIimage\fP is a standard orientation image (i.e., \fBncomponents:\ 1\fP 
+and \fBcomponent_interp: orientation\fP) 
+.IP \(bu
+each routine returns \fBVBandInterpOther\fP otherwise
+.SH "SEE ALSO"
+.BR VSetBandInterp (3Vi),
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.SH DIAGNOSTICS
+A warning is issued and VBandInterpOther is returned if a dimension's size 
+(e.g., \fBncolors\fP) and the corresponding band interpretation attribute 
+(e.g., \fBcolor_interp\fP) are inconsistent. 
+.PP
+A warning is also issued if the product of the four dimension's sizes does
+not equal the total number of bands in the image.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

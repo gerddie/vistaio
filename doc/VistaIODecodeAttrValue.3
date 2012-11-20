@@ -1,0 +1,67 @@
+.ds Vn 2.1
+.TH VDecodeAttrValue 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VDecodeAttrValue \- decode an attribute value
+.SH SYNOPSIS
+.nf
+.ft B
+VBoolean VDecodeAttrValue (\fIstr\fP, \fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+.RS
+VStringConst \fIstr\fP;
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+VPointer \fIvalue\fP;
+.RE
+.SH ARGUMENTS
+.IP \fIstr\fP 10n
+Specifies the attribute value to be decoded.
+.IP \fIdict\fP
+May specify a dictionary to be used in recognizing the value supplied
+as a keyword, or it may be
+.SB NULL\c
+.
+.IP \fIrepn\fP
+Specifies the representation in which the value is to be returned. It must 
+be one of \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP, 
+\fBVShortRepn\fP, \fBVLongRepn\fP, \fBVFloatRepn\fP, \fBVDoubleRepn\fP, 
+\fBVBooleanRepn\fP, or \fBVStringRepn\fP. 
+.IP \fIvalue\fP
+Specifies a location at which the value is be returned.
+.SH DESCRIPTION
+\fBVDecodeAttrValue\fP decodes the string \fIstr\fP, returning its value in 
+the form specified by \fIrepn\fP. 
+.PP
+If a dictionary, \fIdict\fP, has been provided, the routine determines 
+whether \fIstr\fP is a keyword defined in the dictionary. If so, it uses 
+the value associated with that keyword rather than the attribute's original 
+value. (See the \fBVdictionary\fP(3Vi) manual page.) 
+.PP
+The value obtained directly from \fIstr\fP, or indirectly via the 
+dictionary, is converted to the representation \fIrepn\fP and then stored 
+at the location pointed to by \fIvalue\fP.
+.SH "RETURN VALUES"
+\fBVDecodeAttrValue\fP returns
+.SB TRUE
+if successful and
+.SB FALSE
+otherwise. It will fail if \fIrepn\fP is invalid, or if the \fIstr\fP 
+cannot be interpreted as a value of the type indicated by \fIrepn\fP.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VEncodeAttrValue (3Vi),
+.BR VGetAttr (3Vi),
+.BR Vattribute (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH NOTES
+The \fIvalue\fP argument must point to sufficient storage to contain a 
+value of the representation requested. Neither \fBVDecodeAttrValue\fP nor 
+the C compiler can automatically check that this is so. 
+.SH DIAGNOSTICS
+.IP "``Can't decode to \fIrepn\fP.''"
+The \fIrepn\fP argument is not one of \fBVBitRepn\fP, \fBVUByteRepn\fP, ...,
+\fBVBooleanRepn\fP, or \fBVStringRepn\fP. 
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

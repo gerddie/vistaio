@@ -1,0 +1,55 @@
+.ds Vn 2.1
+.TH VOpenFile 3Vi "6 June 1994" "Vista Version \*(Vn"
+.SH NAME
+VOpenInputFile, VOpenOutputFile \- open file with error checking
+.SH SYNOPSIS
+.nf
+.B "#include <vista/file.h>"
+.PP
+.B "FILE *VOpenInputFile (VStringConst \fIfilename\fP, VBoolean \fInofail\fP);"
+.PP
+.B "FILE *VOpenOutputFile (VStringConst \fIfilename\fP, VBoolean \fInofail\fP);"
+.fi
+.SH ARGUMENTS
+.IP \fIfilename\fP 10n
+Specifies he name of the file to be opened.
+.IP \fInofail\fP
+Specifies whether the routine should exit the program if the file cannot be
+opened.
+.SH DESCRIPTION
+These routines open a file while checking for failure and recognizing the
+special filename ``-'' as denoting the standard input or output stream.
+.PP
+If \fIfilename\fP is 
+.SB NULL
+or it is the string ``-'', either \fBstdin\fP or \fBstdout\fP is returned.
+Otherwise, an attempt is made to open the named file for either reading or
+writing, as appropriate. If the attempt is successful, the resulting file
+pointer is returned.
+.PP
+The \fInofail\fP argument determines what happens if a file cannot be
+opened. If \fInofail\fP is 
+.SB FALSE
+then a warning message is issued and
+.SB NULL
+is returned. If \fInofail\fP is
+.SB TRUE
+then a fatal error message is issued and the program is terminated.
+.SH "RETURN VALUES"
+Either routing returns a pointer to the opened \fBFILE\fP if
+successful. Otherwise it returns
+.SB NULL
+or doesn't return at all (depending on \fInofail\fP).
+.SH "SEE ALSO"
+.na
+.nh
+.BR VIdentifyFiles (3Vi),
+.BR VReadObjects (3Vi),
+.BR VWriteObjects (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH DIAGNOSTICS
+.IP "``Unable to open input/output file \fIfilename\fP.''"
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

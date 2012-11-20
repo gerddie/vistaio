@@ -1,0 +1,136 @@
+.ds Vn 2.1
+.TH VReadFile 3Vi "26 January 1994" "Vista Version \*(Vn"
+.SH NAME
+VReadFile \- read a Vista data file
+.SH SYNOPSIS
+.nf
+.ft B
+#include \fB<stdio>\fP
+#include \fB<vista/file.h>\fP
+.PP
+.ft B
+VAttrList VReadFile (\fIfile\fP, \fIfilter\fP)
+.RS
+FILE *\fIfile\fP;
+VReadFileFilterProc *\fIfilter\fP;
+.RE
+.PP
+.ft B
+typedef VBoolean VReadFileFilterProc (VBundle, VRepnKind);
+.fi
+.SH ARGUMENTS
+.IP \fIfile\fP 10n
+Specifies the open stream from which the data file should be read.
+.IP \fIfilter\fP
+May specify a function that determines which attributes' binary data is
+read from the file, or it may be 
+.SB NULL
+to indicate that all binary data should be read.
+.SH DESCRIPTION
+\fBVReadFile\fP reads the contents of a Vista data file, which should be in 
+format described by \fBVfile\fP(5Vi). It returns a list of the attributes 
+found in the file. Attribute values in that list will have been converted 
+to internal form, as described by \fBVattribute\fP(3Vi) and 
+\fBVtype\fP(3Vi). 
+.PP
+With the \fIfilter\fP argument you may supply a function that gets to 
+decide for each attribute value that is an object whether or not that 
+object's binary data should be read. This mechanism allows you to avoid the 
+expense of reading binary data that is not of interest (e.g., image pixel 
+values when images are not of concern). However, you need only supply a 
+filter function if you are particularly concerned about efficiency. 
+Your filter function should be declared:
+.PP
+.ft B
+.nf
+.RS
+VBoolean \fIMyFilter\fP (\fIbundle\fP, \fIrepn\fP)
+.RS
+VBundle \fIbundle\fP;
+VRepnKind \fIrepn\fP;
+.RE
+.RE
+.fi
+.PP
+Your filter function will be called once for each object encountered at any
+level in the file. It will be passed a \fBVBundle\fP representing the
+object (including its type name and attribute list, but not its binary
+data), and the \fIrepn\fP value obtained by looking up its type name (i.e.,
+the value returned by \fBVLookupType\fP(3Vi) on the type name, which could
+be \fBVUnknownRepn\fP). The object's binary data will be read only if the
+filter function returns
+.SB TRUE\c
+\&. If it returns 
+.SB FALSE\c
+, the object will be represented in the attribute list as a \fBVBundle\fP, 
+without binary data \(em it will not be converted to internal form (e.g., 
+not to a \fBVImage\fP). If no filter function is supplied (i.e., 
+\fIfilter\fP is 
+.SB NULL\c
+), \fBVReadFile\fP will read all binary data associated with all objects.
+.PP
+For backwards compatability \fBVReadFile\fP will recognize and read the 
+contents of a UBC image file format (IFF) file. If the first character read 
+from the stream is ``I'', \fBVReadFile\fP uses \fBVReadUbcIff\fP to read a 
+single UBC IFF image. The image is returned as a \fBVImage\fP attribute 
+value in a list containing a single attribute. In this case, the 
+\fIfilter\fP argument has no effect. 
+.SH "RETURN VALUE"
+\fBVReadData\fP returns an attribute list representing the file's contents, or
+.SB NULL
+if an error is encountered. In the case of an error, the stream may
+not have been completely read.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VReadObjects (3Vi),
+.BR VReadUbcIff (3Vi),
+.BR stdio (3),
+.br
+.BR VBundle (3Vi),
+.BR Vattribute (3Vi),
+.BR Vtype (3Vi),
+.BR Vfile (5Vi),
+.BR Vlib (7Vi)
+.hy
+.ad
+.SH NOTES
+Data is read from the stream sequentially, permitting the stream to be
+a pipe. No rewind is performed either before reading or after.
+.SH DIAGNOSTIC
+.IP "``EOF encountered in \fIname\fP attribute.''"
+The end-of-file was encountered unexpectedly while reading the value of 
+the named attribute.
+.IP "``File continues beyond expected EOF.''"
+The end-of-file wasn't encountered immediately after all expected binary 
+data. 
+.IP "``Invalid \fIname\fP attribute.''"
+The named attribute is encoded incorrectly in the stream. It may, for 
+example, be missing the ``\fB:\fP'' that should separate its name and value.
+.IP "``Missing {.''"
+The ``\fB{\fP'' marking the start of an attribute list is missing.
+.IP "``Missing }.''"
+The ``\fB}\fP'' marking the end of an attribute list is missing.
+.IP "``\fIname\fP attribute has data but not length.''"
+The named attribute's value is an object whose attribute list contains a 
+\fBdata\fP attribute but not a \fBlength\fP attribute. Both attributes 
+must be present to specify binary data. (A similar diagnostic is produced 
+if there is a \fBlength\fP attribute but no \fBdata\fP attribute.)
+.IP "``\fIname\fP attribute's \fIattr\fP attribute incorrect.''"
+The named attribute's value is an object whose attribute list indicates 
+it has binary data. However, its \fBdata\fP attribute specifies an offset 
+too early in the binary data portion of the file, or its \fBdata\fP or
+\fBlength\fP attribute has a non-integer value.
+.IP "``Read from stream failed.''"
+An attempt to read a block of binary data failed, perhaps because of a 
+premature end-of-file.
+.IP "``Vista data file delimiter not found.''"
+The
+.SB FORMFEED NEWLINE
+sequence terminating the attribute list portion of the data file wasn't 
+found.
+.IP "``Vista data file isn't version 2.''"
+The data file's header indicates a file format version other than 2, the 
+current version.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

@@ -1,0 +1,57 @@
+.ds Vn 2.1
+.TH VWriteEdges 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VWriteEdges \- write a series of edge sets to a stream
+.SH SYNOPSIS
+.nf
+.ft B
+#include \fB<stdio>\fP
+#include \fB<vista/file.h>\fP
+#include \fB<vista/VEdges.h>\fP
+.PP
+.ft B
+VBoolean VWriteEdges (\fIfile\fP, \fIattributes\fP, \fInedges\fP, \fIedges\fP)
+.RS
+FILE *\fIfile\fP;
+VAttrList \fIattributes\fP;
+int \fInedges\fP;
+VEdges \fIedges\fP[\fInedges\fP];
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIfile\fP 10n
+Specifies the open stream to which the edges should be written.
+.IP \fIattributes\fP 10n
+Specifies a list of attributes to be written to the stream.
+.IP \fInedges\fP 10n
+Specifies the number of edge sets to be written.
+.IP \fIedges\fP 10n
+Specifies the edge sets to be written.
+.SH DESCRIPTION
+\fBVWriteEdges\fP writes a series of edge sets to an open stream as a Vista 
+data file. Edge sets \fIedges\fP[0] through 
+\fIedges\fP[\fInedges\fP\ \-\ 1] are written, followed by any attributes 
+in the list \fIattributes\fP. The \fIattributes\fP argument may be 
+.SB NULL
+if only edge sets are to be written. 
+.SH "RETURN VALUES"
+\fBVWriteEdges\fP returns
+.SB TRUE
+if successful and
+.SB FALSE
+otherwise. In the case of an error, data written to the stream may 
+be incomplete.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VWriteFile (3Vi),
+.BR VWriteObjects (3Vi),
+.BR stdio (3),
+.br
+.BR VEdges (3Vi),
+.BR Vfile (5Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH AUTHOR
+David Lowe <lowe@cs.ubc.ca>

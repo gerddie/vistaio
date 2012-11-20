@@ -1,0 +1,110 @@
+.ds Vn 2.1
+.TH VCombineBands 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VCombineBands, VCombineBandsVa \- copy a series of image bands
+.SH SYNOPSIS
+.PP
+.nf
+.B #include <vista/VImage.h>
+.PP
+.ft B
+VImage VCombineBands (\fInels\fP, \fIsrc_images\fP, \fIsrc_bands\fP, \
+\fIdest\fP)
+.RS
+int \fInels\fP;
+VImage \fIsrc_images\fP[], \fIdest\fP;
+VBand \fIsrc_bands\fP[];
+.RE
+.PP
+.ft B
+VImage VCombineBandsVa (\fIdest\fP, \fIsrc_image1\fP, \fIsrc_band1\fP, \fR...\fP, NULL)
+.RS
+VImage \fIdest\fP, \fIsrc_image1\fP;
+VBand \fIsrc_band1\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fInels\fP 10n
+Specifies the number of elements in the \fIsrc_images\fP and \fIsrc_bands\fP arrays.
+.IP \fIsrc_images\fP
+Specifies an array of images containing the bands to be copied (i.e.,
+the source images).
+.IP \fIsrc_bands\fP
+Specifies an array identifying the bands to be copied.
+Each element may specify a particular band of the corresponding source
+image, or it may be the constant \fBVAllBands\fP to indicate that all 
+bands of the corresponding source image should be copied.
+.IP \fIdest\fP
+May specify an image to copy to (i.e., the destination image), or
+may be
+.SB NULL
+to indicate that a new destination image should be created.
+.IP \fIsrc_image1\fP
+Specifies the first image containing a band or bands to be copied (i.e.,
+the first source image).
+.IP \fIsrc_band1\fP
+May specify a particular band of \fIsrc_image1\fP to be copied, or it may
+be the constant \fBVAllBands\fP to indicate that all bands of
+\fIsrc_image1\fP should be copied.
+.SH DESCRIPTION
+\fBVCombineBands\fP copies bands of pixel values from various source images
+to a destination image. The source images are listed in the array
+\fIsrc_images\fP, and the band(s) to be copied from each is listed in the
+array \fIsrc_bands\fP. Both arrays must have \fInels\fP elements.
+A \fIsrc_bands\fP element may be \fBVAllBands\fP, indicating
+that all bands of the corresponding source image are to be copied, or
+it may be a particular band number, indicating that only that band
+of the corresponding source image is to be copied.
+.PP
+\fBVCombineBandsVa\fP is similiar except that the source images and band numbers
+are specified by a variable-length argument list. The argument list contains
+one or more pairs of the form \fIsrc_image1\fP, \fIsrc_band1\fP, and it is terminated
+by the value 
+.SB NULL\c
+.
+.PP
+All source images must have have the same pixel representation,
+number of rows, and number of columns.
+.PP
+If \fIdest\fP is 
+.SB NULL\c
+, a destination image is created with the
+same pixel representation, number of rows, and number of columns
+as the source images. The image is created with a number of bands
+equal to the total number of bands to be copied.
+.PP
+Otherwise \fIdest\fP specifies an image to which pixel values are to be
+copied. It must have the same pixel representation, number of rows,
+and number of columns as the source image, and it must have a number of
+bands equal to the total number bands to be copied.
+.PP
+Source image bands, taken in the sequence specified, are copied to
+consecutive destination image bands.
+.SH "RETURN VALUES"
+Both routines return the destination image if they are successful and 
+.SB NULL
+otherwise.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VCopyBand (3Vi),
+.BR VCopyImage (3Vi),
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH NOTES
+No attributes are copied from any source images to the destination image.
+.SH DIAGNOSTICS
+.IP "``Band \fIband\fP referenced in image of \fInbands\fP band(s).''"
+Band \fIband\fP is to be copied from a source image having \fInbands\fP bands.
+However \fIband\fP is outside of the range [0,\ \fInbands\fP\ -\ 1].
+.IP "``Destination image has \fIdest_nbands\fP bands; \fIsrc_nbands\fP expected.''"
+A destination image was specified but it has the wrong number of bands.
+.IP "``Destination image has \fIdest_prop\fP \fIproperty\fP; \fIsrc_prop\fP expected.''"
+\fIProperty\fP is one of ``pixels'', ``rows'', or ``columns''.
+A destination image was specified but it does not have the same
+pixel representation, number of rows, and number of columns as the
+source images.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

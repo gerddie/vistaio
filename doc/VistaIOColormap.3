@@ -1,0 +1,299 @@
+.ds Vn 2.1
+.TH VColormap 3Vi "23 February 1994" "Vista Version \*(Vn"
+.SH NAME
+VColormap \- colormap management facility
+.SH SYNOPSIS
+.PP
+.nf
+.B #include <vista/colormap.h>
+.PP
+.B VColormap \fIvc\fP;
+.fi
+.SH DESCRIPTION
+.SS Introduction
+A \fBVColormap\fP object describes an allocation of colors for use by an X
+Windows client. A \fBVColormap\fP is similar to an X standard colormap in
+that it describes a standard palette of colors, plus the mapping from color
+values to pixel values (see \fBXStandardColormap\fP(3X11)). However, a
+\fBVColormap\fP will also
+.RS 2n
+.IP \(bu 2n
+provide these things even if the colors cannot be allocated contiguously,
+as they must for a standard colormap; and
+.IP \(bu
+provide both an RGB color palette and one of gray shades at the same time.
+.RE
+.PP
+A \fBVColormap\fP is associated with a particular screen and visual. It
+specifies a colormap, a palette of gray shades, an optional palette of
+RGB colors, and the mapping from colors to pixel values.
+.PP
+The set of colors provided by a \fBVColormap\fP is characterized by one of
+the following property atoms:
+.RS 2n
+.TP
+.SB XA_RGB_DEFAULT_MAP
+This is the set of colors allocated for an 
+.SB XA_RGB_DEFAULT_MAP
+standard colormap, plus up to 17 gray shades. A typical color allocation
+for an eight-bit visual includes all combinations of five red shades, five
+green shades, and five blue shades; for a 24-bit visual, it's 128 reds, 128
+greens, and 128 blues.
+.TP
+.SB XA_RGB_BEST_MAP
+This is intended to be the ``best'' RGB colormap available on the screen.
+A typical color allocation for an eight-bit visual includes all
+combinations of 8 red shades, 8 green shades, and 4 blue shades; for a
+24-bit visual, it's 256 reds, 256 greens, and 256 blues. A subset of gray
+shades is selected from among these colors but, particularly in the case of
+an shallow visual, these gray shades may not be neutral.
+.TP
+.SB XA_RGB_GRAY_MAP
+This is intended to be the ``best'' gray-scale colormap available on the
+screen. It consists of up to 256 shades of gray.
+.RE
+.PP
+The allocation appropriate for a particular property and visual is
+determined by the Xmu library routine \fBXmuGetColormapAllocation\fP.
+.PP
+Where possible, a \fBVColormap\fP tries to base its color allocation on a
+standard colormap so that the its colormap resources can be shared with
+other applications. But if an appropriate standard colormap does not exist
+and cannot be created, the \fBVColormap\fP will use private colors
+allocated in a private colormap or the screen's default colormap. Standard
+colormaps can be created explicitly using \fBxstdcmap\fP(1X11) or the
+facilities of the Xmu library.
+.SS "Creating and Destroying VColormaps"
+.RS 2n
+.HP 10n
+.na
+.nh
+.B "VColormap VCreateColormap (Screen\ *\fIscreen\fP, Atom\ \fIproperty\fP,"
+.B "long\ \fIvinfo_mask\fP, XVisualInfo\ *\fIvinfo_template\fP);"
+.ad
+.hy
+.IP "" 0.5i
+\fBVCreateColormap\fP creates a \fBVColormap\fP for the specified screen.
+.IP
+The \fIproperty\fP argument specifies what sort of colors the
+\fBVColormap\fP should provide. It may be one of the atoms
+.SB XA_RGB_DEFAULT_MAP\c
+,
+.SB XA_RGB_BEST_MAP\c
+, or
+.SB XA_RGB_GRAY_MAP
+to specify one of the color sets described above. Or it may be \fBNone\fP,
+in which case \fBVCreateColormap\fP will try first for an
+\fBXA_RGB_DEFAULT_MAP\fP palette, then for an 
+.SB XA_RGB_BEST_MAP
+palette, and finally for an 
+.SB XA_RGB_GRAY_MAP
+palette (the first two would fail, for example, on a monochrome screen).
+.IP
+The \fIvinfo_mask\fP and \fIvinfo_template\fP are used together to specify
+attributes that a visual must have in order to be selected by
+\fBVCreateColormap\fP. See \fBXGetVisualInfo\fP(3X11).
+.IP
+If unsuccessful, \fBVCreateColormap\fP issues a warning message and returns
+.SB NULL\c
+.HP 10n
+.B "void VDestroyColormap (VColormap \fIvc\fP);"
+.IP "" 0.5i
+\fBVDestroyColormap\fP releases storage used by \fIvcolormap\fP. It also
+releases any private colors and private colormap that were allocated when
+\fIvcolormap\fP was created. It doesn't, however, remove any standard
+colormaps that may have been installed at that time.
+.RE
+.SS "Accessing \fBVColormap\fP Fields"
+The following macros may be used to obtain values of some of the fields of a
+\fBVColormap\fP object:
+.PP
+.RS 2n
+.B "Colormap VColormapColormap (VColormap \fIvc\fP);"
+.PP
+.B "int VColormapDepth (VColormap \fIvc\fP);"
+.PP
+.B "Atom VColormapProperty (VColormap \fIvc\fP);"
+.PP
+.B "Visual *VColormapVisual (VColormap \fIvc\fP);"
+.RE
+.SS "Using a \fBVColormap\fP"
+To ensure that a window or widget can use the colors defined by a
+\fBVColormap\fP, use values returned by the \fBVColormapColormap\fP,
+\fBVColormapDepth\fP, and \fBVColormapVisual\fP macros to set the
+attributes or resources of the window or widget before creating it.
+.PP
+The following routines supply a pixel value that can be used to draw a
+desired color according to a particular \fBVColormap\fP:
+.PP
+.RS 2n
+.B "void VColormapRGBPixel (VColormap\ \fIvc\fP, XColor\ *\fIcolor\fP);"
+.PP
+.B "void VColormapGrayPixel (VColormap\ \fIvc\fP, XColor\ *\fIcolor\fP);"
+.IP
+The \fIcolor\fP argument supplies a structure that is described by
+\fBXColor\fP(3X11). On calling one of these routines, the structure's
+\fBred\fP, \fBgreen\fP, and \fBblue\fP fields must specify the RGB color or
+gray shade desired (only the \fBred\fP field is examined by
+\fBVColormapGrayPixel\fP); other fields are ignored. On return from the
+routine, the structure's \fBred\fP, \fBgreen\fP, and \fBblue\fP fields
+describe the actual color obtained and the structure's \fBpixel\fP field
+contains the pixel value that should be used to draw that color.
+.RE
+.PP
+A \fBVColormap\fP is used by the \fBVImageView\fP widget to supply colors
+for displaying an image. If a \fBVColormap\fP is supplied explicitly by
+means of the the widget's \fBvColormap\fP resource, the colormap, depth,
+and visual associated with that \fBVColormap\fP should also be specified so
+that they are identical to those used by the \fBVColormap\fP.  Usually this
+is done by setting resources in the shell widget containing the
+\fBVImageView\fP widget.
+.SH EXAMPLE
+The following code fragment sets shell and \fBVImageView\fP widget
+resources so that the widgets will use an color allocation optimized for
+displaying RGB colors. An allocation optimized for displaying gray shades
+is made in a similar manner. The starred lines indicate which widget
+resource settings are based on the \fBVColormap\fP.
+.PP
+.RS
+.nf
+.ft B
+#include <X11/Xatom.h>
+#include <X11/Intrinsic.h>
+#include <X11/StringDefs.h>
+#include <vista/Vlib.h>
+#include <vista/VImage.h>
+#include <vista/VImageView.h>
+
+VColormap vc;
+Widget toplevel, shell, view;
+
+toplevel = XtVaAppInitialize (
+		& context, APPNAME, NULL, 0,
+		& argc, argv, fallback_resources, 
+		NULL);
+
+vc = VCreateColormap (
+		XtScreen (toplevel),
+		XA_RGB_BEST_MAP, /* or None for default */
+		0l, NULL);
+
+shell = XtVaAppCreateShell (
+		"shell", APPNAME, 
+		applicationShellWidgetClass,
+		XtDisplay (toplevel),
+		XtNinput, FALSE,
+		XtNallowShellResize, TRUE,
+		XtNcolormap, VColormapColormap (vc), /****/
+		XtNdepth, VColormapDepth (vc), /****/
+		XtNvisual, VColormapVisual (vc), /****/
+		NULL);
+
+view = XtVaCreateManagedWidget (
+		"view", 
+		vImageViewWidgetClass, shell,
+		VxNvColormap, vc, /****/
+		NULL);
+.fi
+.RE
+.SH "SEE ALSO"
+.na
+.nh
+.BR xstdcmap (1X11),
+.BR XGetVisualInfo (3X11),
+.BR XStandardColormap (3X11),
+.BR VImageView(3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH NOTES
+The number of colors or gray shades available for drawing depends generally
+on the capabilities of the display device.  Various facilities within the X
+Window System attempt to characterize the device and model its features in
+a consistent and portable way, but they are a common source of confusion
+and have not been fully developed, even within the X community.
+.PP
+A \fBVColormap\fP provides a simplified interface to this rich and
+ambiguous set of facilities. Its use requires some familiarity with X
+Windows and perhaps with other facilities of Vista, or at least a
+willingness to experiment. An example would be if the application required
+an image to be rendered using all available colors or gray shades rather
+than the default selection. In use, this might result in colormap
+flashing, depending on the capabilities of the display and on how they are
+used by other applications.
+.PP
+The \fBVColormap\fP object provides access to colors or gray shades defined
+by what are known in X Windows as ``standard colormaps'' for shared use
+between applications.  The idea is that the window manager or a related
+client such as \fBxstdcmap\fP would have registered these standard
+colormaps as properties of the root window of a given screen, and would
+also have initialized appropriate sets of colors and gray shades to suit
+the needs of typical applications.
+.PP
+In the current state of development of X Windows, it is likely that the
+window manager has no capability to register standard colormaps and
+that no other client has been run for this purpose.  Therefore, if no
+appropriate standard colormap exists already, \fBVCreateColormap\fP will
+attempt a series of steps in order to allocate the necessary colors or
+gray shades.  The first attempt in this series is to register the
+standard colormap exactly as the window manager would have done, for
+shared use by all applications.  Failing this, colors will be allocated
+as if the appropriate standard colormap existed.
+.PP
+Typically, an application will obtain and use a single \fBVColormap\fP for
+all of its shell widgets and the widgets they contain. We have found that
+setting the \fBcolormap\fP, \fBdepth\fP, and \fBvisual\fP resources of
+application shells is effective if done at creation or immediately after,
+before realization.
+.PP
+However, you must be careful to ensure that subordinate shell widgets (such
+as those created for pull-down menus) also receive resource values
+consistent with the \fBVColormap\fP. By default, a shell widget inherits
+its \fBcolormap\fP and \fBdepth\fP values from its parent widget, so
+setting these resources in the application's top-level shell is normally
+all that is required.  However, the shell's visual defaults to one
+inherited from the its parent window, not its parent widget.  Since the Xt
+library always makes a shell window a direct child of the root window, a
+shell window's visual defaults to the root window's visual \(em which is
+not necessarily the desired one. The resulting mismatch between colormap,
+depth, and visual produces a BadMatch error from the X server when an
+attempt is made to realize the widget.
+.PP
+A simple way of ensuring that all shell windows are created with the
+correct visual rather than the default one is to insert your own wrapper
+around the Shell class's Realize method. The wrapper can simply set
+the shell widget's \fBvisual\fP field before invoking the Xt-supplied
+method. An example may be found in \fB$VISTA/src/pgms/vxview/main.c\fP.
+.SH DIAGNOSTICS
+.IP "``Multiple \fIproperty\fP standard colormaps.''"
+There can be only one 
+.SB XA_RGB_BEST_MAP
+standard colormap and one
+.SB XA_RGB_GRAY_MAP
+standard colormap registered as properties of the root window. Some other
+client has violated the ICCCM conventions by registering a second one.
+.IP "``No vinfo template supplied.''"
+\fBVCreateColormap\fP was called with a non-zero \fIvinfo_mask\fP, but no
+\fIvinfo_template\fP.
+.IP "``No visuals match arguments.''"
+No visuals match the \fIvinfo_mask\fP and \fIvinfo_template\fP arguments
+supplied to \fBVCreateColormap\fP.
+.IP "``No visual suitable for requested property.''"
+None of the visuals that match the \fIvinfo_mask\fP and
+\fIvinfo_template\fP arguments supplied to \fBVCreateColormap\fP are
+suitable for creating a \fBVColormap\fP of the type specified by
+\fIproperty\fP. For example, an 
+.SB XA_RGB_BEST_MAP
+palette cannot be created using a StaticGray visual.
+.IP "``Unable to allocate colors/gray shades.''"
+If \fBVCreateColormap\fP is asked to create an
+.SB XA_RGB_DEFAULT_MAP
+\fBVColormap\fP using the screen's default visual and no suitable standard
+colormap already exists, it will try to allocate colors in the screen's
+default colormap. This message is produced if the colormap is already
+entirely allocated with read/write cells so that no additional colors can
+be obtained. Try using \fBxstdcmap(1X11)\fP to create a default standard
+colormap at the beginning of your X session.
+.SH AUTHORS
+Dan Razzell <razzell@cs.ubc.ca>,
+Art Pope <pope@cs.ubc.ca>

@@ -1,0 +1,64 @@
+.ds Vn 2.1
+.TH VSelectBand 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VSelectBand \- select bands of image pixels
+.SH SYNOPSIS
+.nf
+.B "#include <vista/VImage.h>"
+.PP
+.ft B
+VBoolean VSelectBand (\fIroutine\fP, \fIimage\fP, \fIband\fP, \fInpixels\fP, \
+\fIfirst_pixel\fP)
+.RS
+VStringConst \fIroutine\fP;
+VImage \fIimage\fP;
+VBand \fIband\fP;
+int *\fInpixels\fP;
+VPointer *\fIfirst_pixel\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIroutine\fP 10n
+Names the routine that is using \fBVSelectBand\fP to check its arguments. 
+This name is included in any error messages produced by \fBVSelectBand\fP.
+.IP \fIimage\fP
+Specifies the image whose pixels are to be selected.
+.IP \fIband\fP
+May specify a particular band of the image to be selected,
+or may be \fBVAllBands\fP to indicate that all bands of the image
+should be selected.
+.IP \fInpixels\fP
+Returns the number of pixels selected, or may be
+.SB NULL\c
+.
+.IP \fIfirst_pixel\fP
+Returns the address of the first pixel selected, or may be
+.SB NULL\c
+.
+.SH DESCRIPTION
+\fBVSelectBand\fP selects one or all bands of an image for processing.
+.PP
+The \fIimage\fP argument specifies the image, and \fIband\fP specifies 
+either a single band or all bands of that image. \fBVSelectBand\fP checks 
+the validity of those two arguments, then returns via \fInpixels\fP and 
+\fIfirst_pixel\fP the number and location of the selected pixels. (The 
+pixels will be occupying a contiguous block of memory.) Either
+\fInpixels\fP or \fIfirst_pixel\fP may be
+.SB NULL
+if the corresponding return value is wanted.
+.SH "RETURN VALUES"
+\fBVSelectBand\fP returns 
+.SB TRUE
+if its \fIimage\fP and \fIband\fP arguments are consistent, and
+.SB FALSE
+otherwise.
+.SH "SEE ALSO"
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.SH DIAGNOSTICS
+.IP "``\fIRoutine\fP: Band \fIband\fP referenced in image of \fInbands\fP band(s).''"
+The \fIband\fP argument is invalid given the number of bands in 
+\fIimage\fP. \fIRoutine\fP will be the name supplied by the \fIroutine\fP 
+argument. 
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

@@ -1,0 +1,51 @@
+.ds Vn 2.1
+.TH VPrintOptions 3Vi "6 June 1994" "Vista Version \*(Vn"
+.SH NAME
+VPrintOptions, VPrintOptionValue \- print command line option settings
+.SH SYNOPSIS
+.B #include <vista/option.h>
+.HP 10n
+.na
+.nh
+.ft B
+void VPrintOptions (FILE\ *\fIf\fP, 
+int\ \fInoptions\fP,
+VOptionDescRec\ \fIoptions\fP[]);
+.ft
+.hy
+.ad
+.HP 10n
+.na
+.nh
+.ft B
+int VPrintOptionValue (FILE\ *\fIf\fP, VOptionDescRec\ *\fIoption\fP);
+.ft
+.hy
+.ad
+.SH ARGUMENTS
+.IP \fIf\fP 10n
+Specifies the stream on which to print.
+.IP \fInoptions\fP
+Specifies the number of entries in the table of option descriptors.
+.IP \fIoptions\fP
+Specifies a table of option descriptors. Each entry describes one command
+line option.
+.IP \fIoption\fP
+Specifies a single command line option whose value(s) are to be printed.
+.SH DESCRIPTION
+\fBVPrintOptions\fP prints the names, descriptions, and settings of a group
+of command line options.
+.PP
+\fBVPrintOptionValue\fP prints the value or values of a single command line
+options.
+.SH "RETURN VALUES"
+\fBVPrintOptionValue\fP returns the number of characters output.
+.SH "SEE ALSO"
+.na
+.nh
+.BR Voption (3Vi),
+.BR Vlib (7Vi)
+.hy
+.ad
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

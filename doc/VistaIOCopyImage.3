@@ -1,0 +1,110 @@
+.ds Vn 2.1
+.TH VCopyImage 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VCopyImage \- copy an image
+.SH SYNOPSIS
+.nf
+.B #include <vista/VImage.h>
+.PP
+.B VImage VCopyImagePixels (\fIsrc\fP, \fIdest\fP, \fIband\fP)
+.RS
+.B VImage \fIsrc\fP, \fIdest\fP;
+.B VBand \fIband\fP;
+.RE
+.fi
+.PP
+.B VImage VCopyImageAttrs (\fIsrc\fP, \fIdest\fP)
+.RS
+.B VImage \fIsrc\fP, \fIdest\fP;
+.RE
+.PP
+.B VImage VCopyImage (\fIsrc\fP, \fIdest\fP, \fIband\fP)
+.RS
+.B VImage \fIsrc\fP, \fIdest\fP;
+.B VBand \fIband\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIsrc\fP 10n
+Specifies the source image.
+.IP \fIdest\fP
+May specify a destination image; or may be
+.SB NULL
+to indicate that a new destination image should be created.
+.IP \fIband\fP
+May specify a particular band of the source image to be copied,
+or may be the constant \fBVAllBands\fP to indicate that all bands 
+of the source image should be copied.
+.SH DESCRIPTION
+\fBVCopyImagePixels\fP copies pixel values from the source image to the
+destination image. (No other image properties are copied.)
+.PP
+\fBVCopyImageAttrs\fP copies attributes from the source image to the 
+destination image. (No pixel values are copied.) If the destination image 
+already has an attribute list, it is first deleted. Then the destination 
+image is given a copy of the source image's attribute list. Finally, if the 
+source and destination images do not have the same number of bands then the 
+destination image's band interpretation attributes may be edited to ensure 
+their validity:
+.RS 2n 
+.IP \(bu 2n
+if they do not have the same number of bands then (a) any band 
+interpretation attributes, such as \fBframe_interp\fP and 
+\fBcolor_interp\fP, are deleted from the destination image's copy; (b) the 
+size of the destination image's component dimension (\fBncomponents\fP) is 
+set equal to its number of bands; and (c) the sizes of its other band 
+interpretation dimensions (\fBnframes\fP, \fBnviewpoints\fP, and 
+\fBncolors\fP) are set to 1.
+.IP \(bu
+if they have the same number of bands then (a) all attributes are copied
+unchanged from the source image to the destination image; and (b) the sizes
+of the band interpretation dimensions are copied as well.
+.RE
+.PP
+\fBVCopyImage\fP copies both pixel values and attributes from one image to
+the other. It is equivalent to calling both \fBVCopyImagePixels\fP and
+\fBVCopyImageAttrs\fP.
+.PP
+You can specify 
+.SB NULL
+as a destination image to any of these routines; they will then create an
+appropriate destination image, copy to it, and return it. If you supply a
+destination image to \fBVCopyImage\fP or \fBVCopyImagePixels\fP, it must
+have the same number of rows, number of columns, and pixel representation
+as the source image; also, it must have a number of bands consistent with
+\fIsrc\fP and \fIband\fP.
+.SH "RETURN VALUES"
+Each of these routines returns the destination image if it is successful
+and
+.SB NULL
+otherwise.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VCopyBand (3Vi),
+.BR VCombineBands (3Vi)
+.BR VImage (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH NOTES
+\fBVCopyAttrList\fP(3Vi) is used to copy attributes from the source image 
+to the destination image. Thus the destination image's attribute list 
+contains its own copy of each attribute value \(em except that for a 
+\fBVPointer\fP value, the pointer is copied but not the (opaque) data 
+structure to which it points. 
+.SH DIAGNOSTICS
+.IP "``Band \fIband\fP referenced in image of \fInbands\fP band(s).''"
+The \fIband\fP argument is invalid given the number of bands in \fIsrc\fP.
+.IP "``Destination image has \fIdest_nbands\fP bands; \fIsrc_nbands\fP expected.''"
+A destination image was specified but it has the wrong number of bands.
+If \fIband\fP is \fBVAllBands\fP, the destination image must have the same
+number of bands as the source image. Otherwise, it must have a single
+band.
+.IP "``Destination image has \fIdest_prop\fP \fIproperty\fP; \fIsrc_prop\fP expected.''"
+\fIProperty\fP is one of ``pixels'', ``rows'', or ``columns''.
+A destination image was specified but it does not have the same
+pixel representation, number of rows, and number of columns as the
+source image.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

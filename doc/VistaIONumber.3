@@ -1,0 +1,25 @@
+.ds Vn 2.1
+.TH VNumber 3Vi "19 January 1993" "Vista Version \*(Vn"
+.SH NAME
+VNumber - determine the number of array elements
+.SH SYNTAX
+.nf
+.B "#include <vista/mu.h>"
+.PP
+.ft B
+size_t VNumber (\fIarray\fP)
+.RS
+ArrayVariable \fIarray\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIarray\fP 10n
+Specifies a fixed-size array.
+.SH DESCRIPTION
+The \fBVNumber\fP macro returns the number of elements in the specified
+array (computed as the size of the array divided by the size of an array
+element).
+.SH "SEE ALSO"
+.BR Vlib (7Vi)
+.SH NOTES
+It is equivalent to the X Toolkit macro \fBXtNumber\fP(3Xt).

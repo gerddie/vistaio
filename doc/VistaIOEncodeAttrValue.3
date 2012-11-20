@@ -1,0 +1,64 @@
+.ds Vn 2.1
+.TH VEncodeAttrValue 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VEncodeAttrValue \- encode an attribute value
+.SH SYNOPSIS
+.nf
+.ft B
+VStringConst VEncodeAttrValue (\fIdict\fP, \fIrepn\fP, \fIvalue\fP)
+.RS
+VDictEntry *\fIdict\fP;
+VRepnKind \fIrepn\fP;
+\fItype value\fP;
+.RE
+.PP
+.fi
+where \fItype\fP, according to \fIrepn\fP, is \fBVBit\fP, \fBVUByte\fP, 
+\fBVSByte\fP, \fBVShort\fP, \fBVLong\fP, \fBVFloat\fP, \fBVDouble\fP, 
+\fBVBoolean\fP, or \fBVString\fP. 
+.SH ARGUMENTS
+.IP \fIdict\fP 10n
+May specify a dictionary to be used in translating the value supplied
+to a keyword that should be returned as the encoded value, or it may be
+.SB NULL\c
+.
+.IP \fIrepn\fP
+Specifies the representation of the value to be encoded.
+.IP \fIvalue\fP
+Specifies the value to be encoded.
+.SH DESCRIPTION
+\fBVEncodeAttrValue\fP takes a value and an optional dictionary, and 
+encodes the value as a character string suitable for storage in an 
+attribute list or output to a data file.
+.PP
+With the \fIdict\fP argument you can provide a dictionary for mapping 
+\fIvalue\fP to a keyword that will be returned as the encoded value (see 
+\fBVdictionary\fP(3Vi)). For example, if you pass a value of 1 and a 
+dictionary that associates the value 1 with the keyword \fBubyte\fP (as the 
+dictionary\fBVRepnDict\fP does), then the string \fBubyte\fP will be 
+returned. Dictionaries may be used to map both numeric values and strings 
+to keywords. If you supply a dictionary but \fIvalue\fP is not mentioned in 
+that dictionary, then \fIvalue\fP itself will be encoded as a string and
+returned.
+.SH "RETURN VALUES"
+If successful, \fBVEncodeAttrValue\fP returns a string that is valid until 
+the next \fBVEncodeAttrValue\fP, \fBVSetAttr\fP, or \fBVSetAttrValue\fP 
+call. If, on the other hand, it fails because \fIrepn\fP is not one of the 
+representations supported, it returns 
+.SB NULL\c
+.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VDecodeAttrValue (3Vi),
+.BR VSetAttr (3Vi),
+.BR Vattribute (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH DIAGNOSTICS
+.IP "``Can't encode from \fIrepn\fP.''"
+The \fIrepn\fP argument is not one of \fBVBitRepn\fP, \fBVUByteRepn\fP, ...,
+\fBVBooleanRepn\fP, or \fBVStringRepn\fP. 
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

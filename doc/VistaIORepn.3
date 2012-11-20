@@ -1,0 +1,88 @@
+.ds Vn 2.1
+.TH VRepn 3Vi "21 January 1994" "Vista Version \*(Vn"
+.SH NAME
+VRepnName, VRepnSize, etc. \- obtain information about a type's representation
+.SH SYNOPSIS
+.ft B
+.nf
+typedef enum {
+.RS
+.fi
+.ad l
+.nh
+VUnknownRepn,
+.br
+VBitRepn, VUByteRepn, VSByteRepn, VShortRepn, VLongRepn,
+.br
+VFloatRepn, VDoubleRepn,
+.br
+VAttrListRepn, VBooleanRepn, VBundleRepn, VListRepn, VPointerRepn,
+VStringRepn,
+.br
+VEdgesRepn, VImageRepn
+.hy
+.ad
+.nf
+.RE
+} VRepnKind;
+.PP
+.B "VBoolean VIsFloatPtRepn (VRepnKind \fIrepn\fP)"
+.PP
+.B "VBoolean VIsIntegerRepn (VRepnKind \fIrepn\fP)"
+.PP
+.B "VStringConst VRepnName (VRepnKind \fIrepn\fP)"
+.PP
+.B "VDouble VRepnMaxValue (VRepnKind \fIrepn\fP)"
+.PP
+.B "VDouble VRepnMinValue (VRepnKind \fIrepn\fP)"
+.PP
+.B "int VRepnPrecision (VRepnKind \fIrepn\fP)"
+.PP
+.B "size_t VRepnSize (VRepnKind \fIrepn\fP)"
+.SH ARGUMENTS
+.IP \fIrepn\fP 10n
+Specifies the data type about which information is sought.
+.SH DESCRIPTION
+These macros return information about Vista data types, each of which is 
+identified by one of the \fBVRepnKind\fP series of integer codes. The types 
+are summarized in \fBVlib\fP(7Vi). 
+.PP
+\fBVIsFloatPtRepn\fP returns 
+.SB TRUE
+if \fIrepn\fP is \fBVFloatRepn\fP or \fBVDoubleRepn\fP.
+.PP
+\fBVIsIntegerRepn\fP returns
+.SB TRUE
+if \fIrepn\fP is \fBVBitRepn\fP, \fBVUByteRepn\fP, \fBVSByteRepn\fP, 
+\fBVShortRepn\fP, or \fBVLongRepn\fP. 
+.PP
+\fBVRepnName\fP returns a string naming the specified type. For example, 
+when \fIrepn\fP is \fBVBitRepn\fP it returns ``bit''. 
+.PP
+\fBVRepnMaxValue\fP returns the maximum value that can be represented by the 
+specified type.
+.PP
+\fBVRepnMinValue\fP returns the minimum (most negative) value that can be 
+represented by the specified type. 
+.PP
+\fBVRepnPrecision\fP returns the minimum number of bits needed to represent
+the specified type on any machine.
+.PP
+\fBVRepnSize\fP returns the size, in bytes, of the specified type on
+the present machine.
+.SH "SEE ALSO"
+.BR VConst (3Vi),
+.BR Vlib (7Vi)
+.SH NOTES
+\fBVRepnMaxValue\fP, \fBVRepnMinValue\fP, and \fBVRepnPrecision\fP are 
+undefined (and return 0) if \fIrepn\fP isn't \fBVBitRepn\fP through 
+\fBVDoubleRepn\fP, or \fBVBooleanRepn\fP.
+.PP
+A new value in the \fBVRepnKind\fP series is assigned by 
+\fBVRegisterType\fP when it is called to register a new object type. That 
+new value can be used in a call to any of these macros \(em all return 0 or 
+.SB FALSE
+except \fBVRepnName\fP, which returns the name of the newly registered 
+type.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

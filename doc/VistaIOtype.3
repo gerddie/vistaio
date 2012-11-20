@@ -1,0 +1,205 @@
+.ds Vn 2.1
+.ds SD /usr/src/vista
+.ds wd [a\-zA\-Z0\-9_.+\-]+
+.TH Vtype 3Vi "26 January 1994" "Vista Version \*(Vn"
+.SH NAME
+Vtype \- registering Vista object types
+.SH DESCRIPTION
+.SS Introduction
+An object such as an image or edge set is represented in a Vista data file 
+by an attribute. That attribute's value includes a type name, an attribute 
+list, and possibly some binary data. Although the object is easily stored 
+and communicated in that form, some other representation is often more 
+useful when working with the object in memory. An image, for example, is 
+best represented in memory by a structure with fixed fields to record the 
+properties of the image that are frequently accessed. 
+.PP
+The Vista library allows you to define a type that has its own internal 
+representation for objects. By registering your type with the library you 
+can arrange to have objects of that type automatically translated to and 
+from your internal representation whenever data files are read and written. 
+And when you use attribute lists to organize your objects, the objects will 
+be correctly copied and released by routines such as 
+\fBVCopyAttrList\fP(3Vi) and \fBVDestroyAttrList\fP(3Vi). 
+.PP
+Since Vista allows you to invent your own types of objects and to store
+those objects in data files, it must provide some way for standard programs
+to gracefully handle objects that are unfamiliar to them. A program such as
+\fBvcat\fP(1Vi), for example, must at least be able to copy your custom
+objects intact, binary data and all, from input to output. Unfamiliar
+objects are represented internally by the Vista library using the
+\fBVBundle\fP data structure, which is described separately in
+\fBVBundle\fP(3Vi). You should be read it before reading this.
+.PP
+This manual page explains how to register a type, what routines you must
+supply to support a type you are registering, and how to find out about a
+registered type.
+.SS "Registering a Type"
+.nf
+.ft B
+.ta 25n
+typedef struct {
+.RS
+VCopyMethod *copy;	/* copy object's value */
+VDestroyMethod *destroy;	/* destroy object's value */
+VDecodeMethod *decode;	/* decode object's binary data */
+VEncodeAttrMethod *encode_attr;	/* encode object's attr list */
+VEncodeDataMethod *encode_data;	/* encode object's binary data */
+.RE
+} VTypeMethods;
+.DT
+.PP
+.B "VRepnKind VRegisterType (VStringConst *\fIname\fP, VTypeMethods *\fImethods\fP)"
+.fi
+.PP
+Before registering a custom object type you will need to establish
+.RS 2n
+.IP \(bu 2n
+a unique name identifying the type. The name must match the regular 
+expression \*(wd (see \fBgrep\fP(1)), and it must not be \fBbit\fP, 
+\fBubyte\fP, \fBsbyte\fP, \fBshort\fP, \fBlong\fP, \fBfloat\fP, 
+\fBdouble\fP, \fPattr-list\fP, \fBboolean\fP, \fBbundle\fP\, \fBlist\fP, 
+\fBpointer\fP, \fBstring\fP, \fBedges\fP, \fBimage\fP, or any type name 
+already registered. 
+.IP \(bu
+a data structure for representing instances of the type in memory. A single
+pointer must suffice for referring to an instance, and the memory for each
+instance must be dynamically allocated.
+.IP \(bu
+a set of routines for copying, destroying, encoding, and decoding instances 
+of the type. These routine are called \fImethods\fP. They're described in 
+more detail below. 
+.IP \(bu
+any other routines or macros your programs will be using to access or 
+manipulate instances of the type. 
+.RE
+.PP
+The type is registered with a call to \fBVRegisterType\fP prior to any use 
+of the type within a program. Pass to \fBVRegisterType\fP the type's name 
+and a pointer to a \fBVTypeMethods\fP structure listing the type's methods. 
+\fBVRegisterType\fP will return a unique code from the \fBVRepnKind\fP 
+series, which can subsequently be used to refer to the type whenever a 
+\fBVRepnKind\fP value is called for (e.g., in a call to 
+\fBVSetAttr\fP(3Vi)).
+.SS Methods
+The type you register must be accompanied by these five methods:
+.PP
+.B "typedef VPointer VCopyMethod (VPointer \fIvalue\fP);"
+.IP
+The Copy method is passed an instance of your type; it returns a copy 
+of that object made with newly-allocated storage.
+.PP
+.B "typedef void VDestroyMethod (VPointer \fIvalue\fP);"
+.IP
+The Destroy method releases all storage occupied by the object 
+\fIvalue\fP.
+.HP 10n
+.na
+.nh
+.B "typedef VPointer VDecodeMethod"
+.B "(VStringConst\ \fIname\fP, VBundle\ \fIbundle\fP);"
+.ad
+.hy
+.IP "" 0.5i
+The Decode method creates an instance of your type. Data for the object is
+supplied via \fIbundle\fP in the form of an attribute list and an optional
+block of binary data, both of which may be modified by the method. An
+attribute name, \fIname\fP, is supplied for use in any error messages
+produced by \fIdecode\fP (e.g., ``The \fIname\fP attribute has the wrong
+amount of binary data''). The method returns the newly-created object, or
+.SB NULL
+if an error is encountered.
+.IP
+Storage for the new object can be freshly allocated, or it can be taken
+from \fIbundle\fP provided \fIbundle\fP itself is left in a state such that
+it can be destroyed without releasing storage used by the new object. For
+example, the new object can incorporate the attribute list
+\fIbundle\fB->list\fR provided \fIbundle\fP->\fBlist\fR is then set to a
+new, empty attribute list.  It can incorporate the data block
+\fIbundle\fB->data\fR provided \fIbundle\fB->length\fR is then set to zero.
+.HP 10n
+.na
+.nh
+.B "typedef VAttrList VEncodeAttrMethod"
+.B "(VPointer\ \fIvalue\fP, size_t\ *\fIlength\fP);"
+.ad
+.hy
+.HP 10n
+.na
+.nh
+.B "typedef VPointer VEncodeDataMethod"
+.B "(VPointer \fIvalue\fP, VAttrList\ \fIlist\fP,
+.B "size_t\ \fIlength\fP, VBoolean\ *\fIfree_it\fP);"
+.ad
+.hy
+.IP "" 0.5i
+These two methods produce an attribute list value and a block of binary
+data from an instance of your type. For any particular object the two
+methods are always called in sequence. First the EncodeAttr method is
+called with \fIvalue\fP identifying the object. It returns the attribute
+list value while setting \fIlength\fP to the number of bytes required for
+the block of binary data. Later, the EncodeData method is called with
+\fIvalue\fP identifying the same object, and \fIlist\fP and \fIlength\fP
+supplying the values returned by the EncodeAttr method. It returns a
+pointer to memory containing the block of binary data while setting
+\fIfree_it\fP to
+.SB TRUE
+if the memory should be released once the binary data has been recorded. 
+Setting \fIfree_it\fP to
+.SB FALSE
+indicates that the memory may be part of the object, \fIvalue\fP, and the 
+memory contents should be recorded before taking any action that might 
+modify the object. 
+.IP
+The attribute list returned by the EncodeAttr method can be assumed to
+exist only until the subsequent call to the EncodeData method. If this list
+is created by the EncodeAttr method, then the EncodeData method is
+responsible for destroying it. A practice adopted for the \fBimage\fP and
+\fBedges\fP types is for the EncodeAttr method to return a list that
+belongs to the object being encoded, but with some standard attributes
+prepended to it; the EncodeData method then removes the prepended
+attributes so that the object is left in the correct form.
+.IP
+If either method encounters an error, it signals the error by returning 
+.SB NULL\c
+\&. Note that both methods are called even if the first indicates, by
+setting \fIlength\fP to zero, that there is no binary data associated with
+\fIvalue\fP. When there is no binary data to return, the EncodeData method
+should return a non-\c
+.SB NULL
+pointer and set \fIfree_it\fP to 
+.SB FALSE
+to avoid signalling an error.
+.SS "Querying Registered Types"
+The following routine and macro provide information about registered types:
+.PP
+.B VRepnKind VLookupType (VStringConst \fIname\fP)
+.IP
+\fBVLookupType\fP returns the representation code associated with the type
+named \fIname\fP. (This will be the same as that returned by
+\fBVRegisterObjectType\fP when the type was registered.) If \fIname\fP is
+not the name of a known type, \fBVLookupType\fP returns \fBVUnknownRepn\fP.
+.PP
+.B VTypeMethods *VRepnMethods (VRepnKind \fIrepn\fP)
+.IP
+The macro \fBVRepnMethods\fP provides a handle to the methods for the 
+registered type identified by \fIrepn\fP. 
+.SS "Standard Object Types"
+The library implements some standard object types using the mechanism 
+described by this manual page. Currently, these standard object types are:
+.RS 2n
+.IP \fBedges\fP 10n
+Set of edges. See \fBVEdges\fP(3Vi).
+.IP \fBimage\fP
+Multi-band two-dimensional array of pixels. See \fBVImage\fP(3Vi).
+.PP
+.RE
+If you are developing your own custom type, you're encouraged to first
+consult these as examples; their methods are implemented in the files
+\fB\*(SD/EdgesType.c\fP and \fB\*(SD/ImageType.c\fP.
+.SH "SEE ALSO"
+.BR VBundle (3Vi),
+.BR Vattribute (3Vi),
+.BR Vlib (7Vi)
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>

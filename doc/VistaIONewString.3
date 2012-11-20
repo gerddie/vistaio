@@ -1,0 +1,55 @@
+.ds Vn 2.1
+.TH VNewString 3Vi "24 April 1993" "Vista Version \*(Vn"
+.SH NAME
+VNewString \- allocate a copy of a string
+.SH SYNOPSIS
+.PP
+.ft B
+.nf
+#include <vista/mu.h>
+.ft
+.fi
+.PP
+.ft B
+.nf
+VString VNewString (\fIstring\fP)
+.ft
+.RS
+.B VString \fIstring\fP;
+.RE
+.nf
+.SH ARGUMENTS
+.IP \fIstring\fP 10n
+Specifies a null-terminated string.
+.SH DESCRIPTION
+\fBVNewString\fP copies a string into a newly-allocated block of memory,
+which it obtains using \fBVMalloc\fP(3Vi). It is a convenience macro that
+calls \fBVMalloc\fP(3Vi) with the following arguments specified:
+.PP
+.RS
+.nf
+.B (strcpy (VMalloc (strlen (\fIstring\fP) + 1), \fIstring\fP))
+.fi
+.RE
+.SH "RETURN VALUES"
+\fBVNewString\fP returns a pointer to the new copy of the string.
+.SH "SEE ALSO"
+.na
+.nh
+.BR VMalloc (3Vi),
+.BR VNew (3Vi),
+.BR VError (3Vi),
+.BR Vlib (7Vi)
+.ad
+.hy
+.SH DIAGNOSTICS
+If there is insufficient memory to allocate the new block, \fBVNewString\fP
+terminates by calling \fBVError\fP(3Vi) with the message ``Out of memory''.
+.SH AUTHOR
+Art Pope <pope@cs.ubc.ca>
+.SH ACKNOWLEDGMENT
+This macro and this manual page are based on similar ones
+included in the X Toolkit Intrinsics, which is 
+Copyright 1985, 1986, 1987, 1988
+Massachusetts Institute of Technology, Cambridge, Massachusetts,
+and Digital Equipment Corporation, Maynard, Massachusetts.

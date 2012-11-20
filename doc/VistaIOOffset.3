@@ -1,0 +1,39 @@
+.ds Vn 2.1
+.TH VOffset 3Vi "19 January 1993" "Vista Version \*(Vn"
+.SH NAME
+VOffset, VOffsetOf \- determine the byte offset of a structure field
+.SH SYNTAX
+.nf
+.B "#include <vista/mu.h>"
+.PP
+.ft B
+size_t VOffset (\fIpointer_type\fP, \fIfield_name\fP)
+.RS
+Type \fIpointer_type\fP;
+Field \fIfield_name\fP;
+.RE
+.PP
+.ft B
+size_t VOffsetOf (\fIstruct_type\fP, \fIfield_name\fP)
+.RS
+Type \fIstruct_type\fP;
+Field \fIfield_name\fP;
+.RE
+.fi
+.SH ARGUMENTS
+.IP \fIfield_name\fP 10n
+Specifies the name of a structure field for which to calculate the byte
+offset.
+.IP \fIpointer_type\fP
+Specifies a type that is declared as a pointer to a structure.
+.IP \fIstruct_type\fP
+Specifies a type that is declared as a structure.
+.SH DESCRIPTION
+The \fBVOffset\fP and \fBVOffsetOf\fP macros return the byte offset of the
+\fIfield_name\fP field within its structure.
+.SH "SEE ALSO"
+.BR Vlib (7Vi)
+.SH NOTES
+These are equivalent to the X Toolkit macros \fBXtOffset\fP(3Xt) and
+\fBXtOffsetOf\fP(3Xt). ANSI C defines an \fBoffsetof\fP macro, which is to
+be preferred over any of these.
