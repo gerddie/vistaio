@@ -1,5 +1,5 @@
-.ds VistaIOn 2.1
-.TH VistaIOIdentifyFiles 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.ds Vv 1.2.14
+.TH VistaIOIdentifyFiles 3 "24 April 1993" "VistaIO Version \*(Vv"
 .SH NAME
 VistaIOIdentifyFiles \- identify files specified by command line arguments
 .SH SYNOPSIS
@@ -14,7 +14,7 @@ int \fInoptions\fP;
 VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
 VistaIOStringConst \fIkeyword\fP;
 int *\fIargc\fP;
-char **\fIargv\fP;
+char *\fIargv\fP;
 int \fIfd\fP;
 .fi
 .SH ARGUMENTS
@@ -139,7 +139,7 @@ VistaIOOptionDescRec options[] = {
 		NULL, "Output file" }
 };
 
-main (int argc, char **argv)
+main (int argc, char *argv)
 {
 	/* Parse command line options: */
 	if (! VistaIOParseCommand (VistaIONumber (options), options,

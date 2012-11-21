@@ -1,5 +1,5 @@
-.ds VistaIOn 2.1
-.TH VistaIOImage 3 "12 April 1994" "Vista VistaIOersion \*(VistaIOn"
+.ds Vv 1.2.14
+.TH VistaIOImage 3 "12 April 1994" "VistaIO Version \*(Vv"
 .SH NAME
 VistaIOImage \- image representation
 .SH SYNOPSIS
@@ -165,7 +165,7 @@ else \fR...
 .RE
 .PP
 .nf
-.B \fItype\fP *** VistaIOPixelArray (VistaIOImage \fIimage\fP, \fItype\fP)
+.B \fItype\fP ** VistaIOPixelArray (VistaIOImage \fIimage\fP, \fItype\fP)
 .fi
 .RS
 .PP
@@ -175,7 +175,7 @@ number, and then its column number. For example:
 .RS
 .PP
 .nf
-.B VistaIOUByte ***pixels = VistaIOPixelArray (image, VistaIOUByte);
+.B VistaIOUByte **pixels = VistaIOPixelArray (image, VistaIOUByte);
 .B pixels[band][row][column] = new_value;
 .fi
 .RE
@@ -459,7 +459,7 @@ unsigned long flags;	/* various flags */
 VistaIOAttrList attributes;	/* list of other image attributes */
 VistaIOPointer data;	/* array of image pixel values */
 VistaIOPointer *row_index;	/* ptr to first pixel of each row */
-VistaIOPointer **band_index;	/* ptr to first row of each band */
+VistaIOPointer *band_index;	/* ptr to first row of each band */
 int nframes;	/* number of motion frames */
 int nviewpoints;	/* number of camera viewpoints */
 int ncolors;	/* number of color channels */

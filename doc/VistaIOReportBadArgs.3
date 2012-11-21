@@ -1,5 +1,5 @@
-.ds VistaIOn 2.1
-.TH VistaIOReportBadArgs 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.ds Vv 1.2.14
+.TH VistaIOReportBadArgs 3 "24 April 1993" "VistaIO Version \*(Vv"
 .SH NAME
 VistaIOReportBadArgs \- report unrecognized command line arguments
 .SH SYNOPSIS
@@ -11,7 +11,7 @@ VistaIOReportBadArgs \- report unrecognized command line arguments
 void VistaIOReportBadArgs (\fIargc\fP, \fIargv\fP)
 .RS
 int \fIargc\fP;
-char **\fIargv\fP;
+char *\fIargv\fP;
 .fi
 .SH ARGUMENTS
 .IP \fIargc\fP
@@ -50,7 +50,7 @@ options.
 .B "static VistaIOOptionDescRec options[] = { /* option table entries */ };"
 .PP
 .ft B
-int main (int argc, char **argv)
+int main (int argc, char *argv)
 {
 .RS
 if (! VistaIOParseCommand (VistaIONumber (options), options, & argc, argv))

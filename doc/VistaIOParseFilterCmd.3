@@ -1,5 +1,5 @@
-.ds VistaIOn 2.1
-.TH VistaIOParseFilterCmd 3 "28 January 1994" "Vista VistaIOersion \*(VistaIOn"
+.ds Vv 1.2.14
+.TH VistaIOParseFilterCmd 3 "28 January 1994" "VistaIO Version \*(Vv"
 .SH NAME
 VistaIOParseFilterCmd \- parse command line options and filenames
 .SH SYNOPSIS
@@ -13,9 +13,9 @@ void VistaIOParseFilterCmd (\fInoptions\fP, \fIoptions\fP, \fIargc\fP, \fIargv\f
 .RS
 int \fInoptions\fP, \fIargc\fP;
 VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
-char **\fIargv\fP;
-FILE **\fIinput\fP;
-FILE **\fIoutput\fP;
+char *\fIargv\fP;
+FILE *\fIinput\fP;
+FILE *\fIoutput\fP;
 .RE
 .fi
 .SH ARGUMENTS

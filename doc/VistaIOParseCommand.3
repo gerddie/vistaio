@@ -1,5 +1,5 @@
-.ds VistaIOn 2.1
-.TH VistaIOParseCommand 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.ds Vv 1.2.14
+.TH VistaIOParseCommand 3 "24 April 1993" "VistaIO Version \*(Vv"
 .SH NAME
 VistaIOParseCommand \- parse command line arguments
 .SH SYNOPSIS
@@ -14,7 +14,7 @@ VistaIOParseCommand \- parse command line arguments
 .ft B
 int \fInoptions\fP, *\fIargc\fP;
 VistaIOOptionDescRec \fIoptions\fP[\fInoptions\fP];
-char **\fIargv\fP;
+char *\fIargv\fP;
 .ft
 .fi
 .SH ARGUMENTS
@@ -128,7 +128,7 @@ options.
 static VistaIOOptionDescRec options[] = { /* option table entries */ };
 .PP
 .ft B
-int main (int argc, char **argv)
+int main (int argc, char *argv)
 {
 .RS
 if (! VistaIOParseCommand (VistaIONumber (options), options, & argc, argv))
