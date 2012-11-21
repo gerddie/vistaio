@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOParseCommand 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOParseCommand 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOParseCommand \- parse command line arguments
 .SH SYNOPSIS
@@ -30,7 +30,7 @@ Specifies a vector of command line arguments to be parsed, and returns
 a vector of the arguments that were not recognized as valid options.
 .SH DESCRIPTION
 \fBVistaIOParseCommand\fP parses command line arguments according to a table that
-describes valid command line options. The \fBVistaIOoption\fP(3Vi) manual page
+describes valid command line options. The \fBVistaIOoption\fP(3) manual page
 describes this table's contents and specifies the forms that command line 
 options may take.  The \fInoptions\fP and \fIoptions\fP arguments specify the
 length and location of the table.
@@ -41,7 +41,7 @@ however, that the address of \fBmain\fP's \fIargc\fP is passed rather than
 the actual value of \fIargc\fP.)
 .PP
 \fBVistaIOParseCommand\fP uses the first command line
-argument, \fIargv\fP[0], in a call to \fBVistaIOSetProgramName\fP(3Vi) to record the
+argument, \fIargv\fP[0], in a call to \fBVistaIOSetProgramName\fP(3) to record the
 program's name for future error messages.
 .PP
 The remaining command line arguments are then processed sequentially from
@@ -163,10 +163,10 @@ exit (1);
 .SH "SEE ALSO"
 .nh
 .na
-.BR VistaIOReportBadArgs (3Vi),
-.BR VistaIOReportUsage (3Vi),
-.BR VistaIOIdentifyFiles (3Vi),
-.BR VistaIOoption (3Vi),
+.BR VistaIOReportBadArgs (3),
+.BR VistaIOReportUsage (3),
+.BR VistaIOIdentifyFiles (3),
+.BR VistaIOoption (3),
 
 .hy
 .ad

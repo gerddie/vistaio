@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOIdentifyFiles 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOIdentifyFiles 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOIdentifyFiles \- identify files specified by command line arguments
 .SH SYNOPSIS
@@ -64,7 +64,7 @@ option and directing the program's standard output stream
 (e.g., \fBvconvolve\ >\fP\ \fIfile1\fP).
 .PP
 \fBVistaIOIdentifyFiles\fP identifies a program's input files or output files 
-according to this convention. It is called after \fBVistaIOParseCommand\fP(3Vi) 
+according to this convention. It is called after \fBVistaIOParseCommand\fP(3) 
 has parsed any command line arguments that can be identified as options, 
 leaving the remaining arguments in \fI*argc\fP and \fIargv\fP. 
 \fBVistaIOIdentifyFiles\fP is then called once to identify any input files, and 
@@ -72,7 +72,7 @@ perhaps again to identify an output file.
 .PP
 The \fInoptions\fP and \fIoptions\fP parameters specify the table used 
 earlier by \fBVistaIOParseCommand\fP to parse command line options. (See 
-\fBVistaIOoption\fP(3Vi) for details.) The \fIargc\fP and \fIargv\fP parameters 
+\fBVistaIOoption\fP(3) for details.) The \fIargc\fP and \fIargv\fP parameters 
 specify a list of command line arguments that \fBVistaIOParseCommand\fP has 
 returned as unparsed (including the program's name, which should be first 
 in this list). The \fIkeyword\fP parameter specifies the command line 
@@ -183,12 +183,12 @@ Usage:		VistaIOReportUsage (argv[0], VistaIONumber (options), options,
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOOpenFile (3Vi),
-.BR VistaIOParseCommand (3Vi),
-.BR VistaIOReportBadArgs (3Vi),
-.BR VistaIOReportUsage (3Vi),
+.BR VistaIOOpenFile (3),
+.BR VistaIOParseCommand (3),
+.BR VistaIOReportBadArgs (3),
+.BR VistaIOReportUsage (3),
 .br
-.BR VistaIOoption (3Vi),
+.BR VistaIOoption (3),
 
 .ad
 .hy

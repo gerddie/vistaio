@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOReadFile 3Vi "26 January 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOReadFile 3 "26 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOReadFile \- read a Vista data file
 .SH SYNOPSIS
@@ -29,8 +29,8 @@ to indicate that all binary data should be read.
 .SH DESCRIPTION
 \fBVistaIOReadFile\fP reads the contents of a Vista data file. It returns a list of the attributes 
 found in the file. Attribute values in that list will have been converted 
-to internal form, as described by \fBVistaIOattribute\fP(3Vi) and 
-\fBVistaIOtype\fP(3Vi). 
+to internal form, as described by \fBVistaIOattribute\fP(3) and 
+\fBVistaIOtype\fP(3). 
 .PP
 With the \fIfilter\fP argument you may supply a function that gets to 
 decide for each attribute value that is an object whether or not that 
@@ -55,7 +55,7 @@ Your filter function will be called once for each object encountered at any
 level in the file. It will be passed a \fBVistaIOBundle\fP representing the
 object (including its type name and attribute list, but not its binary
 data), and the \fIrepn\fP value obtained by looking up its type name (i.e.,
-the value returned by \fBVistaIOLookupType\fP(3Vi) on the type name, which could
+the value returned by \fBVistaIOLookupType\fP(3) on the type name, which could
 be \fBVistaIOUnknownRepn\fP). The object's binary data will be read only if the
 filter function returns
 .SB TRUE\c
@@ -82,13 +82,13 @@ not have been completely read.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOReadObjects (3Vi),
-.BR VistaIOReadUbcIff (3Vi),
+.BR VistaIOReadObjects (3),
+.BR VistaIOReadUbcIff (3),
 .BR stdio (3),
 .br
-.BR VistaIOBundle (3Vi),
-.BR VistaIOattribute (3Vi),
-.BR VistaIOtype (3Vi)
+.BR VistaIOBundle (3),
+.BR VistaIOattribute (3),
+.BR VistaIOtype (3)
 
 .hy
 .ad

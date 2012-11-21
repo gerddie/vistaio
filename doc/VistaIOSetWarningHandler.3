@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOSetWarningHandler 3Vi "16 February 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOSetWarningHandler 3 "16 February 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOSetWarningHandler \- register a procedure to be called on any nonfatal error
 .SH SYNOPSIS
@@ -20,8 +20,8 @@ Specifies the new nonfatal error handler.
 Specifies a null-terminated error message string to be reported. 
 .SH DESCRIPTION
 \fBVistaIOSetWarningHandler\fP registers a procedure, \fIhandler\fP, as the
-nonfatal error handler. That procedure is called by \fBVistaIOWarning\fP(3Vi) or
-by \fBVistaIOSystemWarning\fP(3Vi) to report any nonfatal error. When called it
+nonfatal error handler. That procedure is called by \fBVistaIOWarning\fP(3) or
+by \fBVistaIOSystemWarning\fP(3) to report any nonfatal error. When called it
 is passed a string, \fImessage\fP, containing a textual description of the
 error.
 .PP
@@ -60,8 +60,8 @@ int main (\fR...\fP)
 .fi
 .RE
 .SH "SEE ALSO"
-.BR VistaIOWarning (3Vi),
-.BR VistaIOSetErrorHandler (3Vi),
+.BR VistaIOWarning (3),
+.BR VistaIOSetErrorHandler (3),
 
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

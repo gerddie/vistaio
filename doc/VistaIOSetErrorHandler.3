@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOSetErrorHandler 3Vi "16 February 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOSetErrorHandler 3 "16 February 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOSetErrorHandler \- register a procedure to be called on any fatal error
 .SH SYNOPSIS
@@ -20,8 +20,8 @@ Specifies the new fatal error handler.
 Specifies a null-terminated error message string to be reported. 
 .SH DESCRIPTION
 \fBVistaIOSetErrorHandler\fP registers a procedure, \fIhandler\fP, as the fatal
-error handler. That procedure is called by \fBVistaIOError\fP(3Vi) or by
-\fBVistaIOSystemError\fP(3Vi) to report any fatal error. When called, it is passed
+error handler. That procedure is called by \fBVistaIOError\fP(3) or by
+\fBVistaIOSystemError\fP(3) to report any fatal error. When called, it is passed
 a string, \fImessage\fP, containing a textual description of the error.
 .PP
 Only one procedure serves as the fatal error handler at any one time.
@@ -63,8 +63,8 @@ int main (\fR...\fP)
 .fi
 .RE
 .SH "SEE ALSO"
-.BR VistaIOError (3Vi),
-.BR VistaIOSetWarningHandler (3Vi),
+.BR VistaIOError (3),
+.BR VistaIOSetWarningHandler (3),
 
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

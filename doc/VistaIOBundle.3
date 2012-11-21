@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOBundle 3Vi "21 January 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOBundle 3 "21 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOBundle \- representation for Vista object with binary data
 .SH DESCRIPTION
@@ -32,7 +32,7 @@ structure has four fields. In \fBtype_name\fP is the name of the object's
 type as a null-terminated string. In \fBlist\fP is a handle to its
 attribute list. If the object includes binary data, \fBlength\fP is the
 data's length in bytes and \fBdata\fP points to storage obtained from
-\fBVistaIOMalloc\fP(3Vi) containing the data. If, on the other hand, the object
+\fBVistaIOMalloc\fP(3) containing the data. If, on the other hand, the object
 include no binary data, \fBlength\fP is zero.
 .PP
 Any attribute list member can have a \fBVistaIOBundle\fP as its value. The 
@@ -40,9 +40,9 @@ attribute's value representation is denoted by the \fBVistaIORepnKind\fP constan
 \fBVistaIOBundleRepn\fP. Such attributes can be created, copied, deleted, 
 and accessed much like any other.
 .PP
-\fBVistaIOReadFile\fP(3Vi) reads a data file and returns its contents as an
+\fBVistaIOReadFile\fP(3) reads a data file and returns its contents as an
 attribute list while recording objects with unfamiliar types as
-\fBVistaIOBundle\fP attributes. \fBVistaIOWriteFile\fP(3Vi) writes a data file from
+\fBVistaIOBundle\fP attributes. \fBVistaIOWriteFile\fP(3) writes a data file from
 the contents of an attribute list while interpreting \fBVistaIOBundle\fP
 attributes. When the two are used together, an object with any type and any
 binary data will be passed unchanged from input to output while being
@@ -69,8 +69,8 @@ the structures they point to are not copied).
 \fBVistaIODestroyBundle\fP releases all storage occupied by a \fBVistaIOBundle\fP,
 including its attribute list and any binary data block.
 .SH "SEE ALSO"
-.BR VistaIOattribute (3Vi),
-.BR VistaIOtype (3Vi),
+.BR VistaIOattribute (3),
+.BR VistaIOtype (3),
 
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

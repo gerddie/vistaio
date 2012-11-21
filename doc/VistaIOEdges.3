@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOEdges 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOEdges 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOEdges \- edge set representation
 .SH SYNOPSIS
@@ -60,8 +60,8 @@ data files it's identified by the type name \fBedges\fP, and in memory, by
 the \fBVistaIORepnKind\fP code \fBVistaIOEdgesRepn\fP. Since it is a standard object 
 type with built-in support in the Vista library, edge sets can be read from 
 data files, written to data files, and manipulated as part of attribute 
-lists by routines such as \fBVistaIOReadFile\fP(3Vi), \fBVistaIOWriteFile\fP(3Vi), and 
-\fBVistaIOGetAttr\fP(3Vi). 
+lists by routines such as \fBVistaIOReadFile\fP(3), \fBVistaIOWriteFile\fP(3), and 
+\fBVistaIOGetAttr\fP(3). 
 .PP
 A single edge, a member of an edge set, is referred to by the C pointer 
 type \fBVistaIOEdge\fP.
@@ -206,7 +206,7 @@ printf("%f ", (float) VistaIOEdgePointArray(e)[i][0]);
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOattribute (3Vi)
+.BR VistaIOattribute (3)
 
 .ad
 .hy
@@ -216,7 +216,7 @@ David Lowe <lowe@cs.ubc.ca>
 Adaption to vistaio: Gert Wollny <gw.fossdev@gmail.com>
 .SH "LIST OF ROUTINES"
 The following table summarizes other Vista library routines that operate
-on edge sets. Each routine is documented elsewhere, by a section 3Vi man page
+on edge sets. Each routine is documented elsewhere, by a section 3 man page
 named for the routine.
 .RS 2n
 .IP \fBVistaIOReadEdges\fP 15n

@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOSetProgramName 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOSetProgramName 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOSetProgramName \- register a program name for error messages
 .SH SYNOPSIS
@@ -17,8 +17,8 @@ Specifies the program's name as a null-terminated string, or is
 to indicate that no program name should be registered.
 .SH DESCRIPTION
 \fBVistaIOSetProgramName\fP determines what, if any, program name will be
-included in subsequent error messages composed by \fBVistaIOError\fP (3Vi),
-\fBVistaIOSystemError\fP(3Vi), \fBVistaIOWarning\fP(3Vi), and \fBVistaIOSystemWarning\fP(3Vi).
+included in subsequent error messages composed by \fBVistaIOError\fP (3),
+\fBVistaIOSystemError\fP(3), \fBVistaIOWarning\fP(3), and \fBVistaIOSystemWarning\fP(3).
 .PP
 Initially, no program name is registered. If \fBVistaIOSetProgramName\fP
 is called with a string, that string is registered as the program name. 
@@ -42,10 +42,10 @@ char *argv[];
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOError (3Vi),
-.BR VistaIOWarning (3Vi),
-.BR VistaIOSetErrorHandler (3Vi),
-.BR VistaIOSetWarningHandler (3Vi),
+.BR VistaIOError (3),
+.BR VistaIOWarning (3),
+.BR VistaIOSetErrorHandler (3),
+.BR VistaIOSetWarningHandler (3),
 
 .ad
 .hy

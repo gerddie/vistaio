@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOMalloc 3Vi "3 June 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOMalloc 3 "3 June 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOMalloc, VistaIOCalloc, VistaIORealloc, VistaIOFree \- memory allocation functions
 .SH SYNOPSIS
@@ -62,16 +62,16 @@ the allocated storage.
 .na
 .nh
 .BR malloc (3),
-.BR VistaIONew (3Vi),
-.BR VistaIONewString (3Vi),
-.BR VistaIOError (3Vi),
+.BR VistaIONew (3),
+.BR VistaIONewString (3),
+.BR VistaIOError (3),
 
 .ad
 .hy
 .SH DIAGNOSTICS
 If there is insufficient memory to allocate a requested block,
 \fBVistaIOMalloc\fP, \fBVistaIOCalloc\fP, or \fBVistaIORealloc\fP will terminate by calling
-\fBVistaIOError\fP(3Vi) with the message ``Memory allocation failure''.
+\fBVistaIOError\fP(3) with the message ``Memory allocation failure''.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>
 

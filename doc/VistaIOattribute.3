@@ -1,6 +1,6 @@
 .ds VistaIOn 2.1
 .ds wd [a\-zA\-Z0\-9_.+\-]+
-.TH VistaIOattribute 3Vi "28 January 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOattribute 3 "28 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOattribute \- representation of a list of name/value pairs
 .SH SYNOPSIS
@@ -44,7 +44,7 @@ Again, conversion between keywords and any desired representation occurs
 when the attribute value is accessed. The routines you use to access 
 attribute values allow you to specify an optional dictionary that describes 
 a mapping between keywords and values. The form of this dictionary is 
-described by the \fBVistaIOdictionary\fP(3Vi) manual page. Using a dictionary, 
+described by the \fBVistaIOdictionary\fP(3) manual page. Using a dictionary, 
 for example, you can fetch an attribute's value as a \fBVistaIOBoolean\fP while 
 converting the keywords \fBfalse\fP and \fBtrue\fP to the values 0 and 1. 
 .IP \(bu
@@ -55,13 +55,13 @@ attributes, are not allowed.
 An attribute's value may be an object with any of the standard object types 
 (e.g., an image or edge set); or it may be an object of a type that has 
 been registered by the programmer using the mechanism described in 
-\fBVistaIOtype\fP(3Vi). Because they are registered, such types are automatically 
+\fBVistaIOtype\fP(3). Because they are registered, such types are automatically 
 read from data files and written to data files by library routines such 
-as \fBVistaIOReadFile\fP(3Vi) and \fBVistaIOWriteFile\fP(3Vi).
+as \fBVistaIOReadFile\fP(3) and \fBVistaIOWriteFile\fP(3).
 .IP \(bu
 An attribute's value may be of type \fBVistaIOBundle\fP, described in
-\fBVistaIOBundle\fP(3Vi). A \fBVistaIOBundle\fP can represent an object whose type has
-not been registered with the \fBVistaIOtype\fP(3Vi) mechanism, in a way that
+\fBVistaIOBundle\fP(3). A \fBVistaIOBundle\fP can represent an object whose type has
+not been registered with the \fBVistaIOtype\fP(3) mechanism, in a way that
 allows the object to be copied unchanged from an input data file to an
 output data file. It's used to represent objects of unknown type
 encountered in input data files.
@@ -175,7 +175,7 @@ attribute value at \fIposn\fP.
 .hy
 .IP "" 0.5i
 This routine gets the value of the attribute at \fIposn\fP. (See
-\fBVistaIOGetAttrValue\fP(3Vi) for details.)
+\fBVistaIOGetAttrValue\fP(3) for details.)
 .HP 10n
 .na
 .nh
@@ -185,7 +185,7 @@ This routine gets the value of the attribute at \fIposn\fP. (See
 .hy
 .IP "" 0.5i
 This routine sets the value of the attribute at \fIposn\fP. (See 
-\fBVistaIOSetAttrValue\fP(3Vi) for details.)
+\fBVistaIOSetAttrValue\fP(3) for details.)
 .SS "Accessing Attributes by Name"
 The following routines access attributes by name. They are appropriate when
 accessing an attribute list representing a set of attributes, in which
@@ -215,7 +215,7 @@ is returned.
 .hy
 .IP "" 0.5i
 \fBVistaIOGetAttr\fP gets the value of the named attribute. (See 
-\fBVistaIOGetAttr\fP(3Vi) for details.) 
+\fBVistaIOGetAttr\fP(3) for details.) 
 .HP 10n
 .na
 .nh
@@ -227,7 +227,7 @@ is returned.
 .IP "" 0.5i
 \fBVistaIOSetAttr\fP sets the value of the named attribute, creating an attribute 
 if the list doesn't already contain one with that name. (See 
-\fBVistaIOSetAttr\fP(3Vi) for details.)
+\fBVistaIOSetAttr\fP(3) for details.)
 .SS "Inserting and Deleting Attributes"
 The following routines add attributes to lists and remove them.
 .HP 10n
@@ -240,7 +240,7 @@ The following routines add attributes to lists and remove them.
 .hy
 .IP "" 0.5i
 \fBVistaIOInsertAttr\fP inserts an attribute before or after a specified position 
-within an attribute list. (See \fBVistaIOInsertAttr\fP(3Vi) for details.) 
+within an attribute list. (See \fBVistaIOInsertAttr\fP(3) for details.) 
 .PP
 .B void VistaIODeleteAttr (VistaIOAttrListPosn *\fIposn\fP)
 .IP
@@ -257,7 +257,7 @@ attribute deleted was the last on its list.
 .hy
 .IP "" 0.5i
 \fBVistaIOAppendAttr\fP appends an attribute to the back of \fIlist\fP. (See 
-\fBVistaIOAppendAttr\fP(3Vi) for details.)
+\fBVistaIOAppendAttr\fP(3) for details.)
 .HP 10n
 .na
 .nh
@@ -268,7 +268,7 @@ attribute deleted was the last on its list.
 .hy
 .IP "" 0.5i
 \fBVistaIOPrependAttr\fP prepends an attribute to the front of \fIlist\fP. (See 
-\fBVistaIOPrependAttr\fP(3Vi) for details.)
+\fBVistaIOPrependAttr\fP(3) for details.)
 .HP 10n
 .na
 .nh
@@ -281,7 +281,7 @@ attribute deleted was the last on its list.
 .IP "" 0.5i
 \fBVistaIOExtractAttr\fP locates an attribute named \fIname\fP in \fIlist\fP, 
 removing it if found and returning its value. (See 
-\fBVistaIOExtractAttr\fP(3Vi) for details.)
+\fBVistaIOExtractAttr\fP(3) for details.)
 .SS "Encoding and Decoding Attribute VistaIOalues"
 The following routines translate character-string attribute values to and 
 from other representations.
@@ -295,7 +295,7 @@ from other representations.
 .IP "" 0.5i
 \fBVistaIOEncodeAttrValue\fP takes a value and an optional dictionary, and
 encodes the value as a character string suitable for storage in an
-attribute list or output to a data file.  (See \fBVistaIOEncodeAttrValue\fP(3Vi)
+attribute list or output to a data file.  (See \fBVistaIOEncodeAttrValue\fP(3)
 for details.)
 .HP 10n
 .na
@@ -308,19 +308,19 @@ for details.)
 .IP "" 0.5i
 \fBVistaIODecodeAttrValue\fP performs the inverse operation, taking a string and 
 returning a value in the requested representation. (See 
-\fBVistaIODecodeAttrValue\fP(3Vi) for details.) 
+\fBVistaIODecodeAttrValue\fP(3) for details.) 
 .SS "Inputting and Outputting Attribute Lists"
 The following routines read and write attribute lists.
 .PP
 .B VistaIOAttrList VistaIOReadFile (FILE *\fIfile\fP, VistaIOBoolean (*\fIfilter\fP) ())
 .IP
 \fBVistaIOReadFile\fP reads an entire data file, returning it as an attribute 
-list. (See \fBVistaIOReadFile\fP(3Vi) for details.)
+list. (See \fBVistaIOReadFile\fP(3) for details.)
 .PP
 .B VistaIOBoolean VistaIOWriteFile (FILE *\fIfile\fP, VistaIOAttrList\ \fIlist\fP)
 .IP
 \fBVistaIOWriteFile\fP writes an entire data file with the contents of an 
-attribute list. (See \fBVistaIOWriteFile\fP(3Vi) for details.)
+attribute list. (See \fBVistaIOWriteFile\fP(3) for details.)
 .SS "Storage Management"
 To program with attribute lists it is necessary to know something about how 
 storage is managed for attribute values. The general rule is that when 
@@ -576,26 +576,26 @@ if (VistaIOLookupAttr (list, "...", & posn)) {
 .SH "SEE ALSO"
 .nh
 .na
-.BR VistaIOBundle (3Vi),
-.BR VistaIOdictionary (3Vi),
-.BR VistaIOtype (3Vi),
+.BR VistaIOBundle (3),
+.BR VistaIOdictionary (3),
+.BR VistaIOtype (3),
 ,
 .br
-.BR VistaIOGetAttrValue (3Vi),
-.BR VistaIOSetAttrValue (3Vi),
-.BR VistaIOGetAttr (3Vi),
-.BR VistaIOSetAttr (3Vi),
+.BR VistaIOGetAttrValue (3),
+.BR VistaIOSetAttrValue (3),
+.BR VistaIOGetAttr (3),
+.BR VistaIOSetAttr (3),
 .br
-.BR VistaIOInsertAttr (3Vi),
-.BR VistaIOAppendAttr (3Vi),
-.BR VistaIOPrependAttr (3Vi),
-.BR VistaIOExtractAttr (3Vi),
+.BR VistaIOInsertAttr (3),
+.BR VistaIOAppendAttr (3),
+.BR VistaIOPrependAttr (3),
+.BR VistaIOExtractAttr (3),
 .br
-.BR VistaIOEncodeAttrValue (3Vi),
-.BR VistaIODecodeAttrValue (3Vi),
+.BR VistaIOEncodeAttrValue (3),
+.BR VistaIODecodeAttrValue (3),
 .br
-.BR VistaIOReadFile (3Vi),
-.BR VistaIOWriteFile (3Vi)
+.BR VistaIOReadFile (3),
+.BR VistaIOWriteFile (3)
 .hy
 .ad
 .SH AUTHOR

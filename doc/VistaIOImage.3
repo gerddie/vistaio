@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOImage 3Vi "12 April 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOImage 3 "12 April 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOImage \- image representation
 .SH SYNOPSIS
@@ -23,8 +23,8 @@ data files it's identified by the type name \fBimage\fP, and in memory, by
 the \fBVistaIORepnKind\fP code \fBVistaIOImageRepn\fP. Since it is a standard object 
 type with built-in support in the Vista library, images can be read from 
 data files, written to data files, and manipulated as part of attribute 
-lists by routines such as \fBVistaIOReadFile\fP(3Vi), \fBVistaIOWriteFile\fP(3Vi), and 
-\fBVistaIOGetAttr\fP(3Vi). 
+lists by routines such as \fBVistaIOReadFile\fP(3), \fBVistaIOWriteFile\fP(3), and 
+\fBVistaIOGetAttr\fP(3). 
 .SS "Creating and Destroying Images"
 The following routines create and destroy images.
 .HP 10n
@@ -39,7 +39,7 @@ The following routines create and destroy images.
 numbers of bands, rows, and columns. Its pixel values are not initialized,
 and it is given an empty attribute list. The \fIpixel_repn\fP argument is
 described below, under ``Pixel Representation''. (See
-\fBVistaIOCreateImage\fP(3Vi) for details.)
+\fBVistaIOCreateImage\fP(3) for details.)
 .PP
 .B void VistaIODestroyImage (VistaIOImage \fIimage\fP)
 .IP
@@ -352,7 +352,7 @@ interpretation codes (e.g., \fBVistaIOBandInterpComplex\fP) and their keywords
 .PP
 For each of the four band interpretation dimensions there is a routine you 
 can use to simultaneously check both the dimension's size and, if present, 
-its interpretation attribute. The \fBVistaIOBandInterp\fP(3Vi) man page describes 
+its interpretation attribute. The \fBVistaIOBandInterp\fP(3) man page describes 
 the four routines. 
 .SS "Pixel Aspect Ratio"
 Pixel aspect ratio is defined as the ratio of pixel width to pixel height. 
@@ -422,7 +422,7 @@ and
 .SB NULL
 otherwise. Moreover, if
 .SB NULL 
-is returned, the routine will already have called \fBVistaIOWarning\fP(3Vi) to
+is returned, the routine will already have called \fBVistaIOWarning\fP(3) to
 issue a warning message describing the problem.
 .PP
 The third argument to most image processing routines, \fIband\fP, may
@@ -441,7 +441,7 @@ already. The sizes of the four band interpretation dimensions
 however, a routine may delete or modify the attributes and dimensional 
 sizes as it copies them from source to destination. For example, a routine 
 that converts an RGB color image to a grey-scale one 
-(\fBVistaIORGBImageToGray\fP(3Vi)) expects a source image with the properties 
+(\fBVistaIORGBImageToGray\fP(3)) expects a source image with the properties 
 \fBncolors:\ 3\fP and \fBcolor_interp: rgb\fP; the destination image 
 it produces has \fBncolors:\ 1\fP and no \fBcolor_interp\fP attribute. 
 .SS "Image Representation in Memory"
@@ -513,7 +513,7 @@ various things. One bit is currently defined:
 .IP \fBVistaIOImageSingleAlloc\fP 21n
 This bit, if nonzero, indicates that the \fBVistaIOImageRec\fP, the block of pixel
 values, the row index, and the band index were all obtained with a single
-call to \fBVistaIOMalloc\fP(3Vi). If the bit is zero, these things were allocated
+call to \fBVistaIOMalloc\fP(3). If the bit is zero, these things were allocated
 separately and therefore they must be released separately.
 .PP
 The \fBnframes\fP, \fBnviewpoints\fP, \fBncolors\fP, and \fBncomponents\fP
@@ -719,7 +719,7 @@ name: "UFO icon"
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOattribute (3Vi)
+.BR VistaIOattribute (3)
 
 .ad
 .hy
@@ -729,7 +729,7 @@ Art Pope <pope@cs.ubc.ca>
 Adaption to vistaio: Gert Wollny <gw.fossdev@gmail.com>
 .SH "LIST OF ROUTINES"
 The following table summarizes the Vista library routines that operate on
-images. Many of these routine are documented elsewhere, by a section 3Vi
+images. Many of these routine are documented elsewhere, by a section 3
 man page named for the routine.
 .PP
 For creating and destroying images in memory:

@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOParseFilterCmd 3Vi "28 January 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOParseFilterCmd 3 "28 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOParseFilterCmd \- parse command line options and filenames
 .SH SYNOPSIS
@@ -45,14 +45,14 @@ parsing or in attempting to open the input and output files. Its major
 limitation is that it allows at most one input file and one output file. 
 .PP
 Options particular to a program are specified in a table given by the 
-\fInoptions\fP and \fIoptions\fP arguments. See the \fBVistaIOoption\fP(3Vi) 
+\fInoptions\fP and \fIoptions\fP arguments. See the \fBVistaIOoption\fP(3) 
 manual page for the form of this table. 
 .PP
 The \fIargc\fP and \fIargv\fP arguments to \fBVistaIOParseFilterCmd\fP are 
 normally identical to the parameters of the program's \fBmain\fP function. 
 .PP
 \fBVistaIOParseFilterCmd\fP uses the first command line argument, \fIargv\fP[0], 
-in a call to \fBVistaIOSetProgramName\fP(3Vi) to record the program's name for 
+in a call to \fBVistaIOSetProgramName\fP(3) to record the program's name for 
 future error messages. 
 .PP
 The remaining command line arguments are then processed sequentially. An 
@@ -70,9 +70,9 @@ Vista programs.
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOParseCommand (3Vi),
-.BR VistaIOIdentifyFiles (3Vi),
-.BR VistaIOoption (3Vi),
+.BR VistaIOParseCommand (3),
+.BR VistaIOIdentifyFiles (3),
+.BR VistaIOoption (3),
 
 .ad
 .hy

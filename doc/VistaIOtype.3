@@ -1,7 +1,7 @@
 .ds VistaIOn 2.1
 .ds SD /usr/src/vista
 .ds wd [a\-zA\-Z0\-9_.+\-]+
-.TH VistaIOtype 3Vi "26 January 1994" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOtype 3 "26 January 1994" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOtype \- registering Vista object types
 .SH DESCRIPTION
@@ -20,7 +20,7 @@ can arrange to have objects of that type automatically translated to and
 from your internal representation whenever data files are read and written. 
 And when you use attribute lists to organize your objects, the objects will 
 be correctly copied and released by routines such as 
-\fBVistaIOCopyAttrList\fP(3Vi) and \fBVistaIODestroyAttrList\fP(3Vi). 
+\fBVistaIOCopyAttrList\fP(3) and \fBVistaIODestroyAttrList\fP(3). 
 .PP
 Since Vista allows you to invent your own types of objects and to store
 those objects in data files, it must provide some way for standard programs
@@ -28,7 +28,7 @@ to gracefully handle objects that are unfamiliar to them. A program must at leas
 objects intact, binary data and all, from input to output. Unfamiliar
 objects are represented internally by the Vista library using the
 \fBVistaIOBundle\fP data structure, which is described separately in
-\fBVistaIOBundle\fP(3Vi). You should be read it before reading this.
+\fBVistaIOBundle\fP(3). You should be read it before reading this.
 .PP
 This manual page explains how to register a type, what routines you must
 supply to support a type you are registering, and how to find out about a
@@ -79,7 +79,7 @@ and a pointer to a \fBVistaIOTypeMethods\fP structure listing the type's methods
 \fBVistaIORegisterType\fP will return a unique code from the \fBVistaIORepnKind\fP 
 series, which can subsequently be used to refer to the type whenever a 
 \fBVistaIORepnKind\fP value is called for (e.g., in a call to 
-\fBVistaIOSetAttr\fP(3Vi)).
+\fBVistaIOSetAttr\fP(3)).
 .SS Methods
 The type you register must be accompanied by these five methods:
 .PP
@@ -188,17 +188,17 @@ The library implements some standard object types using the mechanism
 described by this manual page. Currently, these standard object types are:
 .RS 2n
 .IP \fBedges\fP 10n
-Set of edges. See \fBVistaIOEdges\fP(3Vi).
+Set of edges. See \fBVistaIOEdges\fP(3).
 .IP \fBimage\fP
-Multi-band two-dimensional array of pixels. See \fBVistaIOImage\fP(3Vi).
+Multi-band two-dimensional array of pixels. See \fBVistaIOImage\fP(3).
 .PP
 .RE
 If you are developing your own custom type, you're encouraged to first
 consult these as examples; their methods are implemented in the files
 \fB\*(SD/EdgesType.c\fP and \fB\*(SD/ImageType.c\fP.
 .SH "SEE ALSO"
-.BR VistaIOBundle (3Vi),
-.BR VistaIOattribute (3Vi),
+.BR VistaIOBundle (3),
+.BR VistaIOattribute (3),
 
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>

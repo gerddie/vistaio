@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOWarning 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOWarning 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOWarning, VistaIOSystemWarning \- report a nonfatal error
 .SH SYNOPSIS
@@ -25,7 +25,7 @@ Specifies values that are to be included in the formatted message.
 .SH DESCRIPTION
 \fBVistaIOWarning\fP is called to report a nonfatal error. It composes an error 
 message and passes it to the nonfatal error handler, which typically prints 
-the message and returns (see \fBVistaIOSetWarningHandler\fP(3Vi)). 
+the message and returns (see \fBVistaIOSetWarningHandler\fP(3)). 
 .PP
 The message composed by \fBVistaIOWarning\fP is of the form:
 .PP
@@ -84,9 +84,9 @@ if (ioctl (fd, request, arg) == -1)
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOError (3Vi),
-.BR VistaIOSetWarningHandler (3Vi),
-.BR VistaIOSetProgramName (3Vi),
+.BR VistaIOError (3),
+.BR VistaIOSetWarningHandler (3),
+.BR VistaIOSetProgramName (3),
 .BR perror (3),
 
 .ad

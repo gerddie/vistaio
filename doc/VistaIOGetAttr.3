@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOGetAttr 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOGetAttr 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOGetAttr, VistaIOGetAttrValue \- fetch an attribute's value
 .SH SYNOPSIS
@@ -60,16 +60,16 @@ If a dictionary, \fIdict\fP, has been provided and the attribute's value is
 stored as a character string, the routine determines whether the string is 
 a keyword defined in the dictionary. If so, it uses the value associated 
 with that keyword rather than the attribute's original value. (See the 
-\fBVistaIOdictionary\fP(3Vi) manual page.) 
+\fBVistaIOdictionary\fP(3) manual page.) 
 .PP
 The value obtained directly from the attribute, or indirectly via the 
 dictionary, is converted to the representation \fIrepn\fP and then stored 
 at the location pointed to by \fIvalue\fP. The \fIrepn\fP argument may have 
 any \fBVistaIORepnKind\fP value (any of the values 
-returned by \fBVistaIORegisterType\fP(3Vi). However, an attribute value that is a 
+returned by \fBVistaIORegisterType\fP(3). However, an attribute value that is a 
 string can only be returned as a string or a number, and other attribute 
 values can only be returned in the representation with which they are 
-stored. (The \fBVistaIOGetAttrRepn\fP(3Vi) macro can be used to determine an 
+stored. (The \fBVistaIOGetAttrRepn\fP(3) macro can be used to determine an 
 attribute value's representation.) 
 .PP
 If \fIrepn\fP calls for a number to be returned, the caller receives a copy 
@@ -109,12 +109,12 @@ printf ("Name: %s\\n", name);
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOExtractAttr (3Vi),
-.BR VistaIOSetAttr (3Vi),
-.BR VistaIOSetAttrValue (3Vi),
+.BR VistaIOExtractAttr (3),
+.BR VistaIOSetAttr (3),
+.BR VistaIOSetAttrValue (3),
 .br
-.BR VistaIOattribute (3Vi),
-.BR VistaIOdictionary (3Vi),
+.BR VistaIOattribute (3),
+.BR VistaIOdictionary (3),
 
 .ad
 .hy

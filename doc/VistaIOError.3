@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIOError 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIOError 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIOError, VistaIOSystemError \- report a fatal error
 .SH SYNOPSIS
@@ -25,7 +25,7 @@ Specifies values that are to be included in the formatted message.
 .SH DESCRIPTION
 \fBVistaIOError\fP is called to report a fatal error. It composes an error
 message and passes it to the fatal error handler, which typically prints
-the message and terminates the program (see \fBVistaIOSetErrorHandler\fP(3Vi)).
+the message and terminates the program (see \fBVistaIOSetErrorHandler\fP(3)).
 .PP
 The message composed by \fBVistaIOError\fP is of the form:
 .PP
@@ -86,9 +86,9 @@ if (ioctl (fd, request, arg) == -1)
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOWarning (3Vi),
-.BR VistaIOSetErrorHandler (3Vi),
-.BR VistaIOSetProgramName (3Vi),
+.BR VistaIOWarning (3),
+.BR VistaIOSetErrorHandler (3),
+.BR VistaIOSetProgramName (3),
 ,
 .BR perror (3)
 .ad

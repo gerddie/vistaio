@@ -1,5 +1,5 @@
 .ds VistaIOn 2.1
-.TH VistaIONewString 3Vi "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
+.TH VistaIONewString 3 "24 April 1993" "Vista VistaIOersion \*(VistaIOn"
 .SH NAME
 VistaIONewString \- allocate a copy of a string
 .SH SYNOPSIS
@@ -23,8 +23,8 @@ VistaIOString VistaIONewString (\fIstring\fP)
 Specifies a null-terminated string.
 .SH DESCRIPTION
 \fBVistaIONewString\fP copies a string into a newly-allocated block of memory,
-which it obtains using \fBVistaIOMalloc\fP(3Vi). It is a convenience macro that
-calls \fBVistaIOMalloc\fP(3Vi) with the following arguments specified:
+which it obtains using \fBVistaIOMalloc\fP(3). It is a convenience macro that
+calls \fBVistaIOMalloc\fP(3) with the following arguments specified:
 .PP
 .RS
 .nf
@@ -36,15 +36,15 @@ calls \fBVistaIOMalloc\fP(3Vi) with the following arguments specified:
 .SH "SEE ALSO"
 .na
 .nh
-.BR VistaIOMalloc (3Vi),
-.BR VistaIONew (3Vi),
-.BR VistaIOError (3Vi),
+.BR VistaIOMalloc (3),
+.BR VistaIONew (3),
+.BR VistaIOError (3),
 
 .ad
 .hy
 .SH DIAGNOSTICS
 If there is insufficient memory to allocate the new block, \fBVistaIONewString\fP
-terminates by calling \fBVistaIOError\fP(3Vi) with the message ``Out of memory''.
+terminates by calling \fBVistaIOError\fP(3) with the message ``Out of memory''.
 .SH AUTHOR
 Art Pope <pope@cs.ubc.ca>
 
