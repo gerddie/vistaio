@@ -3,7 +3,7 @@ name=$1
 version=$2 
 pushd $3
 if [ -d .git ]; then 
-     git archive --format=tar.gz  --prefix=${name}-${version}/ -o $4/${name}-${version}.tar.gz ${version}
+     git archive --format=tar  --prefix=${name}-${version}/ ${version} | xz -9 >$4/${name}-${version}.tar.xz 
 else 
      echo "Sorry, package creation only works from a git repository, since it uses 'git archive'"
 fi 
