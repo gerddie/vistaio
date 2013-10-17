@@ -68,7 +68,7 @@ not to a \fBVistaIOImage\fP). If no filter function is supplied (i.e.,
 .SB NULL\c
 ), \fBVistaIOReadFile\fP will read all binary data associated with all objects.
 .PP
-For backwards compatability \fBVistaIOReadFile\fP will recognize and read the 
+For backwards compatibility \fBVistaIOReadFile\fP will recognize and read the 
 contents of a UBC image file format (IFF) file. If the first character read 
 from the stream is ``I'', \fBVistaIOReadFile\fP uses \fBVistaIOReadUbcIff\fP to read a 
 single UBC IFF image. The image is returned as a \fBVistaIOImage\fP attribute 

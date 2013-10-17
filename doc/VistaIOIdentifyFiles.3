@@ -34,7 +34,7 @@ a vector of the arguments that were not recognized as valid filenames.
 .IP \fIfd\fP
 May specify an open file descriptor that should be checked to ensure it
 corresponds to a file or pipe if no filenames are explicitly given by
-command line arguments. Or it may be -1 to indicate that no such
+command line arguments. Or it may be \-1 to indicate that no such
 checking should be done.
 .SH DESCRIPTION
 By convention, a Vista program that reads one or more files can be told
@@ -42,7 +42,7 @@ of those files in any of three ways:
 .RS 2n
 .IP (a) 4n
 the filenames can be supplied as arguments to a command line option (e.g.,
-\fBvxview\ -in\fP\ \fIfile1\ file2\fP\ ...);
+\fBvxview\ \-in\fP\ \fIfile1\ file2\fP\ ...);
 .IP (b)
 the filenames can be supplied as command line arguments not associated
 with any particular option (e.g., \fBvxview\fP\ \fIfile1\ file2\fP\ ...);
@@ -59,7 +59,7 @@ for command line arguments not associated with any option. If those are
 also absent, it tries to read its file from the standard input stream.
 .PP
 Similarly, an output file may be specified using a command line
-option (e.g., \fBvconvolve\ -out\fP \fIfile1\fP), or, by omitting the 
+option (e.g., \fBvconvolve\ \-out\fP \fIfile1\fP), or, by omitting the 
 option and directing the program's standard output stream
 (e.g., \fBvconvolve\ >\fP\ \fIfile1\fP).
 .PP
@@ -98,7 +98,7 @@ ensure that a file is allowed to default to one of these streams only if
 the stream has been associated with a file or pipe, and not a terminal.  In
 that case, pass as \fIfd\fP the file descriptor that will serve as the
 default source or destination of the file, and \fBVistaIOIdentifyFiles\fP will
-check that it is indeed associated with a file or pipe. Otherwise, pass -1
+check that it is indeed associated with a file or pipe. Otherwise, pass \-1
 for \fIfd\fP and it will not perform this check.
 .SH "RETURN VALUES"
 \fBVistaIOIdentifyFiles\fP returns 
@@ -162,7 +162,7 @@ Usage:		VistaIOReportUsage (argv[0], VistaIONumber (options), options,
 
 	/* Identify output file: */
 	if (! VistaIOIdentifyFiles (VistaIONumber (options), options, "out",
-					& argc, argv, -1))
+					& argc, argv, \-1))
 		goto Usage;
 
 	/* Open and process each input file: */

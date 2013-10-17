@@ -110,7 +110,7 @@ may have. For example, if \fIimage\fP has \fBVistaIOSByte\fP pixels, it returns
 .IP
 \fBVistaIOPixelMinValue\fP returns the minimum value that a pixel of \fIimage\fP
 may have. For example, if \fIimage\fP has \fBVistaIOSByte\fP pixels, it returns
--128.0.
+\-128.0.
 .PP
 .B size_t VistaIOImageSize (VistaIOImage \fIimage\fP)
 .IP
@@ -426,7 +426,7 @@ issue a warning message describing the problem.
 .PP
 The third argument to most image processing routines, \fIband\fP, may
 specify a particular band of the source image to be processed; or it may be
-the constant \fBVistaIOAllBands\fP (defined as -1) to indicate that all bands of
+the constant \fBVistaIOAllBands\fP (defined as \-1) to indicate that all bands of
 the source image are to be processed. When a particular band is specified,
 \fIband\fP must be at least 0 and less than the number of bands in the
 source image; the destination image will usually have a single band to

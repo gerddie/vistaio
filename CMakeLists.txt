@@ -1,6 +1,6 @@
 #
 #  Copyright 1993, 1994 University of British Columbia
-#  Copyright (c) Leipzig, Madrid 2004 - 2012
+#  Copyright (c) Leipzig, Madrid 2004 - 2014
 #  Max-Planck-Institute for Human Cognitive and Brain Science	
 #  Max-Planck-Institute for Evolutionary Anthropology 
 #  BIT, ETSI Telecomunicacion, UPM
@@ -25,9 +25,9 @@ SET(VENDOR "Gert Wollny")
 SET(PACKAGE_NAME "vistaio")
 SET(MAJOR_VERSION 1)
 SET(MINOR_VERSION 2)
-SET(MICRO_VERSION 14)
-SET(INTERFACE_AGE 0)
-SET(BINARY_AGE    0)
+SET(MICRO_VERSION 15)
+SET(INTERFACE_AGE 1)
+SET(BINARY_AGE    1)
 
 INCLUDE(GNUInstallDirs)
 
