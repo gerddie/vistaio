@@ -1,0 +1,10 @@
+2.1.15
+
+   * correct errors in the man pages
+
+2.1.14
+
+   * support multiarch in build system
+   * clean up manpages
+   * rename al functions and macros from V* to VistaIO* in order to avoid
+	conflicts with libvia from the Lipsia software package.
