@@ -13,7 +13,6 @@
  *  implied warranty.
  *
  *  Author: Gert Wollny <gw.fossdev@gmail.com>
- *
  */
 
 #include <string.h>
