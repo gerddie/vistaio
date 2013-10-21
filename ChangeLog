@@ -1,3 +1,11 @@
+2.1.16
+
+   * Revert licenses of type.c and history.c to original by A. Pope
+   * remove vistaio_change_names.py because it doesn't make much
+	 sense to distribute it always.
+   * correct license COYPING file to reflect what is given in the
+	 source files.
+
 2.1.15
 
    * correct errors in the man pages
