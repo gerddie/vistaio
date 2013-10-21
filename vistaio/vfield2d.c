@@ -8,7 +8,7 @@
  *  documentation for any purpose is hereby granted without fee, provided that
  *  the above copyright notice appears in all copies and that both that
  *  copyright notice and this permission notice appear in supporting
- *  documentation. The author makes no representations about the suitability 
+ *  documentation. The authors makes no representations about the suitability 
  *  of this software for any purpose. It is provided "as is" without express or
  *  implied warranty.
  *
