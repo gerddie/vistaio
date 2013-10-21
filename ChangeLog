@@ -1,6 +1,8 @@
 2.1.16
 
    * Revert licenses of type.c and history.c to original by A. Pope
+   * Corret licenses in 2dspline.c, 3dfield.c. vcplist.*, vfield2d.*,
+	 vfield3d.*, vspline2d.*
    * remove vistaio_change_names.py because it doesn't make much
 	 sense to distribute it always.
    * correct license COYPING file to reflect what is given in the

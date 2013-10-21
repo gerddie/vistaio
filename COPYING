@@ -18,7 +18,7 @@ All source code files are
 with the exception of 
 
   vistaio/ 
-     3dfield.c vcplist.c vfield2d.c vfield2d.h vfield3d.c vspline2d.h
+     3dspline.c 2dfield.c 3dfield.c vcplist.* vfield2d.* vfield3d.* vspline2d.*
 
 which are 
 
