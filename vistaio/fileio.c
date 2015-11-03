@@ -237,6 +237,20 @@ EXPORT_VISTA VistaIOAttrList VistaIOReadFile (FILE * f, VistaIOReadFileFilterPro
 	return list;
 }
 
+EXPORT_VISTA VistaIOBoolean VistaIOIsVistaFile (const char *filename)
+{
+	VistaIOBoolean result = FALSE; 
+	FILE *f = fopen(filename, "r");
+	
+	if (!f)
+		return result;
+
+	result = ReadHeader (f);
+	fclose(f);
+	return result; 
+	
+}
+
 
 /*! \brief Read a Vista data file header.
  *

@@ -1901,11 +1901,17 @@ extern "C" {
 	 */
 	void AddTrack (Volume v, VistaIOTrack t);
 
+	/*! \brief Test if the given file name refers to a vista file 
+	 *
+	 *  \param filename
+         *  \returns TRUE if the file exists and has a vista header, false otherwise
+	 */
+	EXPORT_VISTA VistaIOBoolean VistaIOIsVistaFile (const char *filename); 
+
 	/*! \brief Note the program name for use in error messages.
 	 *
 	 *  \param name
 	 */
-	EXPORT_VISTA void VistaIOSetProgramName (VistaIOStringConst name);
 	
 #ifdef __cplusplus
 }
