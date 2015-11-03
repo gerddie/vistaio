@@ -18,10 +18,6 @@
 #ifndef __VCPEList_h
 #define __VCPEList_h
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <vistaio/vista.h>
 
 

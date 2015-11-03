@@ -18,10 +18,6 @@
 #ifndef __VSpline2D_h
 #define __VSpline2D_h
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <vistaio/vfield2d.h>
 
 
