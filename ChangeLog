@@ -1,3 +1,9 @@
+2.1.17
+
+   * Add a function to chech whether a file is actually a vista file
+     by only reading the header file.
+   * replace _SVID_SOURCE by _DEFAULT_SOURCE as the former is deprecated.
+
 2.1.16
 
    * Revert licenses of type.c and history.c to original by A. Pope
