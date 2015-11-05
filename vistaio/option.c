@@ -227,6 +227,7 @@ VistaIOBoolean VistaIOParseCommand (int noptions, VistaIOOptionDescRec options[]
 
 			/* If found, return FALSE to force printing of usage info: */
 			*argc = 1;
+			VistaIOFree ((VistaIOPointer) opts_seen);
 			return FALSE;
 		}
 

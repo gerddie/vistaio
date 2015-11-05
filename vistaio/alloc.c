@@ -31,7 +31,8 @@ VistaIOPointer VistaIOMalloc (size_t size)
 
 	if (size == 0)
 		return NULL;
-	if (!(p = (VistaIOPointer) malloc (size)))
+	p = (VistaIOPointer) malloc (size); 
+	if (!p)
 		VistaIOSystemError ("VistaIOMalloc: Memory allocation failure");
 	return p;
 }

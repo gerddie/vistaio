@@ -68,6 +68,7 @@ static VistaIOPointer VolumesDecodeMethod (VistaIOStringConst UNUSED(name), Vist
 	short *p;
 	VistaIOTrack t;
 	VistaIOPointer data;
+	VistaIOPointer data_allocated_ptr;
 	Volume vol;
 
 #define Extract(name, dict, locn, required)	\
@@ -99,7 +100,7 @@ static VistaIOPointer VolumesDecodeMethod (VistaIOStringConst UNUSED(name), Vist
 	length = nels * (VistaIORepnPrecision (VistaIOShortRepn) / 8);
 
 	/* Allocate storage for the Volumes binary data: */
-	data = VistaIOMalloc (nels * sizeof (VistaIOShort));
+	data_allocated_ptr = data = VistaIOMalloc (nels * sizeof (VistaIOShort));
 
 	/* Unpack the binary data: */
 	if (!VistaIOUnpackData
@@ -127,6 +128,7 @@ static VistaIOPointer VolumesDecodeMethod (VistaIOStringConst UNUSED(name), Vist
 		}
 		VistaIOAddVolume (volumes, vol);
 	}
+	VistaIOFree(data_allocated_ptr); 
 	return volumes;
 
 #undef Extract
@@ -277,8 +279,10 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 				len = 4 * VistaIORepnPrecision (VistaIOShortRepn) / 8;
 				if (!VistaIOPackData
 				    (VistaIOShortRepn, 4, &idata[0], VistaIOMsbFirst,
-				     &len, &p, NULL))
+				     &len, &p, NULL)) {
+					VistaIOFree(ptr); 
 					return NULL;
+				}
 				p = (char *)p + len;
 				length -= len;
 			}

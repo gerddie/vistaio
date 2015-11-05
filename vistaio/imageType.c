@@ -192,7 +192,7 @@ static VistaIOPointer VistaIOImageEncodeDataMethod (VistaIOPointer value, VistaI
 	VistaIOImage image = value;
 	VistaIOAttrListPosn posn;
 	size_t len;
-	VistaIOPointer ptr;
+	VistaIOPointer ptr = NULL;
 
 	/* Remove the attributes prepended by the VistaIOImageEncodeAttrsMethod: */
 	for (VistaIOFirstAttr (list, &posn);

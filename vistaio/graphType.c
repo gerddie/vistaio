@@ -227,8 +227,11 @@ static VistaIOPointer VistaIOGraphEncodeDataMethod (VistaIOPointer value, VistaI
 	int i, nadj;
 
 #define pack(repn, cnt, dest) \
-    if (! VistaIOPackData (repn, cnt, dest, VistaIOMsbFirst, &len, &p, NULL)) return NULL; \
-    p = (char *) p + len; length -= len; len = length;
+	if (! VistaIOPackData (repn, cnt, dest, VistaIOMsbFirst, &len, &p, NULL)) { \
+		VistaIOFree(ptr); 
+		return NULL;						\
+	}								\
+	p = (char *) p + len; length -= len; len = length;
 
 	/* Remove the attributes prepended by the VistaIOGraphEncodeAttrsMethod: */
 	for (VistaIOFirstAttr (list, &posn);

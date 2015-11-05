@@ -67,6 +67,7 @@ EXPORT_VISTA VistaIOField2D VistaIOCreateField2DFrom(VistaIOLong x_dim,
 	case VistaIODoubleRepn:result->nsize *= 8;
 		break;
 	default:VistaIOWarning("Requested wrong Repn type in VistaIOCreateField2D");
+		free(result); 
 		return NULL; 
 	}
 	
@@ -105,6 +106,7 @@ EXPORT_VISTA VistaIOField2D VistaIOCreateField2D(VistaIOLong x_dim,
 	case VistaIODoubleRepn:result->nsize *= 8;
 		break;
 	default:VistaIOWarning("Requested wrong Repn type in VistaIOCreateField2D");
+		free(result); 
 		return NULL; 
 	}
 	
@@ -113,6 +115,7 @@ EXPORT_VISTA VistaIOField2D VistaIOCreateField2D(VistaIOLong x_dim,
 	result->p.data = malloc(result->nsize);
 	if (!result->p.data) {
 		VistaIOWarning("VistaIOCreateField2D: Unable to allocate %d byte of memory",result->nsize);
+		free(result);
 		return NULL; 
 	}
 	memset(result->p.data,0,result->nsize);
