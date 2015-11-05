@@ -186,8 +186,10 @@ static VistaIOPointer VistaIOEdgesEncodeDataMethod (VistaIOPointer value, VistaI
 			pcount = -pcount;
 		len = length;
 		if (!VistaIOPackData
-		    (VistaIOFloatRepn, 1, &pcount, VistaIOMsbFirst, &len, &p, NULL))
+		    (VistaIOFloatRepn, 1, &pcount, VistaIOMsbFirst, &len, &p, NULL)) {
+			VistaIOFree(ptr); 
 			return NULL;
+		}
 		p = (char *)p + len;
 		length -= len;
 
@@ -196,8 +198,10 @@ static VistaIOPointer VistaIOEdgesEncodeDataMethod (VistaIOPointer value, VistaI
 			len = length;
 			if (!VistaIOPackData
 			    (VistaIOFloatRepn, edges->nedge_fields, e->edge_fields,
-			     VistaIOMsbFirst, &len, &p, NULL))
+			     VistaIOMsbFirst, &len, &p, NULL)) {
+				VistaIOFree(ptr); 
 				return NULL;
+			}
 			p = (char *)p + len;
 			length -= len;
 		}
@@ -205,8 +209,10 @@ static VistaIOPointer VistaIOEdgesEncodeDataMethod (VistaIOPointer value, VistaI
 		/* Pack point fields: */
 		len = length;
 		if (!VistaIOPackData (VistaIOFloatRepn, edges->npoint_fields * e->npoints,
-				e->point_index[0], VistaIOMsbFirst, &len, &p, NULL))
+				      e->point_index[0], VistaIOMsbFirst, &len, &p, NULL)) {
+			VistaIOFree(ptr); 
 			return NULL;
+		}
 		p = (char *)p + len;
 		length -= len;
 	}

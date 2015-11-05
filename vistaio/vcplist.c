@@ -59,6 +59,7 @@ VistaIOCPEList VistaIOCreateCPEList(VistaIOLong _n_element)
 	result->data = malloc(result->nsize);
 	if (!result->data) {
 		VistaIOWarning("VistaIOCreateCPEList: Unable to allocate %d byte of memory",result->nsize);
+		free(result); 
 		return NULL; 
 	}
 	memset(result->data,0,result->nsize);

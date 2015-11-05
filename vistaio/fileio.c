@@ -308,6 +308,8 @@ static VistaIOAttrList ReadAttrList (FILE * f, ReadStringBuf *sbuf)
 	/* For each attribute up to the next "}": */
 	while (fscanf (f, " %255[^}: \t\n]", name_buf) == 1) {
 		name_size = strlen (name_buf);
+		/* Covertiy does not detect that strlen(name_buf) <= 255 */
+		   
 		
 		/* Read a : */
 		if (fscanf (f, " %1s", buf) != 1 || buf[0] != ':') {
@@ -316,9 +318,15 @@ static VistaIOAttrList ReadAttrList (FILE * f, ReadStringBuf *sbuf)
 		}
 		
 		do {
-			buf[0] = fgetc(f);
-		} while (buf[0] == ' ');
+			ch = fgetc(f);
+		} while (ch == ' ');
 
+		/* File terminated early? */ 
+		if (ch == EOF)
+			goto Fail;
+		
+		buf[0] = (char)ch;
+		
 		/* The first character of the value tells us whether its an attribute
 		   list, quoted string, or unquoted string: */
 		if (buf[0] == '{') {
@@ -357,6 +365,7 @@ static VistaIOAttrList ReadAttrList (FILE * f, ReadStringBuf *sbuf)
 			} else {
 
 				/* ...otherwise store it as a simple string value: */
+				/*coverity[INTEGER_OVERFLOW]   name_size is at most 255 (line 309)*/
 				a = VistaIOMalloc (sizeof (VistaIOAttrRec) + name_size +
 					     strlen (str) + 1);
 				a->repn = VistaIOStringRepn;
@@ -387,7 +396,8 @@ static VistaIOAttrList ReadAttrList (FILE * f, ReadStringBuf *sbuf)
 	/* Swallow the terminating "}": */
 	if (fscanf (f, " %1s", buf) != 1 || buf[0] != '}') {
 		VistaIOWarning ("VistaIOReadFile: Missing }");
-	      Fail:VistaIODestroyAttrList (list);
+	Fail:
+		VistaIODestroyAttrList (list);
 		return NULL;
 	}
 	return list;
@@ -414,6 +424,7 @@ static char *ReadString (FILE * f, char ch, VistaIOStringConst name, ReadStringB
 	VistaIOBoolean escaped = (ch == '"');
 	size_t len = 0;
 	char *cp;
+	int in_char; 
 
 	if (!buf->buf) {
 		buf->buf = VistaIOMalloc (StringAllocIncrement);
@@ -425,13 +436,14 @@ static char *ReadString (FILE * f, char ch, VistaIOStringConst name, ReadStringB
 
 	cp = buf->buf;
 	while (1) {
-		ch = fgetc (f);
+		in_char = fgetc (f);
 
 		/* Check for premature EOF: */
-		if (ch == EOF) {
+		if (in_char == EOF) {
 			VistaIOWarning ("VistaIOReadFile: EOF encountered in %s attribute", name);
 			return NULL;
 		}
+		ch = (char)in_char; 
 
 		/* Check for closing " or escape sequence: */
 		if (escaped) {

@@ -116,6 +116,7 @@ EXPORT_VISTA VistaIOField3D VistaIOCreateField3D(VistaIOLong x_dim,
 	case VistaIODoubleRepn:result->nsize *= 8;
 		break;
 	default:VistaIOWarning("Requested wrong Repn type in VistaIOCreateField3D");
+		free(result); 
 		return NULL; 
 	}
 	
@@ -124,6 +125,7 @@ EXPORT_VISTA VistaIOField3D VistaIOCreateField3D(VistaIOLong x_dim,
 	result->p.data = malloc(result->nsize);
 	if (!result->p.data) {
 		VistaIOWarning("VistaIOCreateField3D: Unable to allocate %d byte of memory",result->nsize);
+		free(result); 
 		return NULL; 
 	}
 	memset(result->p.data,0,result->nsize);

@@ -78,8 +78,10 @@ Volume VistaIOCreateVolume (short label, short nbands, short nrows, short ncolum
 	else
 		vol->nbuckets = (short)nbuckets;
 	vol->bucket = (VistaIOBucket) VistaIOMalloc (sizeof (VistaIOBucketRec) * vol->nbuckets);
-	if (!vol->bucket)
+	if (!vol->bucket) {
+		VistaIOFree(vol); 
 		return NULL;
+	}
 
 	for (i = 0; i < vol->nbuckets; i++) {
 		vol->bucket[i].ntracks = 0;

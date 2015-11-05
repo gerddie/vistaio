@@ -27,6 +27,8 @@
 /* Later in this file: */
 static int ParseArgValues (int *, int, char **, VistaIOOptionDescRec *);
 
+/* from error.c */
+extern EXPORT_VISTA void VistaIOSetProgramName (VistaIOStringConst name); 
 /* The following provide distinguished values for the found field of a
    VistaIOOptionDescRec: */
 VistaIOBoolean VistaIO_RequiredOpt;
@@ -461,7 +463,7 @@ void VistaIOParseFilterCmd (int noptions, VistaIOOptionDescRec opts[],
 		 VerboseDict, "Verbosity level"}
 	};
 	int i, n;
-	VistaIOOptionDescRec options[100];
+	VistaIOOptionDescRec options[101];
 
 	/* Check that number of options will not overflow the options array. */
 	if (noptions >= 98) {

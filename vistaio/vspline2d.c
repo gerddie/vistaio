@@ -84,7 +84,8 @@ EXPORT_VISTA VistaIOSpline2D VistaIOCreateSpline2D(VistaIOLong _x_dim,
 	result->data = VistaIOCreateField2D(_x_dim, _y_dim, nsize_element, repn); 
 	result->x_range = _x_range; 
 	result->y_range = _y_range; 
-	result->kernel_descr = kernel_descr; 
+	result->kernel_descr = kernel_descr;
+	result->attr = NULL; 
 	return result; 
 }
 

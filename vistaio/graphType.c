@@ -228,7 +228,7 @@ static VistaIOPointer VistaIOGraphEncodeDataMethod (VistaIOPointer value, VistaI
 
 #define pack(repn, cnt, dest) \
 	if (! VistaIOPackData (repn, cnt, dest, VistaIOMsbFirst, &len, &p, NULL)) { \
-		VistaIOFree(ptr); 
+		VistaIOFree(ptr);					\
 		return NULL;						\
 	}								\
 	p = (char *) p + len; length -= len; len = length;
@@ -245,7 +245,7 @@ static VistaIOPointer VistaIOGraphEncodeDataMethod (VistaIOPointer value, VistaI
 		return value;	/* we may return anything != 0 here */
 	};
 
-	p = ptr = VistaIOMalloc (length);
+p = ptr = VistaIOMalloc (length);
 	len = length;
 
 	/* Pack each node: */
