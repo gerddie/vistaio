@@ -443,7 +443,6 @@ static char *ReadString (FILE * f, char ch, VistaIOStringConst name, ReadStringB
 			VistaIOWarning ("VistaIOReadFile: EOF encountered in %s attribute", name);
 			return NULL;
 		}
-		in_char; 
 
 		/* Check for closing " or escape sequence: */
 		if (escaped) {
