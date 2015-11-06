@@ -231,7 +231,7 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 		len = VistaIORepnPrecision (VistaIOShortRepn) / 8;
 		if (!VistaIOPackData
 		    (VistaIOShortRepn, 1, &ntracks, VistaIOMsbFirst, &len, &p, NULL))
-			return NULL;
+			goto Fail; 
 		p = (char *)p + len;
 		length -= len;
 
@@ -239,7 +239,7 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 		len = VistaIORepnPrecision (VistaIOShortRepn) / 8;
 		if (!VistaIOPackData
 		    (VistaIOShortRepn, 1, &ntracks, VistaIOMsbFirst, &len, &p, NULL))
-			return NULL;
+			goto Fail; 
 		p = (char *)p + len;
 		length -= len;
 
@@ -248,7 +248,7 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 		len = VistaIORepnPrecision (VistaIOShortRepn) / 8;
 		if (!VistaIOPackData
 		    (VistaIOShortRepn, 1, &hashlen, VistaIOMsbFirst, &len, &p, NULL))
-			return NULL;
+			goto Fail; 
 		p = (char *)p + len;
 		length -= len;
 
@@ -257,7 +257,7 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 		len = VistaIORepnPrecision (VistaIOShortRepn) / 8;
 		if (!VistaIOPackData
 		    (VistaIOShortRepn, 1, &nbands, VistaIOMsbFirst, &len, &p, NULL))
-			return NULL;
+			goto Fail; 
 		p = (char *)p + len;
 		length -= len;
 
@@ -265,8 +265,9 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 		label = (VistaIOShort) v->label;
 		len = VistaIORepnPrecision (VistaIOShortRepn) / 8;
 		if (!VistaIOPackData
-		    (VistaIOShortRepn, 1, &label, VistaIOMsbFirst, &len, &p, NULL))
-			return NULL;
+		    (VistaIOShortRepn, 1, &label, VistaIOMsbFirst, &len, &p, NULL)) {
+			goto Fail; 
+		}
 		p = (char *)p + len;
 		length -= len;
 
@@ -279,10 +280,8 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 				len = 4 * VistaIORepnPrecision (VistaIOShortRepn) / 8;
 				if (!VistaIOPackData
 				    (VistaIOShortRepn, 4, &idata[0], VistaIOMsbFirst,
-				     &len, &p, NULL)) {
-					VistaIOFree(ptr); 
-					return NULL;
-				}
+				     &len, &p, NULL)) 
+					goto Fail; 
 				p = (char *)p + len;
 				length -= len;
 			}
@@ -291,4 +290,7 @@ VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), siz
 
 	*free_itp = TRUE;
 	return ptr;
+Fail:
+	VistaIOFree(ptr);
+	return NULL; 
 }
