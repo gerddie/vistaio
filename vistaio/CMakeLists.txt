@@ -62,9 +62,11 @@ MACRO(ADD_SIMPLE_TEST name)
   add_test(${name} test-${name})
 ENDMACRO(ADD_SIMPLE_TEST)
 
+ADD_SIMPLE_TEST(attributes)
 ADD_SIMPLE_TEST(3dfield)
 ADD_SIMPLE_TEST(2dfield)
 ADD_SIMPLE_TEST(2dspline)
+
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/vconfig.h.in ${CMAKE_CURRENT_BINARY_DIR}/vconfig.h)
 
