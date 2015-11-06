@@ -443,22 +443,26 @@ static char *ReadString (FILE * f, char ch, VistaIOStringConst name, ReadStringB
 			VistaIOWarning ("VistaIOReadFile: EOF encountered in %s attribute", name);
 			return NULL;
 		}
-		ch = (char)in_char; 
+		in_char; 
 
 		/* Check for closing " or escape sequence: */
 		if (escaped) {
-			if (ch == '"')
+			if (in_char == '"')
 				break;
-			if (ch == '\\')
-				switch (ch = fgetc (f)) {
+			if (in_char == '\\')
+				switch (in_char = fgetc (f)) {
 
 				case '\n':
 					continue;
 
 				case 'n':
-					ch = '\n';
+					in_char = '\n';
+					break;
+				case EOF:
+					VistaIOWarning ("VistaIOReadFile: EOF encountered in %s attribute", name);
+					return NULL;
 				}
-		} else if (isspace (ch))
+		} else if (isspace (in_char))
 			break;
 
 		/* If the buffer in which we're accumulating the value is full,
@@ -469,7 +473,7 @@ static char *ReadString (FILE * f, char ch, VistaIOStringConst name, ReadStringB
 		}
 
 		/* Store the character in the current buffer: */
-		*cp++ = ch;
+		*cp++ = (char)in_char;
 	}
 	*cp = 0;
 
