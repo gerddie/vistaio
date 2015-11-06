@@ -1,3 +1,5 @@
+# Resume
+
 This library includes the IO and data type part of the 
 vista library originaly implemented by 
 
@@ -8,6 +10,42 @@ Further development was done by Gert Wollny, Marc Tittgemeyer,
 and Heike Jähnike at the Max-Planck-Institute of Human 
 Cognitive and Brain Sciences, Leipzig, Germany, and later by 
 Gert Wollny at the ETSI Telecomunicacion, UPM, Madrid, Spain.  
+
+
+# Installation
+
+## Pre-packaged
+
+* The library is available as libvistaio-dev/libvistaio14 from
+  the official Debian archives.
+* Ebuild for Gentoo Linux are available from the overlay gentoo-imaging
+  (currently not availabe from _layman_)
+
+     https://github.com/gerddie/gentoo-imaging
+
+## Compilation from source: 
+
+Requirements:
+
+ * cmake - http://www.cmake.org
+ * a  POSIX compatible C compiler (GNU gcc will do just fine). 
+
+Then after unpacking the software to
+
+    vistaio-X.X.X one does: 
+    cd vistaio-X.X.X
+    mkdir build 
+    cd build 
+    cmake .. -DCMAKE_INSTALL_PATH=<prefix> 
+    make 
+    make test 
+    make install 
+
+The "make install" command you may have to run as root. 
+The tests cover only the 2d/3dfield loading and storing, and
+the attribute IO. 
+
+# Function naming remark 
 
 In order to avoid naming conflicts with other libraries that build 
 onm the same source code, all functions, types and macro names have 
@@ -31,24 +69,8 @@ stored using the original library. If data is saved to one of the
 original formats the original library should also be able to read 
 the files properly.
 
-To compile and install the library, you need 
- * cmake - http://www.cmahe.org 
-and a  POSIX compatible C compiler (GNU gcc will do just fine). 
 
-Then after unpacking the software to 
-  vistaio-X.X.X one does: 
-  cd vistaio-X.X.X
-  mkdir build 
-  cd build 
-  cmake .. -DCMAKE_INSTALL_PATH=<prefix> 
-  make 
-  make test 
-  make install 
-
-The "make install" command you may have to run as root. 
-The tests cover only the 2d/3dfield loading and storing. 
-
-Remark aboud endianess: 
+# About endianess: 
 
 The vista file format was initially developed on a big-endian machine, 
 as a result Arthur Pope decided it is best to store the data in big-endian 
