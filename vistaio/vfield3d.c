@@ -76,6 +76,7 @@ EXPORT_VISTA VistaIOField3D VistaIOCreateField3DFrom(VistaIOLong x_dim,
 	case VistaIODoubleRepn:result->nsize *= 8;
 		break;
 	default:VistaIOWarning("Requested wrong Repn type in VistaIOCreateField3D");
+		free(result); 
 		return NULL; 
 	}
 	
