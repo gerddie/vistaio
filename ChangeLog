@@ -1,3 +1,11 @@
+2.1.19
+
+   * Add test for attribute IO
+
+2.1.18
+
+   * Correct code for problems discovered by Coverity
+
 2.1.17
 
    * Add a function to chech whether a file is actually a vista file
