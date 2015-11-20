@@ -57,7 +57,7 @@ SET_TARGET_PROPERTIES(vistaio PROPERTIES
 
 
 MACRO(ADD_SIMPLE_TEST name)
-  add_executable(test-${name} ${name}.c)
+  add_executable(test-${name} test_${name}.c)
   target_link_libraries(test-${name} vistaio)
   add_test(${name} test-${name})
 ENDMACRO(ADD_SIMPLE_TEST)
