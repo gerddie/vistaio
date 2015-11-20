@@ -34,7 +34,9 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIOFloat read_float = 1.0;
 	VistaIOShort read_short = 0;
 	VistaIOLong  read_long = 0;
-	VistaIOString read_string = NULL; 
+	VistaIOString read_string = NULL;
+
+	int test_failed = FALSE; 
 	
 	test_list = VistaIOCreateAttrList();
 
@@ -46,53 +48,77 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 
 	
 	/* open file for saving */
-	if ((file = fopen("test-attr.v","w"))==0)
+	if ((file = fopen("test-attr.v","w"))==0) {
 		VistaIOError("Unable to open file 'test-attr.v' for writing");
+		++test_failed;  
+	}
 	
 	VistaIOWriteFile(file,test_list);
 	fclose(file);
 
+	
 	/* open file for reading */
-	if ((file = fopen("test-attr.v","r")) == NULL)
+	if ((file = fopen("test-attr.v","r")) == NULL) {
 	    VistaIOError("Unable to open file test-attr.v for reading");
+	    ++test_failed;  
+	}
 
 	/* Read field from file */     
 	read_list = VistaIOReadFile(file, NULL);
 
 	if (VistaIOAttrFound !=
-	    VistaIOGetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, &read_double))
+	    VistaIOGetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, &read_double)) {
 		VistaIOWarning("Attribute test-double not found");
+		++test_failed; 
+	}
 
 	if (VistaIOAttrFound !=
-	    VistaIOGetAttr(test_list, "test-float", NULL, VistaIOFloatRepn, &read_float))
+	    VistaIOGetAttr(test_list, "test-float", NULL, VistaIOFloatRepn, &read_float)) {
 		VistaIOWarning("Attribute test-float not found");
-	
-	if (VistaIOAttrFound !=
-	    VistaIOGetAttr(test_list, "test-short", NULL, VistaIOShortRepn, &read_short))
-		VistaIOWarning("Attribute test-short not found");
-
-	if (VistaIOAttrFound !=
-	    VistaIOGetAttr(test_list, "test-long", NULL, VistaIOLongRepn, &read_long))
-		VistaIOWarning("Attribute test-short not found");
-	
-	if (VistaIOAttrFound !=
-	    VistaIOGetAttr(test_list, "test-string", NULL, VistaIOStringRepn, &read_string))
-		VistaIOWarning("Attribute test-string not found");
-	
-	if (test_double != read_double)
-		VistaIOWarning("Attribute test-double: read %f, expected %f", read_double, test_double);
-
-	if (test_float != read_float)
-		VistaIOWarning("Attribute test-float: read %f, expected %f", read_float, test_float);
-
-	if (test_short != read_short)
-		VistaIOWarning("Attribute test-short: read %f, expected %f", read_short, test_short);
+		++test_failed;  
+	}
 		
-	if (test_long != read_long)
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list, "test-short", NULL, VistaIOShortRepn, &read_short)) {
+		++test_failed;  
+		VistaIOWarning("Attribute test-short not found");
+	}
+
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list, "test-long", NULL, VistaIOLongRepn, &read_long)) {
+		++test_failed;  
+		VistaIOWarning("Attribute test-short not found");
+	}
+	
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list, "test-string", NULL, VistaIOStringRepn, &read_string)) {
+		VistaIOWarning("Attribute test-string not found");
+		++test_failed;  
+	}
+	
+	if (test_double != read_double) {
+		VistaIOWarning("Attribute test-double: read %f, expected %f", read_double, test_double);
+		++test_failed;  
+	}
+
+	if (test_float != read_float) {
+		VistaIOWarning("Attribute test-float: read %f, expected %f", read_float, test_float);
+		++test_failed;  
+	}
+
+	if (test_short != read_short) {
+		VistaIOWarning("Attribute test-short: read %f, expected %f", read_short, test_short);
+		++test_failed;  
+	}
+		
+	if (test_long != read_long) {
 		VistaIOWarning("Attribute test-long: read %f, expected %f", read_long, test_long);
+		++test_failed;  
+	}
 
 	if (strcmp(read_string, test_string)) {
 		VistaIOWarning("Attribute test-string: read '%s', expected '%s'", read_string, test_string);
+		++test_failed;  
 	}
 			
 	
@@ -100,5 +126,5 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIODestroyAttrList(read_list);
 
 	remove( "test-attr.v" );  
-	return 0;
+	return test_failed;
 }

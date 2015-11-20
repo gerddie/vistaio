@@ -144,5 +144,5 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 
 	fprintf(stderr,"%d out of %d tests failed\n", tests_failed, tests_run); 
 	
-	return tests_failed == 0; 
+	return tests_failed != 0; 
 }
