@@ -6,11 +6,15 @@ before_install:
   - sudo apt-get install -y cmake
 
 before_script:
-  mkdir build &&  cd build &&  cmake .. 
+  - mkdir build 
+  - cd build 
+  - cmake .. 
 
 script:
-  cd build && make -j2 
+  - cd build 
+  - make -j2 
 
 after_success:
-  cd build && make test
+  - cd build 
+  - make test
   
