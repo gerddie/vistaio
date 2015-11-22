@@ -125,6 +125,9 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIODestroyAttrList(test_list);
 	VistaIODestroyAttrList(read_list);
 
-	remove( "test-attr.v" );  
+	if (remove( "test-attr.v" ) != 0) {
+		VistaIOWarning("Unable to remove test file test-attr.v");
+	}
+	
 	return test_failed;
 }
