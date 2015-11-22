@@ -1,0 +1,18 @@
+sudo: required 
+dist: trusty 
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y cmake
+
+before_script:
+  mkdir build
+  cd build
+  cmake .. 
+
+script:
+  cd build && make -j2 
+
+after_success:
+  cd build && make test
+  
