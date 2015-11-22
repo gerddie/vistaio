@@ -11,10 +11,9 @@ before_script:
   - cmake .. 
 
 script:
-  - cd build 
   - make -j2 
 
 after_success:
-  - cd build 
   - make test
   
+
