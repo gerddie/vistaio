@@ -1,15 +1,34 @@
-sudo: required 
-dist: trusty 
-
+sudo: required
+dist: trusty
 before_script:
-  - mkdir build 
-  - cd build 
-  - cmake .. 
-
+- mkdir build
+- cd build
+- cmake ..
 script:
-  - make -j2 
-
+- make -j2
 after_success:
-  - make test
-  
+- make test
 
+env:
+  global:
+    secure: Swxl0u3vHytVnzKcv2QWDpjjOObA2H9QkUv9vtD6kEQsknVw2P9HYlhZgVGOLiH31SXNw2YN5qlZrPgDR96GwTtjmoWRKf7kNgM0SFtWYU1h4JbKfX/csLk6r3Vr/MAf7hPp4RPhmnzRU8wKNfWkUSIXYZ98oDqDdoD81prSDSlKKdm92EeOQ4PAimswWywzQJbBdSv49gT3tdQoure+1S+tbYcr7uUJVcOyFcDrO3sfgpdem+OTbVyP4BMdy3Q+ZsAvwwMMPFWnc67uMRzjxkEB6sU5L27Uu15IYMpYXmwdNYvsS+KdIEqOzYv+TD/GF8h4+JKaURPt1nuzPDKVrWqU+pdEGak625x1JMFqRl3x5/9cy1jIeRrpBjrq3B+V1JuB3t3iI9N3Ob7+ZRJLgwcQ02ikqtUbGY0Qiggi86GWGiOgHEpMfQ9e0gZ0DwBnRFwbd3hIssSBZKBxDDbaX73DBHEXGX6HUFZIp2lkqumwYjYoJOxRODFGXrHVDmwkfzjgEQByUSApMEhgVGkDbk/zeXxtoOhDht/0X7gH8FvbDEaNxetAnRJenPiICm7uoZOiHVbq1t/uX+hHXfIhmtgdhEOUgNZx4N7r1Y8gjMDeGFYlEtTrAmsBvPls7xuG8uluJM9rfWJ1IRZaUoLHJXQi19BdqzmV26CLCFh5duI=
+
+
+addons:
+  coverity_scan:
+
+    project:
+      name: gerddie/vistaio
+      version: 1.2.19
+      description: VistaIO library 
+
+    notification_email: gw.fossdev@gmail.com
+
+    build_command_prepend: 
+      - mkdir build 
+      - cd build 
+      - cmake .. 
+
+    build_command: make
+
+    branch_pattern: coverity_scan
