@@ -48,12 +48,7 @@
 #include <limits.h>
 #include <stdarg.h>
 #include <math.h>
-
-#if __STDC_VERSION__ >= 199901L
 #include <stdint.h>
-#else
-#error This code requires C99 
-#endif 
 
 #ifndef FALSE
 #define FALSE	 		0
