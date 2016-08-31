@@ -25,7 +25,7 @@
  *  \return VistaIOPointer
  */
 
-VistaIOPointer VistaIOMalloc (size_t size)
+VistaIOPointer VistaIOMalloc (uint64_t size)
 {
 	VistaIOPointer p;
 
@@ -45,7 +45,7 @@ VistaIOPointer VistaIOMalloc (size_t size)
  *  \return VistaIOPointer
  */
 
-VistaIOPointer VistaIORealloc (VistaIOPointer p, size_t size)
+VistaIOPointer VistaIORealloc (VistaIOPointer p, uint64_t size)
 {
 	if (size == 0) {
 		VistaIOFree (p);
@@ -66,7 +66,7 @@ VistaIOPointer VistaIORealloc (VistaIOPointer p, size_t size)
  *  \return VistaIOPointer
  */
 
-VistaIOPointer VistaIOCalloc (size_t n, size_t size)
+VistaIOPointer VistaIOCalloc (uint64_t n, uint64_t size)
 {
 	VistaIOPointer p;
 

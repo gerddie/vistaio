@@ -178,7 +178,7 @@ EXPORT_VISTA VistaIOField2D VistaIOMirrorField2D (VistaIOField2D src)
  */
 
 #ifdef WORDS_BIGENDIAN
-static void convert_short_field(short *p, long n) 
+static void convert_short_field(short *p, uint64_t n) 
 {
 	while (n--) {
 		*p = ((*p & 0xFF) << 8) | ((*p & 0xFF00) >> 8);
@@ -186,7 +186,7 @@ static void convert_short_field(short *p, long n)
 	}
 	
 }
-static void convert_long_field(long *p, long n) 
+static void convert_long_field(int *p, uint64_t n) 
 {
 	while (n--) {
 		*p = ((*p & 0xFF) << 24) | ((*p & 0xFF00) << 8) |
@@ -195,12 +195,12 @@ static void convert_long_field(long *p, long n)
 	}
 	
 }
-static void convert_double_field(double *d, long n)
+static void convert_double_field(double *d, uint64_t n)
 {
-	long *p = (long *)d; 
+	uint64_t *p = (uint64_t *)d; 
 	while (n--) {
-		long help;
-		long help2; 
+		uint64_t help;
+		uint64_t help2; 
 		
 		help = ((*p & 0xFF) << 24) | ((*p & 0xFF00) << 8) |
 			((*p & 0xFF000000) >> 24) | ((*p & 0xFF0000) >> 8);
@@ -269,7 +269,7 @@ static VistaIOPointer VistaIOField2DDecodeMethod (VistaIOStringConst UNUSED(name
  *  Encode an attribute list value for a VistaIOGraph object.
  */
 
-static VistaIOAttrList VistaIOField2DEncodeAttrMethod (VistaIOPointer value, size_t *lengthp)
+static VistaIOAttrList VistaIOField2DEncodeAttrMethod (VistaIOPointer value, uint64_t *lengthp)
 {
 	VistaIOField2D field = value;
 	VistaIOAttrList list;
@@ -297,7 +297,7 @@ static VistaIOAttrList VistaIOField2DEncodeAttrMethod (VistaIOPointer value, siz
  */
 
 static VistaIOPointer VistaIOField2DEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					size_t length, VistaIOBoolean *free_itp)
+					uint64_t length, VistaIOBoolean *free_itp)
 {
 	VistaIOField2D field = value;
 	VistaIOAttrListPosn posn;

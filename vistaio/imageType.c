@@ -65,7 +65,7 @@ static VistaIOPointer VistaIOImageDecodeMethod (VistaIOStringConst name, VistaIO
 	VistaIOLong nbands, nrows, ncolumns, pixel_repn;
 	VistaIOLong nframes, nviewpoints, ncolors, ncomponents;
 	VistaIOAttrList list;
-	size_t length;
+	uint64_t length;
 
 #define Extract(name, dict, locn, required)	\
 	VistaIOExtractAttr (b->list, name, dict, VistaIOLongRepn, & locn, required)
@@ -140,11 +140,11 @@ static VistaIOPointer VistaIOImageDecodeMethod (VistaIOStringConst name, VistaIO
  *  Encode an attribute list value for a VistaIOImage object.
  */
 
-static VistaIOAttrList VistaIOImageEncodeAttrMethod (VistaIOPointer value, size_t * lengthp)
+static VistaIOAttrList VistaIOImageEncodeAttrMethod (VistaIOPointer value, uint64_t * lengthp)
 {
 	VistaIOImage image = value;
 	VistaIOAttrList list;
-	size_t length;
+	uint64_t length;
 
 #define OptionallyPrepend(value, name)				\
 	if (value != 1)							\
@@ -187,11 +187,11 @@ static VistaIOAttrList VistaIOImageEncodeAttrMethod (VistaIOPointer value, size_
  */
 
 static VistaIOPointer VistaIOImageEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					size_t length, VistaIOBoolean * free_itp)
+					uint64_t length, VistaIOBoolean * free_itp)
 {
 	VistaIOImage image = value;
 	VistaIOAttrListPosn posn;
-	size_t len;
+	uint64_t len;
 	VistaIOPointer ptr = NULL;
 
 	/* Remove the attributes prepended by the VistaIOImageEncodeAttrsMethod: */

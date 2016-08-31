@@ -36,17 +36,17 @@
 typedef struct {
 	VistaIOAttrListPosn posn;	/* identify of object's attribute */
 	VistaIOAttrList list;		/* attr list value referring to data */
-	size_t length;		/* length of data block */
+	uint64_t length;		/* length of data block */
 } DataBlock;
 
 typedef struct {
 	char *buf; 
-	size_t max_len; 
+	uint64_t max_len; 
 } ReadStringBuf; 
 
 
 /* Local variables: */
-static long offset;		/* current offset into file's binary data */
+static uint64_t offset;		/* current offset into file's binary data */
 static VistaIOList data_list;		/* list of data blocks to write later */
 
 /* Later in this file: */
@@ -58,7 +58,7 @@ static VistaIOBoolean ReadData (FILE *, VistaIOAttrList, VistaIOReadFileFilterPr
 static VistaIOBoolean WriteAttrList (FILE *, VistaIOAttrList, int);
 static VistaIOBoolean WriteAttr (FILE *, VistaIOAttrListPosn *, int);
 static VistaIOBoolean WriteString (FILE *, const char *);
-static VistaIOBoolean MySeek (FILE *, long);
+static VistaIOBoolean MySeek (FILE *, uint64_t);
 
 
 
@@ -295,7 +295,7 @@ static VistaIOAttrList ReadAttrList (FILE * f, ReadStringBuf *sbuf)
 	VistaIOAttrList sublist, list = VistaIOCreateAttrList ();
 	VistaIOAttrRec *a;
 	int ch = 0;
-	size_t name_size;
+	uint64_t name_size;
 	VistaIOBundle b;
 	char buf[2], *str, name_buf[VistaIOMaxAttrNameLength + 1];
 
@@ -422,7 +422,7 @@ static VistaIOAttrList ReadAttrList (FILE * f, ReadStringBuf *sbuf)
 static char *ReadString (FILE * f, char ch, VistaIOStringConst name, ReadStringBuf *buf)
 {
 	VistaIOBoolean escaped = (ch == '"');
-	size_t len = 0;
+	uint64_t len = 0;
 	char *cp;
 	int in_char; 
 
@@ -526,7 +526,7 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 	VistaIOBundle b;
 	VistaIORepnKind repn;
 	VistaIOBoolean read_data, data_found, length_found;
-	VistaIOLong data, length;
+	VistaIOLong64 data, length;
 	VistaIOTypeMethods *methods;
 	VistaIOPointer value;
 
@@ -595,7 +595,7 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 				   try fseek. That will fail on a pipe, in which case we
 				   seek by reading. */
 				if (data != offset &&
-				    fseek (f, (long)data - offset,
+				    fseek (f, data - offset,
 					   SEEK_CUR) == -1 && errno == ESPIPE
 				    && !MySeek (f, data - offset)) {
 					VistaIOSystemWarning
@@ -604,8 +604,8 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 				}
 
 				if (read_data) {
-					int pos = 0;
-					int togo = length;
+					uint64_t pos = 0;
+					uint64_t togo = length;
 					
 					b->data = VistaIOMalloc (b->length = length);
 					if (!b->data) {
@@ -615,7 +615,7 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 					
 					
 					while (togo) {
-						size_t read_length = togo < 100000 ? togo : 100000; 
+						uint64_t read_length = togo < 100000 ? togo : 100000; 
 						if (fread ((char *)(b->data) + pos, 1, 
 							   read_length, f) != read_length) {
 							VistaIOWarning ("VistaIOReadFile: Read from stream failed");
@@ -756,10 +756,10 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 		/* Write the binary data and free the buffer containing it if it was
 		   allocated temporarily by an encode_data method: */
 		if (db->length > 0) {
-			int togo = db->length; 
-			int pos = 0; 
+			uint64_t togo = db->length; 
+			uint64_t pos = 0; 
 			while (togo) {
-				size_t write_length = togo < 100000  ? togo: 100000;
+				uint64_t write_length = togo < 100000  ? togo: 100000;
 				result = fwrite (((char *)ptr) + pos, 1, write_length, f) == write_length;
 				pos += write_length;
 				togo -= write_length;
@@ -827,7 +827,7 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 	VistaIOBundle b;
 	DataBlock *db;
 	VistaIOTypeMethods *methods;
-	size_t length;
+	uint64_t length;
 	VistaIOPointer value;
 	VistaIOBoolean result;
 	VistaIOAttrListPosn subposn;
@@ -860,9 +860,9 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 
 			/* Include "data" and "length" attributes in its attribute list: */
 			VistaIOPrependAttr (b->list, VistaIOLengthAttr, NULL, VistaIOLongRepn,
-				      (VistaIOLong) b->length);
+				      (VistaIOLong64) b->length);
 			VistaIOPrependAttr (b->list, VistaIODataAttr, NULL, VistaIOLongRepn,
-				      (VistaIOLong) offset);
+				      (VistaIOLong64) offset);
 
 			/* Add it to the queue of binary data blocks to be written: */
 			offset += b->length;
@@ -913,9 +913,9 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 
 			/* Include "data" and "length" attributes in the attr list: */
 			VistaIOPrependAttr (sublist, VistaIOLengthAttr, NULL, VistaIOLongRepn,
-				      (VistaIOLong) length);
+				      (VistaIOLong64) length);
 			VistaIOPrependAttr (sublist, VistaIODataAttr, NULL, VistaIOLongRepn,
-				      (VistaIOLong) offset);
+				      (VistaIOLong64) offset);
 
 			offset += length;
 		}
@@ -1001,13 +1001,13 @@ static VistaIOBoolean WriteString (FILE * f, const char *str)
  *  work on pipes.
  */
 
-static VistaIOBoolean MySeek (FILE * f, long bytes)
+static VistaIOBoolean MySeek (FILE * f, uint64_t bytes)
 {
-	size_t len;
+	uint64_t len;
 	char buf[1000];
 
 	while (bytes > 0) {
-		len = VistaIOMin ((size_t)bytes, sizeof (buf));
+		len = VistaIOMin ((uint64_t)bytes, sizeof (buf));
 		if (fread (buf, 1, len, f) != len)
 			return FALSE;
 		bytes -= len;

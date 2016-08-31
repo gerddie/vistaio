@@ -21,7 +21,7 @@
 
 /* Later in this file: */
 static VistaIOPackOrder MachineByteOrder (void);
-static void SwapBytes (size_t, size_t, char *);
+static void SwapBytes (uint64_t, uint64_t, char *);
 
 
 /*! \brief Convert an array of data elements from unpacked to packed form.
@@ -67,13 +67,13 @@ static void SwapBytes (size_t, size_t, char *);
  */
 
 VistaIOBoolean VistaIOPackData (VistaIORepnKind repn,
-		    size_t nels, VistaIOPointer unpacked, VistaIOPackOrder packed_order,
-		    size_t * length, VistaIOPointer * packed, VistaIOBoolean * alloced)
+		    uint64_t nels, VistaIOPointer unpacked, VistaIOPackOrder packed_order,
+		    uint64_t * length, VistaIOPointer * packed, VistaIOBoolean * alloced)
 {
 	VistaIOPackOrder unpacked_order;
-	size_t unpacked_elsize = VistaIORepnSize (repn) * CHAR_BIT;
-	size_t packed_elsize = VistaIORepnPrecision (repn);
-	size_t packed_length = (nels * packed_elsize + 7) / 8;
+	uint64_t unpacked_elsize = VistaIORepnSize (repn) * CHAR_BIT;
+	uint64_t packed_elsize = VistaIORepnPrecision (repn);
+	uint64_t packed_length = (nels * packed_elsize + 7) / 8;
 
 	/* If space for the packed data was supplied, ensure there's
 	   enough of it: */
@@ -173,14 +173,14 @@ VistaIOBoolean VistaIOPackData (VistaIORepnKind repn,
  */
 
 VistaIOBoolean VistaIOUnpackData (VistaIORepnKind repn,
-		      size_t nels, VistaIOPointer packed, VistaIOPackOrder packed_order,
-		      size_t * length, VistaIOPointer * unpacked,
+		      uint64_t nels, VistaIOPointer packed, VistaIOPackOrder packed_order,
+		      uint64_t * length, VistaIOPointer * unpacked,
 		      VistaIOBoolean * alloced)
 {
 	VistaIOPackOrder unpacked_order;
-	size_t unpacked_elsize = VistaIORepnSize (repn) * CHAR_BIT;
-	size_t packed_elsize = VistaIORepnPrecision (repn);
-	size_t unpacked_length = nels * VistaIORepnSize (repn);
+	uint64_t unpacked_elsize = VistaIORepnSize (repn) * CHAR_BIT;
+	uint64_t packed_elsize = VistaIORepnPrecision (repn);
+	uint64_t unpacked_length = nels * VistaIORepnSize (repn);
 
 	/* If a space for the unpacked data was supplied, ensure there's
 	   enough of it: */
@@ -268,7 +268,7 @@ static VistaIOPackOrder MachineByteOrder ()
  *  \param  packed
  */
 
-void VistaIOPackBits (size_t nels, VistaIOPackOrder packed_order, VistaIOBit * unpacked,
+void VistaIOPackBits (uint64_t nels, VistaIOPackOrder packed_order, VistaIOBit * unpacked,
 		char *packed)
 {
 	int bit;
@@ -302,7 +302,7 @@ void VistaIOPackBits (size_t nels, VistaIOPackOrder packed_order, VistaIOBit * u
  *  \param  unpacked
  */
 
-void VistaIOUnpackBits (size_t nels, VistaIOPackOrder packed_order, char *packed,
+void VistaIOUnpackBits (uint64_t nels, VistaIOPackOrder packed_order, char *packed,
 		  VistaIOBit * unpacked)
 {
 	int bit;
@@ -351,9 +351,9 @@ void VistaIOUnpackBits (size_t nels, VistaIOPackOrder packed_order, char *packed
  *  \param  data
  */
 
-static void SwapBytes (size_t nels, size_t elsize, char *data)
+static void SwapBytes (uint64_t nels, uint64_t elsize, char *data)
 {
-	size_t i;
+	uint64_t i;
 	char *pl, *pu, byte;
 
 	for (i = 0; i < nels; i++, data += elsize)

@@ -73,7 +73,7 @@ EXPORT_VISTA void VistaIOAppendAttr (VistaIOAttrList list, VistaIOStringConst na
 EXPORT_VISTA VistaIOAttrList VistaIOCopyAttrList (VistaIOAttrList list)
 {
 	VistaIOAttrList new_list = VistaIOCreateAttrList ();
-	size_t name_size, value_size;
+	uint64_t name_size, value_size;
 	VistaIOAttrRec *old_a, *new_a;
 	VistaIOBundle old_b, new_b;
 	VistaIOTypeMethods *methods;
@@ -161,7 +161,7 @@ EXPORT_VISTA VistaIOAttrList VistaIOCreateAttrList (void)
  *  \return VistaIOBundle
  */
 
-EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, VistaIOAttrList list, size_t length,
+EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, VistaIOAttrList list, uint64_t length,
 		       VistaIOPointer data)
 {
 	VistaIOBundle b;
@@ -799,7 +799,7 @@ EXPORT_VISTA void VistaIOSetAttrValue (VistaIOAttrListPosn * posn, VistaIODictEn
 static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict,
 			  VistaIORepnKind repn, va_list * args)
 {
-	size_t new_value_size, name_size;
+	uint64_t new_value_size, name_size;
 	VistaIOPointer value;
 	VistaIOAttrRec *a;
 
@@ -852,7 +852,7 @@ static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict
 static void SetAttr (VistaIOAttrListPosn * posn, VistaIODictEntry * dict, VistaIORepnKind repn,
 		     va_list * args)
 {
-	size_t old_value_size, new_value_size, name_size;
+	uint64_t old_value_size, new_value_size, name_size;
 	VistaIOPointer value;
 	VistaIOAttrRec *a = posn->ptr;
 

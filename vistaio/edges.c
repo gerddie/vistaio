@@ -76,7 +76,7 @@ VistaIOEdge VistaIOAddEdge (VistaIOEdges edges, VistaIOFloat * edge_fields, int 
 		VistaIOBooleanPromoted copy)
 {
 	VistaIOEdge edge = VistaIOMalloc (sizeof (VistaIOEdgeRec));
-	size_t fsize, psize, isize;
+	uint64_t fsize, psize, isize;
 	int i;
 	VistaIOPointer p;
 	VistaIOFloat *pdata;

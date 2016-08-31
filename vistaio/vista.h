@@ -49,6 +49,12 @@
 #include <stdarg.h>
 #include <math.h>
 
+#if __STDC_VERSION__ >= 199901L
+#include <stdint.h>
+#else
+#error This code requires C99 
+#endif 
+
 #ifndef FALSE
 #define FALSE	 		0
 #define TRUE 			1
@@ -58,12 +64,12 @@
 
 #define VistaIOMax(a,b)		((a) > (b) ? (a) : (b))
 #define VistaIOMin(a,b)		((a) < (b) ? (a) : (b))
-#define VistaIOOffset(type, field) 	((size_t) (((char *) & ((type) 0)->field) - (char *) 0))
+#define VistaIOOffset(type, field) 	((uint64_t) (((char *) & ((type) 0)->field) - (char *) 0))
 #define VistaIOOffsetOf(type, field)	VistaIOOffset(type *, field)
-#define VistaIONumber(array)		((size_t) (sizeof (array) / sizeof ((array)[0])))
-#define VistaIOZero(array, nels) 	((void) memset ((void *) array, 0, (size_t) (nels) * sizeof ((array)[0])))
+#define VistaIONumber(array)		((uint64_t) (sizeof (array) / sizeof ((array)[0])))
+#define VistaIOZero(array, nels) 	((void) memset ((void *) array, 0, (uint64_t) (nels) * sizeof ((array)[0])))
 #define VistaIOCopy(from, to, nels) 	((void) memcpy ((void *) (to), (void *) (from), \
-		    			(size_t) (nels) * sizeof ((from)[0])))
+		    			(uint64_t) (nels) * sizeof ((from)[0])))
 #define VistaIONew(type)		((type *) VistaIOMalloc (sizeof (type)))
 #define VistaIONewString(str) 	((VistaIOString) ((str) ? strcpy ((char *) VistaIOMalloc (strlen (str) + 1), str) : 0))
 #define VistaIOFileHeader		"V-data"
@@ -236,25 +242,26 @@
 typedef char VistaIOBit;		/*!< 0 or 1 */
 typedef double VistaIODouble;		/*!< >= 64-bit IEEE floating point */
 typedef float VistaIOFloat;		/*!< >= 32-bit IEEE floating point */
-typedef int VistaIOLong;		/*!< !! changed, G.L. 19.9.95 !! */
-typedef signed char VistaIOSByte;	/*!< integer in [-128,127] */
-typedef short VistaIOShort;		/*!< >= 16-bit signed integer */
-typedef unsigned char VistaIOUByte;	/*!< integer in [0,255] */
+typedef int32_t VistaIOLong;		/*!< !! changed, G.L. 19.9.95 !! */
+typedef int64_t VistaIOLong64;		/*!< !! changed, G.L. 19.9.95 !! */
+typedef int8_t VistaIOSByte;	/*!< integer in [-128,127] */
+typedef int16_t VistaIOShort;		/*!< >= 16-bit signed integer */
+typedef uint8_t VistaIOUByte;	/*!< integer in [0,255] */
 typedef char VistaIOBoolean;		/*!< TRUE or FALSE */
 typedef void *VistaIOPointer;		/*!< generic pointer */
 typedef const void *VistaIOPointerConst;		/*!< generic pointer */
 typedef const char *VistaIOStringConst;	/* null-terminated string constant */
 typedef char *VistaIOString;		/*!< null-terminated string */
-typedef int VistaIOBitPromoted;
-typedef int VistaIOBooleanPromoted;
+typedef int32_t VistaIOBitPromoted;
+typedef int32_t VistaIOBooleanPromoted;
 typedef double VistaIODoublePromoted;
 typedef double VistaIOFloatPromoted;
-typedef long VistaIOLongPromoted;
-typedef int VistaIOSBytePromoted;
-typedef int VistaIOShortPromoted;
-typedef unsigned int VistaIOUBytePromoted;
+typedef int64_t VistaIOLongPromoted;
+typedef int32_t VistaIOSBytePromoted;
+typedef int32_t VistaIOShortPromoted;
+typedef uint32_t VistaIOUBytePromoted;
 typedef struct VistaIO_ImageRec *VistaIOImage;
-typedef int VistaIOBand;
+typedef int32_t VistaIOBand;
 typedef void VistaIOErrorHandler (VistaIOStringConst);
 typedef void VistaIOWarningHandler (VistaIOStringConst);
 typedef VistaIOPointer VistaIOCopyMethod (VistaIOPointer);
@@ -286,6 +293,7 @@ typedef enum {
 	VistaIOField3DRepn,           /*!< A 3D field of 3D Vectors */
 	VistaIOField2DRepn,           /*!< A 2D field of 2D Vectors */
 	VistaIOSpline2DRepn,           /*!< A 2D spline field for 2D transformations */
+	VistaIOLong64Repn,		/*!< 32-bit integer, [-2**31, 2**31-1] */
 	VistaIONRepnKinds		/*!< number of predefined types */
 } VistaIORepnKind;
 
@@ -364,14 +372,14 @@ typedef enum {
 /*! \brief An object whose type is named but not registered: */
 typedef struct {
 	VistaIOAttrList list;		/*!< object's attribute list value */
-	size_t length;		/*!< length of binary data */
+	uint64_t length;		/*!< length of binary data */
 	VistaIOPointer data;		/*!< pointer to binary data */
 	char type_name[1];	/*!< beginning of object's type's name */
 } VistaIOBundleRec, *VistaIOBundle;
 
 typedef VistaIOPointer VistaIODecodeMethod (VistaIOStringConst, VistaIOBundle);
-typedef VistaIOAttrList VistaIOEncodeAttrMethod (VistaIOPointer, size_t *);
-typedef VistaIOPointer VistaIOEncodeDataMethod (VistaIOPointer, VistaIOAttrList, size_t, VistaIOBoolean *);
+typedef VistaIOAttrList VistaIOEncodeAttrMethod (VistaIOPointer, uint64_t *);
+typedef VistaIOPointer VistaIOEncodeDataMethod (VistaIOPointer, VistaIOAttrList, uint64_t, VistaIOBoolean *);
 
 /*! \brief Set of methods supporting an object type: */
 typedef struct {
@@ -385,7 +393,7 @@ typedef struct {
 /*! \brief Information about a representation: */
 typedef struct {
 	VistaIOStringConst name;	/*!< name string */
-	size_t size;		/*!< size, in bytes */
+	uint64_t size;		/*!< size, in bytes */
 	int precision;		/*!< precision, in bits */
 	VistaIODouble min_value;	/*!< min and max representable values */
 	VistaIODouble max_value;
@@ -1314,7 +1322,7 @@ extern "C" {
 	 *  \param  size
 	 *  \return VistaIOPointer
 	 */
-	VistaIOPointer VistaIOCalloc (size_t n, size_t size);
+	VistaIOPointer VistaIOCalloc (uint64_t n, uint64_t size);
 
 	/*! \brief Perform error checking on free() call.
 	 *
@@ -1327,7 +1335,7 @@ extern "C" {
 	 *  \param  size
 	 *  \return VistaIOPointer
 	 */
-	VistaIOPointer VistaIOMalloc (size_t size);
+	VistaIOPointer VistaIOMalloc (uint64_t size);
 
 	/*! \brief Perform error checking on realloc() call.
 	 *
@@ -1335,7 +1343,7 @@ extern "C" {
 	 *  \param  size
 	 *  \return VistaIOPointer
 	 */
-	VistaIOPointer VistaIORealloc (VistaIOPointer p, size_t size);
+	VistaIOPointer VistaIORealloc (VistaIOPointer p, uint64_t size);
 
 	/*! \brief Append a new attribute to a list.
 	 *
@@ -1373,7 +1381,7 @@ extern "C" {
 	 *  \param  data
 	 *  \return VistaIOBundle
 	 */
-	EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, VistaIOAttrList list, size_t  length, 
+	EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, VistaIOAttrList list, uint64_t  length, 
 		VistaIOPointer data);
 
 	/*! \brief Decode an attribute's value from a string to internal representation.
@@ -1661,8 +1669,8 @@ extern "C" {
 	 *  \param  alloced
 	 *  \return  VistaIOBoolean
 	 */
-	VistaIOBoolean VistaIOPackData (VistaIORepnKind repn, size_t nels, VistaIOPointer unpacked, 
-		VistaIOPackOrder packed_order, size_t *length, VistaIOPointer *packed, 
+	VistaIOBoolean VistaIOPackData (VistaIORepnKind repn, uint64_t nels, VistaIOPointer unpacked, 
+		VistaIOPackOrder packed_order, uint64_t *length, VistaIOPointer *packed, 
 		VistaIOBoolean *alloced);
 
 	/*! \brief Convert an array of data elements from packed to unpacked form.
@@ -1706,8 +1714,8 @@ extern "C" {
 	 *  \param  alloced
 	 *  \return VistaIOBoolean
 	 */
-	VistaIOBoolean VistaIOUnpackData (VistaIORepnKind repn, size_t nels, VistaIOPointer packed, 
-		VistaIOPackOrder packed_order, size_t *length, VistaIOPointer *unpacked, 
+	VistaIOBoolean VistaIOUnpackData (VistaIORepnKind repn, uint64_t nels, VistaIOPointer packed, 
+		VistaIOPackOrder packed_order, uint64_t *length, VistaIOPointer *unpacked, 
 		VistaIOBoolean *alloced);
 
 	/*! \brief Pack the low order bits of consecutive VistaIOBit data elements.
@@ -1719,7 +1727,7 @@ extern "C" {
 	 *  \param  unpacked
 	 *  \param  packed
 	 */
-	void VistaIOPackBits (size_t nels, VistaIOPackOrder packed_order, VistaIOBit *unpacked, 
+	void VistaIOPackBits (uint64_t nels, VistaIOPackOrder packed_order, VistaIOBit *unpacked, 
 		char *packed);
 
 	/*! \brief Unpack into the low order bits of consecutive VistaIOBit data elements.
@@ -1731,7 +1739,7 @@ extern "C" {
 	 *  \param  packed
 	 *  \param  unpacked
 	 */
-	void VistaIOUnpackBits (size_t nels, VistaIOPackOrder packed_order, char *packed, 
+	void VistaIOUnpackBits (uint64_t nels, VistaIOPackOrder packed_order, char *packed, 
 		VistaIOBit *unpacked);
 
 	/*! \brief Register some handlers for dealing with objects of a particular type.

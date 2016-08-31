@@ -54,7 +54,7 @@ static VistaIOPointer VistaIOGraphDecodeMethod (VistaIOStringConst name, VistaIO
 	VistaIOAttrList list;
 	VistaIOLong idx, nadj;
 	int length;
-	size_t len;
+	uint64_t len;
 	VistaIONode n;
 	VistaIOPointer p, ptr;
 	VistaIOAdjacency adj;
@@ -149,11 +149,11 @@ static VistaIOPointer VistaIOGraphDecodeMethod (VistaIOStringConst name, VistaIO
  *  \return VistaIOAttrList
  */
 
-static VistaIOAttrList VistaIOGraphEncodeAttrMethod (VistaIOPointer value, size_t * lengthp)
+static VistaIOAttrList VistaIOGraphEncodeAttrMethod (VistaIOPointer value, uint64_t * lengthp)
 {
 	VistaIOGraph graph = value;
 	VistaIOAttrList list;
-	size_t len, nadj;
+	uint64_t len, nadj;
 	int i, slong, sfloat, spriv, nnodes;
 	VistaIONode n;
 	VistaIOAdjacency adj;
@@ -216,12 +216,12 @@ static VistaIOAttrList VistaIOGraphEncodeAttrMethod (VistaIOPointer value, size_
  */
 
 static VistaIOPointer VistaIOGraphEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					size_t length, VistaIOBoolean * free_itp)
+					uint64_t length, VistaIOBoolean * free_itp)
 {
 	VistaIOGraph graph = value;
 	VistaIOAttrListPosn posn;
 	VistaIONode n;
-	size_t len;
+	uint64_t len;
 	VistaIOPointer p, ptr;
 	VistaIOAdjacency adj;
 	int i, nadj;
