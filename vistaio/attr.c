@@ -19,6 +19,8 @@
 
 #include "vista.h"
 #include <string.h>
+#include <inttypes.h>
+
 
 /* Later in this file: */
 static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn, va_list * args);
@@ -402,7 +404,7 @@ EXPORT_VISTA VistaIOStringConst VistaIOEncodeAttrValue (VistaIODictEntry * dict,
 
 static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn, va_list * args)
 {
-	VistaIOLong i_value = 0;
+	VistaIOLong64 i_value = 0;
 	VistaIODouble f_value = 0.0;
 	VistaIOString s_value = NULL;
 	static char buf[40];
@@ -455,7 +457,7 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 	case VistaIOLongRepn:
 	case VistaIOLong64Repn:
 	case VistaIOBooleanRepn:
-		sprintf (s_value = buf, "%ld", (int64_t)i_value);
+		sprintf (s_value = buf, "%" PRId64, (int64_t)i_value);
 		break;
 
 	case VistaIOFloatRepn:
