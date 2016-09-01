@@ -859,9 +859,9 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 		if (b->length > 0) {
 
 			/* Include "data" and "length" attributes in its attribute list: */
-			VistaIOPrependAttr (b->list, VistaIOLengthAttr, NULL, VistaIOLongRepn,
+			VistaIOPrependAttr (b->list, VistaIOLengthAttr, NULL, VistaIOLong64Repn,
 				      (VistaIOLong64) b->length);
-			VistaIOPrependAttr (b->list, VistaIODataAttr, NULL, VistaIOLongRepn,
+			VistaIOPrependAttr (b->list, VistaIODataAttr, NULL, VistaIOLong64Repn,
 				      (VistaIOLong64) offset);
 
 			/* Add it to the queue of binary data blocks to be written: */

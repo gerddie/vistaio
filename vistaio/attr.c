@@ -407,7 +407,7 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 	VistaIOLong64 i_value = 0;
 	VistaIODouble f_value = 0.0;
 	VistaIOString s_value = NULL;
-	static char buf[40];
+	static char buf[80];
 
 	/* Fetch the attribute value: */
 	switch (repn) {
@@ -427,7 +427,7 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 		i_value = va_arg (*args, VistaIOLongPromoted);
 		break;
 	case VistaIOLong64Repn:
-		i_value = va_arg (*args, VistaIOLongPromoted);
+		i_value = va_arg (*args, VistaIOLong64);
 		break;
 	case VistaIOFloatRepn:
 		f_value = va_arg (*args, VistaIOFloatPromoted);
@@ -823,6 +823,7 @@ static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict
 	case VistaIOSByteRepn:
 	case VistaIOShortRepn:
 	case VistaIOLongRepn:
+	case VistaIOLong64Repn:
 	case VistaIOFloatRepn:
 	case VistaIODoubleRepn:
 	case VistaIOBooleanRepn:
