@@ -29,6 +29,9 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIOLong  test_long = 6;
 	VistaIOLong  test_long_negative = -6;
 	VistaIOLong64  test_long64 = -10;
+	VistaIOLong64  test_long64_max = INT64_MAX;
+
+	
 	VistaIOString test_string = "This is a test string \" ;}:"; 
 
 
@@ -40,6 +43,7 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIOLong  read_long = 0;
 	VistaIOLong  read_long_negative = 0;
 	VistaIOLong64  read_long64 = 0;
+	VistaIOLong64 read_long64_max = 0; 
 	VistaIOString read_string = NULL;
 
 	int test_failed = FALSE; 
@@ -51,8 +55,9 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIOSetAttr(test_list, "test-short", NULL, VistaIOShortRepn, test_short);
 	VistaIOSetAttr(test_list, "test-short-negative", NULL, VistaIOShortRepn, test_short_negative);
 	VistaIOSetAttr(test_list, "test-long", NULL, VistaIOLongRepn, test_long);
-	VistaIOSetAttr(test_list, "test-long64", NULL, VistaIOLong64Repn, test_long64);
 	VistaIOSetAttr(test_list, "test-long-negative", NULL, VistaIOLongRepn, test_long_negative);
+	VistaIOSetAttr(test_list, "test-long64", NULL, VistaIOLong64Repn, test_long64);
+	VistaIOSetAttr(test_list, "test-long64-max", NULL, VistaIOLong64Repn, test_long64_max);
 	VistaIOSetAttr(test_list, "test-string", NULL, VistaIOStringRepn, test_string);
 
 	
@@ -118,6 +123,13 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 		VistaIOWarning("Attribute test-long64 not found");
 	}
 
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list, "test-long64-max", NULL, VistaIOLong64Repn, &read_long64_max)) {
+		++test_failed;  
+		VistaIOWarning("Attribute test-long64-max not found");
+	}
+
+	
 	
 	if (VistaIOAttrFound !=
 	    VistaIOGetAttr(test_list, "test-string", NULL, VistaIOStringRepn, &read_string)) {
@@ -162,6 +174,13 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 		++test_failed;  
 	}
 
+	if (test_long64_max != read_long64_max) {
+		VistaIOWarning("Attribute test-long64-max: read %" PRId64 ", expected %" PRId64,
+			       read_long64_max, test_long64_max);
+		++test_failed;  
+	}
+
+	
 	
 	if (strcmp(read_string, test_string)) {
 		VistaIOWarning("Attribute test-string: read '%s', expected '%s'", read_string, test_string);
