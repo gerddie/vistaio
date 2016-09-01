@@ -1,25 +1,25 @@
-2.1.20 
+1.2.20 
 
   * Use int64_t to handle file offsets and data length
     Closes: Bug #2
 
-2.1.19
+1.2.19
 
   * Add test for attribute IO
   * Add test for basic image IO
   * Add travis-ci build check
 
-2.1.18
+1.2.18
 
    * Correct code for problems discovered by Coverity
 
-2.1.17
+1.2.17
 
    * Add a function to chech whether a file is actually a vista file
      by only reading the header file.
    * replace _SVID_SOURCE by _DEFAULT_SOURCE as the former is deprecated.
 
-2.1.16
+1.2.16
 
    * Revert licenses of type.c and history.c to original by A. Pope
    * Corret licenses in 2dspline.c, 3dfield.c. vcplist.*, vfield2d.*,
@@ -29,11 +29,11 @@
    * correct license COYPING file to reflect what is given in the
 	 source files.
 
-2.1.15
+1.2.15
 
    * correct errors in the man pages
 
-2.1.14
+1.2.14
 
    * support multiarch in build system
    * clean up manpages
