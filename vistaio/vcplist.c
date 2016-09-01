@@ -161,7 +161,7 @@ static VistaIOPointer VistaIOCPEListDecodeMethod (VistaIOStringConst UNUSED(name
  *  Encode an attribute list value for a VistaIOGraph object.
  */
 
-static VistaIOAttrList VistaIOCPEListEncodeAttrMethod (VistaIOPointer value, uint64_t *lengthp)
+static VistaIOAttrList VistaIOCPEListEncodeAttrMethod (VistaIOPointer value, int64_t *lengthp)
 {
 	VistaIOCPEList cplist = value;
 	VistaIOAttrList list;
@@ -185,7 +185,7 @@ static VistaIOAttrList VistaIOCPEListEncodeAttrMethod (VistaIOPointer value, uin
  */
 
 static VistaIOPointer VistaIOCPEListEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					uint64_t length, VistaIOBoolean *free_itp)
+					int64_t length, VistaIOBoolean *free_itp)
 {
 	VistaIOCPEList cplist = value;
 	VistaIOAttrListPosn posn;

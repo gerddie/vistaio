@@ -25,9 +25,9 @@
 #include <assert.h>
 
 static VistaIOPointer VistaIOSpline2DDecodeMethod (VistaIOStringConst name, VistaIOBundle b); 
-static VistaIOAttrList VistaIOSpline2DEncodeAttrMethod (VistaIOPointer value, uint64_t *lengthp); 
+static VistaIOAttrList VistaIOSpline2DEncodeAttrMethod (VistaIOPointer value, int64_t *lengthp); 
 static VistaIOPointer VistaIOSpline2DEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					  uint64_t length, VistaIOBoolean *free_itp); 
+					  int64_t length, VistaIOBoolean *free_itp); 
 
 VistaIOTypeMethods VistaIOSpline2DMethods = {
 	(VistaIOCopyMethod*)VistaIOCopySpline2D,		 /* copy a VistaIOSpline2D */
@@ -128,7 +128,7 @@ EXPORT_VISTA char *VistaIOGetSpline2DListName(VistaIOSpline2D UNUSED(field))
 	return "spline2d"; 
 }
 
-static VistaIOAttrList VistaIOSpline2DEncodeAttrMethod (VistaIOPointer value, uint64_t *UNUSED(lengthp))
+static VistaIOAttrList VistaIOSpline2DEncodeAttrMethod (VistaIOPointer value, int64_t *UNUSED(lengthp))
 {
 	VistaIOSpline2D spline = value;
 	VistaIOAttrList list;
@@ -166,7 +166,7 @@ static VistaIOPointer VistaIOSpline2DDecodeMethod (VistaIOStringConst UNUSED(nam
 	return spline;  
 }
 static VistaIOPointer VistaIOSpline2DEncodeDataMethod (VistaIOPointer UNUSED(value), VistaIOAttrList UNUSED(list),
-					   uint64_t UNUSED(length), VistaIOBoolean *UNUSED(free_itp))
+					   int64_t UNUSED(length), VistaIOBoolean *UNUSED(free_itp))
 {
 	return NULL; 
 }

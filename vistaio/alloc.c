@@ -25,7 +25,7 @@
  *  \return VistaIOPointer
  */
 
-VistaIOPointer VistaIOMalloc (uint64_t size)
+VistaIOPointer VistaIOMalloc (int64_t size)
 {
 	VistaIOPointer p;
 
@@ -33,7 +33,7 @@ VistaIOPointer VistaIOMalloc (uint64_t size)
 		return NULL;
 	p = (VistaIOPointer) malloc (size); 
 	if (!p)
-		VistaIOSystemError ("VistaIOMalloc: Memory allocation failure");
+		VistaIOSystemError ("VistaIOMalloc: Memory allocation failure: requested %ld", size);
 	return p;
 }
 
@@ -45,7 +45,7 @@ VistaIOPointer VistaIOMalloc (uint64_t size)
  *  \return VistaIOPointer
  */
 
-VistaIOPointer VistaIORealloc (VistaIOPointer p, uint64_t size)
+VistaIOPointer VistaIORealloc (VistaIOPointer p, int64_t size)
 {
 	if (size == 0) {
 		VistaIOFree (p);
@@ -66,7 +66,7 @@ VistaIOPointer VistaIORealloc (VistaIOPointer p, uint64_t size)
  *  \return VistaIOPointer
  */
 
-VistaIOPointer VistaIOCalloc (uint64_t n, uint64_t size)
+VistaIOPointer VistaIOCalloc (int64_t n, int64_t size)
 {
 	VistaIOPointer p;
 

@@ -51,7 +51,7 @@ static VistaIOPointer VistaIOEdgesDecodeMethod (VistaIOStringConst name, VistaIO
 	VistaIOLong nrows, ncolumns, nedge_fields, npoint_fields, nedges, npoints;
 	VistaIOAttrList list;
 	int npnts, closed, i, nels;
-	uint64_t length;
+	int64_t length;
 	VistaIOFloat *p;
 
 #define Extract(name, dict, locn, required)	\
@@ -121,7 +121,7 @@ static VistaIOPointer VistaIOEdgesDecodeMethod (VistaIOStringConst name, VistaIO
  *  Encode an attribute list value for a VistaIOEdges object.
  */
 
-static VistaIOAttrList VistaIOEdgesEncodeAttrMethod (VistaIOPointer value, uint64_t * lengthp)
+static VistaIOAttrList VistaIOEdgesEncodeAttrMethod (VistaIOPointer value, int64_t * lengthp)
 {
 	VistaIOEdges edges = value;
 	VistaIOAttrList list;
@@ -159,13 +159,13 @@ static VistaIOAttrList VistaIOEdgesEncodeAttrMethod (VistaIOPointer value, uint6
  */
 
 static VistaIOPointer VistaIOEdgesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					uint64_t length, VistaIOBoolean * free_itp)
+					int64_t length, VistaIOBoolean * free_itp)
 {
 	VistaIOEdges edges = value;
 	VistaIOAttrListPosn posn;
 	VistaIOEdge e;
 	float pcount;
-	uint64_t len;
+	int64_t len;
 	VistaIOPointer ptr, p;
 
 	/* Remove the attributes prepended by the VistaIOEdgesEncodeAttrsMethod: */

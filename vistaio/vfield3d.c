@@ -283,7 +283,7 @@ static VistaIOPointer VistaIOField3DDecodeMethod (VistaIOStringConst UNUSED(name
  *  Encode an attribute list value for a VistaIOGraph object.
  */
 
-static VistaIOAttrList VistaIOField3DEncodeAttrMethod (VistaIOPointer value, uint64_t *lengthp)
+static VistaIOAttrList VistaIOField3DEncodeAttrMethod (VistaIOPointer value, int64_t *lengthp)
 {
 	VistaIOField3D field = value;
 	VistaIOAttrList list;
@@ -312,7 +312,7 @@ static VistaIOAttrList VistaIOField3DEncodeAttrMethod (VistaIOPointer value, uin
  */
 
 static VistaIOPointer VistaIOField3DEncodeDataMethod (VistaIOPointer value, VistaIOAttrList list,
-					uint64_t length, VistaIOBoolean *free_itp)
+					int64_t length, VistaIOBoolean *free_itp)
 {
 	VistaIOField3D field = value;
 	VistaIOAttrListPosn posn;

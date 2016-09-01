@@ -59,7 +59,7 @@ static VistaIOPointer VolumesDecodeMethod (VistaIOStringConst UNUSED(name), Vist
 	Volumes volumes;
 	VistaIOAttrList list;
 	int nels, i, j;
-	uint64_t length;
+	int64_t length;
 	VistaIOShort hashlen, nbands, nrows, ncols;
 	short nt1, nt2;
 	short label;
@@ -146,7 +146,7 @@ static VistaIOPointer VolumesDecodeMethod (VistaIOStringConst UNUSED(name), Vist
  *  \return VistaIOAttrList
  */
 
-static VistaIOAttrList VolumesEncodeAttrMethod (VistaIOPointer value, uint64_t * lengthp)
+static VistaIOAttrList VolumesEncodeAttrMethod (VistaIOPointer value, int64_t * lengthp)
 {
 	Volumes volumes = value;
 	Volume v;
@@ -197,12 +197,12 @@ static VistaIOAttrList VolumesEncodeAttrMethod (VistaIOPointer value, uint64_t *
  */
 
 static VistaIOPointer
-VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), uint64_t length,
+VolumesEncodeDataMethod (VistaIOPointer value, VistaIOAttrList UNUSED(list), int64_t length,
 			 VistaIOBoolean * free_itp)
 {
 	Volumes volumes = value;
 	Volume v;
-	uint64_t len;
+	int64_t len;
 	VistaIOPointer ptr, p;
 	VistaIOShort idata[4], hashlen, nbands, ntracks, label;
 	long nt1, nt2;

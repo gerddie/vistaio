@@ -73,7 +73,7 @@ EXPORT_VISTA void VistaIOAppendAttr (VistaIOAttrList list, VistaIOStringConst na
 EXPORT_VISTA VistaIOAttrList VistaIOCopyAttrList (VistaIOAttrList list)
 {
 	VistaIOAttrList new_list = VistaIOCreateAttrList ();
-	uint64_t name_size, value_size;
+	int64_t name_size, value_size;
 	VistaIOAttrRec *old_a, *new_a;
 	VistaIOBundle old_b, new_b;
 	VistaIOTypeMethods *methods;
@@ -161,7 +161,7 @@ EXPORT_VISTA VistaIOAttrList VistaIOCreateAttrList (void)
  *  \return VistaIOBundle
  */
 
-EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, VistaIOAttrList list, uint64_t length,
+EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, VistaIOAttrList list, int64_t length,
 		       VistaIOPointer data)
 {
 	VistaIOBundle b;
@@ -186,7 +186,7 @@ EXPORT_VISTA VistaIOBundle VistaIOCreateBundle (VistaIOStringConst type_name, Vi
 EXPORT_VISTA VistaIOBoolean VistaIODecodeAttrValue (VistaIOStringConst str, VistaIODictEntry * dict,
 			   VistaIORepnKind repn, VistaIOPointer value)
 {
-	VistaIOLong i_value = 0;
+	VistaIOLong64 i_value = 0;
 	VistaIODouble f_value = 0.0;
 	char *cp = NULL, buf[20];
 
@@ -213,17 +213,18 @@ EXPORT_VISTA VistaIOBoolean VistaIODecodeAttrValue (VistaIOStringConst str, Vist
 	case VistaIOSByteRepn:
 	case VistaIOShortRepn:
 	case VistaIOLongRepn:
+	case VistaIOLong64Repn:
 	case VistaIOBooleanRepn:
 		if (dict) {
 			if (dict->icached)
 				i_value = dict->ivalue;
 			else {
 				dict->ivalue = i_value =
-					strtol (dict->svalue, &cp, 0);
+					strtoll (dict->svalue, &cp, 0);
 				dict->icached = TRUE;
 			}
 		} else
-			i_value = strtol (str, &cp, 0);
+			i_value = strtoll (str, &cp, 0);
 		break;
 
 	case VistaIOFloatRepn:
@@ -268,6 +269,9 @@ EXPORT_VISTA VistaIOBoolean VistaIODecodeAttrValue (VistaIOStringConst str, Vist
 		break;
 	case VistaIOLongRepn:
 		*(VistaIOLong *) value = i_value;
+		break;
+	case VistaIOLong64Repn:
+		*(VistaIOLong64 *) value = i_value;
 		break;
 	case VistaIOFloatRepn:
 		*(VistaIOFloat *) value = (VistaIOFloat)f_value;
@@ -420,6 +424,9 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 	case VistaIOLongRepn:
 		i_value = va_arg (*args, VistaIOLongPromoted);
 		break;
+	case VistaIOLong64Repn:
+		i_value = va_arg (*args, VistaIOLongPromoted);
+		break;
 	case VistaIOFloatRepn:
 		f_value = va_arg (*args, VistaIOFloatPromoted);
 		break;
@@ -446,8 +453,9 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 	case VistaIOSByteRepn:
 	case VistaIOShortRepn:
 	case VistaIOLongRepn:
+	case VistaIOLong64Repn:
 	case VistaIOBooleanRepn:
-		sprintf (s_value = buf, "%ld", (long)i_value);
+		sprintf (s_value = buf, "%ld", (int64_t)i_value);
 		break;
 
 	case VistaIOFloatRepn:
@@ -469,6 +477,7 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 		case VistaIOSByteRepn:
 		case VistaIOShortRepn:
 		case VistaIOLongRepn:
+		case VistaIOLong64Repn:
 		case VistaIOBooleanRepn:
 			dict = VistaIOLookupDictValue (dict, VistaIOLongRepn, i_value);
 			break;
@@ -589,6 +598,7 @@ EXPORT_VISTA VistaIOBoolean VistaIOGetAttrValue (VistaIOAttrListPosn * posn, Vis
 	case VistaIOSByteRepn:
 	case VistaIOShortRepn:
 	case VistaIOLongRepn:
+	case VistaIOLong64Repn:		
 	case VistaIOFloatRepn:
 	case VistaIODoubleRepn:
 	case VistaIOBooleanRepn:
@@ -799,7 +809,7 @@ EXPORT_VISTA void VistaIOSetAttrValue (VistaIOAttrListPosn * posn, VistaIODictEn
 static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict,
 			  VistaIORepnKind repn, va_list * args)
 {
-	uint64_t new_value_size, name_size;
+	int64_t new_value_size, name_size;
 	VistaIOPointer value;
 	VistaIOAttrRec *a;
 
@@ -852,7 +862,7 @@ static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict
 static void SetAttr (VistaIOAttrListPosn * posn, VistaIODictEntry * dict, VistaIORepnKind repn,
 		     va_list * args)
 {
-	uint64_t old_value_size, new_value_size, name_size;
+	int64_t old_value_size, new_value_size, name_size;
 	VistaIOPointer value;
 	VistaIOAttrRec *a = posn->ptr;
 
