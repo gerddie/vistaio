@@ -912,9 +912,9 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 		if (length > 0) {
 
 			/* Include "data" and "length" attributes in the attr list: */
-			VistaIOPrependAttr (sublist, VistaIOLengthAttr, NULL, VistaIOLongRepn,
+			VistaIOPrependAttr (sublist, VistaIOLengthAttr, NULL, VistaIOLong64Repn,
 				      (VistaIOLong64) length);
-			VistaIOPrependAttr (sublist, VistaIODataAttr, NULL, VistaIOLongRepn,
+			VistaIOPrependAttr (sublist, VistaIODataAttr, NULL, VistaIOLong64Repn,
 				      (VistaIOLong64) offset);
 
 			offset += length;
