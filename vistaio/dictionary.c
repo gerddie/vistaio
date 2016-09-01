@@ -1,6 +1,6 @@
 /*
  *  Copyright 1993, 1994 University of British Columbia
- *  Copyright (c) Leipzig, Madrid 2004 - 2012
+ *  Copyright (c) Leipzig, Madrid 2004 - 2016
  *  Max-Planck-Institute for Human Cognitive and Brain Science	
  *  Max-Planck-Institute for Evolutionary Anthropology 
  *  BIT, ETSI Telecomunicacion, UPM
@@ -47,6 +47,8 @@ EXPORT_VISTA VistaIODictEntry VistaIONumericRepnDict[] = {
 	{"double", VistaIODoubleRepn, NULL, 0, 0, 0.0}
 	,
 	{"float", VistaIOFloatRepn, NULL, 0, 0, 0.0}
+	,
+	{"long64", VistaIOLong64Repn, NULL, 0, 0, 0.0}
 	,
 	{"long", VistaIOLongRepn, NULL, 0, 0, 0.0}
 	,
@@ -121,6 +123,9 @@ VistaIODictEntry *VistaIOLookupDictValue (VistaIODictEntry * dict, VistaIORepnKi
 	case VistaIOLongRepn:
 		i_value = va_arg (args, VistaIOLongPromoted);
 		break;
+	case VistaIOLong64Repn:
+		i_value = va_arg (args, VistaIOLong64);
+		break;
 	case VistaIOFloatRepn:
 		f_value = va_arg (args, VistaIOFloatPromoted);
 		break;
@@ -147,6 +152,7 @@ VistaIODictEntry *VistaIOLookupDictValue (VistaIODictEntry * dict, VistaIORepnKi
 	case VistaIOSByteRepn:
 	case VistaIOShortRepn:
 	case VistaIOLongRepn:
+	case VistaIOLong64Repn:
 	case VistaIOBooleanRepn:
 		for (; dict->keyword; dict++) {
 

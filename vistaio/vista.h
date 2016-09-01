@@ -273,6 +273,7 @@ typedef enum {
 	VistaIOSByteRepn,		/*!< 8-bit integer, [-128, 127] */
 	VistaIOShortRepn,		/*!< 16-bit integer, [-32768, 32767] */
 	VistaIOLongRepn,		/*!< 32-bit integer, [-2**31, 2**31-1] */
+	VistaIOLong64Repn,		/*!< 64-bit integer, [-2**63, 2**63-1] */		
 	VistaIOFloatRepn,		/*!< 32-bit IEEE floating point */
 	VistaIODoubleRepn,		/*!< 64-bit IEEE floating point */
 	VistaIOAttrListRepn,		/*!< attribute list */
@@ -289,7 +290,7 @@ typedef enum {
 	VistaIOField3DRepn,           /*!< A 3D field of 3D Vectors */
 	VistaIOField2DRepn,           /*!< A 2D field of 2D Vectors */
 	VistaIOSpline2DRepn,           /*!< A 2D spline field for 2D transformations */
-	VistaIOLong64Repn,		/*!< 64-bit integer, [-2**63, 2**63-1] */
+
 	VistaIONRepnKinds		/*!< number of predefined types */
 } VistaIORepnKind;
 
@@ -581,7 +582,7 @@ typedef VistaIOBoolean VistaIOReadFileFilterProc (VistaIOBundle, VistaIORepnKind
 #define VistaIORepnMinValue(repn)	(VistaIORepnInfo[repn].min_value)
 #define VistaIORepnMaxValue(repn)	(VistaIORepnInfo[repn].max_value)
 #define VistaIORepnMethods(repn)	(VistaIORepnInfo[repn].methods)
-#define VistaIOIsIntegerRepn(repn)	((repn) >= VistaIOBitRepn && (repn) <= VistaIOLongRepn)
+#define VistaIOIsIntegerRepn(repn)	((repn) >= VistaIOBitRepn && (repn) <= VistaIOLong64Repn)
 #define VistaIOIsFloatPtRepn(repn)	((repn) == VistaIOFloatRepn || (repn) == VistaIODoubleRepn)
 #define VistaIORandomDouble()		((VistaIODouble) drand48 ())
 #define VistaIORandomSeed(seed)	srand48 ((long) seed)

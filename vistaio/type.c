@@ -50,6 +50,8 @@ static VistaIORepnInfoRec builtin_repn_info[] = {
 	,
 	{"long", sizeof (VistaIOLong), 32, -2147483648.0, 2147483647.0, NULL}
 	,
+	{"long64", sizeof (VistaIOLong64), 64, INT64_MIN, INT64_MAX, NULL}
+	,
 	{"float", sizeof (VistaIOFloat), 32,
 	 -3.40282346638528860e+38, 3.40282346638528860e+38, NULL}
 	,
