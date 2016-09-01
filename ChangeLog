@@ -1,7 +1,10 @@
-1.2.20 
+1.2.20
 
   * Use int64_t to handle file offsets and data length
     Closes: Bug #2
+  * Update file version to 3 because with 64 bit support written
+    files are not be readable by the old library if values 2GB or
+    data sizes are largerthan 2GB.
 
 1.2.19
 

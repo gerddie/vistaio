@@ -68,7 +68,8 @@
 #define VistaIONew(type)		((type *) VistaIOMalloc (sizeof (type)))
 #define VistaIONewString(str) 	((VistaIOString) ((str) ? strcpy ((char *) VistaIOMalloc (strlen (str) + 1), str) : 0))
 #define VistaIOFileHeader		"V-data"
-#define VistaIOFileVersion		2
+#define VistaIOFileMinVersion		2
+#define VistaIOFileVersion		3
 #define VistaIOFileDelimiter		"\f\n"
 #define VistaIOMaxAttrNameLength	256
 #define VistaIORequiredOpt		(& VistaIO_RequiredOpt)

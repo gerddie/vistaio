@@ -270,16 +270,17 @@ static VistaIOBoolean ReadHeader (FILE * f)
 		return FALSE;
 	}
 
-	if (version == VistaIOFileVersion)
+	if (version >= VistaIOFileMinVersion)
 		return TRUE;
 
-	if (version == 1 && VistaIOFileVersion == 2) {
+
+	if (version == 1 && VistaIOFileVersion >= VistaIOFileMinVersion) {
 		VistaIOWarning ("VistaIOReadFile: Obsolete data file -- pipe it thru v1to2");
 		return TRUE;
 	}
 
-	VistaIOWarning ("VistaIOReadFile: Vista data file isn't version %d",
-		  VistaIOFileVersion);
+	VistaIOWarning ("VistaIOReadFile: Vista data file isn't version >= %d",
+		  VistaIOFileMinVersion);
 	return FALSE;
 }
 
@@ -723,6 +724,7 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 	   while queuing on data_list any binary data blocks to be written: */
 	offset = 0;
 	data_list = VistaIOListCreate ();
+
 	FailTest (fprintf (f, "%s %d ", VistaIOFileHeader, VistaIOFileVersion));
 	if (!WriteAttrList (f, list, 1)) {
 		VistaIOListDestroy (data_list, VistaIOFree);
