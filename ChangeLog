@@ -1,3 +1,8 @@
+2.1.20 
+
+  * Use int64_t to handle file offsets and data length
+    Closes: Bug #2
+
 2.1.19
 
   * Add test for attribute IO
