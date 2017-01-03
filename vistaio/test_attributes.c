@@ -17,6 +17,70 @@
 #include <inttypes.h>
 
 
+int test_nested_list(void)
+{
+
+	int test_failed = 0; 
+	VistaIOAttrList test_list;
+	VistaIOAttrList test_list_nested; 
+	VistaIODouble test_double = -3.0;
+	VistaIODouble test_double2 = 3.0;
+
+	VistaIODouble read_double = 0;
+	VistaIODouble read_double2 = 0;
+
+	
+	VistaIOAttrList test_list_copy;
+	VistaIOAttrList test_list_copy_nested;
+	
+	test_list = VistaIOCreateAttrList();
+
+	VistaIOSetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, test_double);
+
+	test_list_nested = VistaIOCreateAttrList();
+
+	VistaIOSetAttr(test_list, "test-list", NULL, VistaIOAttrListRepn, test_list_nested);
+	VistaIOSetAttr(test_list_nested, "test-double", NULL, VistaIODoubleRepn, test_double2);
+
+	test_list_copy = VistaIOCopyAttrList(test_list);
+
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, &read_double)) {
+		VistaIOWarning("test_nested_list: Attribute test-double not found");
+		++test_failed; 
+	}
+
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list, "test-list", NULL, VistaIOAttrListRepn, &test_list_copy_nested)) {
+		VistaIOWarning("test_nested_list: Attribute test-list not found");
+		++test_failed; 
+	}
+
+	if (VistaIOAttrFound !=
+	    VistaIOGetAttr(test_list_copy_nested, "test-double", NULL, VistaIODoubleRepn, &read_double2)) {
+		VistaIOWarning("test_nested_list: Attribute test-list not found");
+		++test_failed; 
+	}
+
+	
+	VistaIODestroyAttrList(test_list);
+	VistaIODestroyAttrList(test_list_copy);
+
+	if (read_double != test_double) {
+		VistaIOWarning("test_nested_list: Attribute read_double %g, expect %g", read_double, test_double);
+		++test_failed; 
+	}
+	
+	if (read_double2 != test_double2) {
+		VistaIOWarning("test_nested_list: Attribute read_double %g, expect %g", read_double2, test_double2);
+		++test_failed; 
+	}
+
+	return test_failed; 
+	
+}
+	
+
 int main(int UNUSED(argc), const char **UNUSED(args))
 {
 	FILE *file;
@@ -46,7 +110,7 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIOLong64 read_long64_max = 0; 
 	VistaIOString read_string = NULL;
 
-	int test_failed = FALSE; 
+	int test_failed = 0; 
 	
 	test_list = VistaIOCreateAttrList();
 
@@ -191,10 +255,13 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	VistaIODestroyAttrList(test_list);
 	VistaIODestroyAttrList(read_list);
 
-/*	
+	
 	if (remove( "test-attr.v" ) != 0) {
 		VistaIOWarning("Unable to remove test file test-attr.v");
 	}
-*/	
+
+	
+	test_failed += test_nested_list(); 
+		
 	return test_failed;
 }
