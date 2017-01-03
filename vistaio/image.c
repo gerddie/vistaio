@@ -84,8 +84,8 @@ EXPORT_VISTA VistaIOImage VistaIOCreateImage (int nbands, int nrows, int ncolumn
 	}
 	if (pixel_repn != VistaIOBitRepn && pixel_repn != VistaIOUByteRepn &&
 	    pixel_repn != VistaIOSByteRepn && pixel_repn != VistaIOShortRepn &&
-	    pixel_repn != VistaIOLongRepn && pixel_repn != VistaIOFloatRepn
-	    && pixel_repn != VistaIODoubleRepn) {
+	    pixel_repn != VistaIOLongRepn && pixel_repn != VistaIOLong64Repn &&
+	    pixel_repn != VistaIOFloatRepn  && pixel_repn != VistaIODoubleRepn) {
 		VistaIOWarning ("VistaIOCreateImage: Invalid pixel representation: %d",
 			  (int)pixel_repn);
 		return NULL;

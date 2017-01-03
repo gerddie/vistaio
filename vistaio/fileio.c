@@ -721,7 +721,7 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 	VistaIOBoolean result = 0;
 	long type_offset = 0;
 	uint64_t total_bloblength = 0; 
-	
+	VistaIOBoolean need_version_3 = 0; 
 	
 	/* Write the Vista data file header, attribute list, and delimeter
 	   while queuing on data_list any binary data blocks to be written: */
@@ -761,6 +761,13 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 				(value, db->list, db->length, &free_it);
 			if (!ptr)
 				goto Fail;
+			
+			if (repn == VistaIOImageRepn) {
+				VistaIOImage image = NULL;
+				VistaIOGetAttrValue (&db->posn, NULL, VistaIOImageRepn, &image);
+				if (VistaIOPixelRepn (image) == VistaIOLong64Repn)
+					need_version_3 = 1;
+			}
 		}
 
 		/* Write the binary data and free the buffer containing it if it was
@@ -783,8 +790,13 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 		}
 	}
 
+	
+	
 	// if sum blob length >= 2GB write type 3 (64 bit  signed offsets) 
-	if (total_bloblength > 0x7FFFFFFF) {
+	if (total_bloblength > 0x7FFFFFFF)
+		need_version_3 = 1;
+	
+	if (need_version_3) {	
 		fseek(f, type_offset, SEEK_SET);
 		FailTest (fprintf (f, "%1d", VistaIOFileVersion));
 		fseek(f, 0, SEEK_END);
