@@ -719,13 +719,21 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 	VistaIOPointer value, ptr;
 	VistaIOBoolean free_it;
 	VistaIOBoolean result = 0;
-
+	long type_offset = 0;
+	uint64_t total_bloblength = 0; 
+	
+	
 	/* Write the Vista data file header, attribute list, and delimeter
 	   while queuing on data_list any binary data blocks to be written: */
 	offset = 0;
 	data_list = VistaIOListCreate ();
 
-	FailTest (fprintf (f, "%s %d ", VistaIOFileHeader, VistaIOFileVersion));
+	FailTest (fprintf (f, "%s ", VistaIOFileHeader));
+	type_offset = ftell(f);
+	fseek(f, type_offset, SEEK_SET);
+	/* Try writing version 2, update later */
+	FailTest (fprintf (f, "%d ", VistaIOFileMinVersion));
+	
 	if (!WriteAttrList (f, list, 1)) {
 		VistaIOListDestroy (data_list, VistaIOFree);
 		return FALSE;
@@ -758,6 +766,7 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 		/* Write the binary data and free the buffer containing it if it was
 		   allocated temporarily by an encode_data method: */
 		if (db->length > 0) {
+			total_bloblength += db->length; 
 			int64_t togo = db->length; 
 			int64_t pos = 0; 
 			while (togo) {
@@ -773,6 +782,14 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 				goto Fail;
 		}
 	}
+
+	// if sum blob length >= 2GB write type 3 (64 bit  signed offsets) 
+	if (total_bloblength > 0x7FFFFFFF) {
+		fseek(f, type_offset, SEEK_SET);
+		FailTest (fprintf (f, "%1d", VistaIOFileVersion));
+		fseek(f, 0, SEEK_END);
+	}
+	
 	VistaIOListDestroy (data_list, VistaIOFree);
 	return TRUE;
 
