@@ -31,7 +31,7 @@
  *  \return Returns a pointer to the edges if successful, NULL otherwise.
  */
 
-VistaIOEdges VistaIOCreateEdges (int nrows, int ncolumns, int nedge_fields,
+EXPORT_VISTA VistaIOEdges VistaIOCreateEdges (int nrows, int ncolumns, int nedge_fields,
 		     int npoint_fields)
 {
 	VistaIOEdges edges;
@@ -71,7 +71,7 @@ VistaIOEdges VistaIOCreateEdges (int nrows, int ncolumns, int nedge_fields,
  *  \return VistaIOEdge
  */
 
-VistaIOEdge VistaIOAddEdge (VistaIOEdges edges, VistaIOFloat * edge_fields, int npoints,
+EXPORT_VISTA VistaIOEdge VistaIOAddEdge (VistaIOEdges edges, VistaIOFloat * edge_fields, int npoints,
 		VistaIOFloat * points, VistaIOBooleanPromoted closed,
 		VistaIOBooleanPromoted copy)
 {
@@ -137,7 +137,7 @@ VistaIOEdge VistaIOAddEdge (VistaIOEdges edges, VistaIOFloat * edge_fields, int 
  *  \return VistaIOEdges
  */
 
-VistaIOEdges VistaIOCopyEdges (VistaIOEdges src)
+EXPORT_VISTA VistaIOEdges VistaIOCopyEdges (VistaIOEdges src)
 {
 	VistaIOEdges result;
 	VistaIOEdge e;
@@ -161,7 +161,7 @@ VistaIOEdges VistaIOCopyEdges (VistaIOEdges src)
  *  \param edges
  */
 
-void VistaIODestroyEdges (VistaIOEdges edges)
+EXPORT_VISTA void VistaIODestroyEdges (VistaIOEdges edges)
 {
 	VistaIOEdge edge, next_edge;
 
@@ -185,7 +185,7 @@ void VistaIODestroyEdges (VistaIOEdges edges)
  *  \param  edge_sets
  */
 
-int VistaIOReadEdges (FILE * file, VistaIOAttrList * attributes, VistaIOEdges ** edge_sets)
+EXPORT_VISTA int VistaIOReadEdges (FILE * file, VistaIOAttrList * attributes, VistaIOEdges ** edge_sets)
 {
 	return VistaIOReadObjects (file, VistaIOEdgesRepn, attributes,
 			     (VistaIOPointer **) edge_sets);
@@ -201,7 +201,7 @@ int VistaIOReadEdges (FILE * file, VistaIOAttrList * attributes, VistaIOEdges **
  *  \return VistaIOBoolean
  */
 
-VistaIOBoolean VistaIOWriteEdges (FILE * file, VistaIOAttrList attributes, int nedge_sets,
+EXPORT_VISTA VistaIOBoolean VistaIOWriteEdges (FILE * file, VistaIOAttrList attributes, int nedge_sets,
 		      VistaIOEdges edge_sets[])
 {
 	return VistaIOWriteObjects (file, VistaIOEdgesRepn, attributes, nedge_sets,

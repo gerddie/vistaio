@@ -50,7 +50,7 @@ VistaIOTypeMethods VistaIOCPEListMethods = {
  *  \return VistaIOCPEList
  */
 
-VistaIOCPEList VistaIOCreateCPEList(VistaIOLong _n_element)
+EXPORT_VISTA VistaIOCPEList VistaIOCreateCPEList(VistaIOLong _n_element)
 {
 	VistaIOCPEList result = (VistaIOCPEList)malloc(sizeof(VistaIOCPEListRec));
 	result->n_length = _n_element; 
@@ -72,7 +72,7 @@ VistaIOCPEList VistaIOCreateCPEList(VistaIOLong _n_element)
  *  \param  field
  */
 
-void VistaIODestroyCPEList (VistaIOCPEList field)
+EXPORT_VISTA void VistaIODestroyCPEList (VistaIOCPEList field)
 {
 	free(field->data);
 	if (field->attr)
@@ -86,7 +86,7 @@ void VistaIODestroyCPEList (VistaIOCPEList field)
  *  \return VistaIOCPEList
  */
 
-VistaIOCPEList VistaIOCopyCPEList (VistaIOCPEList src)
+EXPORT_VISTA VistaIOCPEList VistaIOCopyCPEList (VistaIOCPEList src)
 {
 	VistaIOCPEList result;
 	
