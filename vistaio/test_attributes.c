@@ -17,6 +17,54 @@
 #include <inttypes.h>
 
 
+int test_64bit_v3(void)
+{
+	int test_failed = 0; 
+	VistaIOAttrList test_list;
+	test_list = VistaIOCreateAttrList();
+	int64_t value = 200000000000LL;
+	long len; 
+
+	FILE *file = NULL;
+	char buffer[1024];
+	const char expect[] = "V-data 3 {\n\ttest-int64: 200000000000\n}\n\f\n"; 
+	
+	VistaIOSetAttr(test_list, "test-int64", NULL, VistaIOLong64Repn, value);
+
+	/* open file for reading */
+	if ((file = fopen("test-attr-int64.v","w")) == NULL) {
+		VistaIOError("Unable to open file test-attr-int64.v for writing");
+		++test_failed;
+	}
+
+	VistaIOWriteFile(file,test_list);
+	fclose(file);
+
+	
+	if ((file = fopen("test-attr-int64.v","r")) == NULL) {
+		VistaIOError("Unable to open file test-attr-int64.v for reading");
+		++test_failed;
+	}
+
+	
+	buffer[0] = 0; 
+
+	len = fread(buffer, 1, 42, file); 
+	if (len != 41) {
+		VistaIOWarning(" Got: %ld bytes, expected 41\n", len);
+		++test_failed;
+	}	
+
+	
+	if (strcmp(buffer, expect)) {
+		VistaIOWarning(" Got: \n'%s'\n Expect:\n'%s'\n", buffer, expect);
+		++test_failed;
+	}
+	
+	return test_failed;
+	
+}
+
 int test_nested_list(void)
 {
 
@@ -261,7 +309,8 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	}
 
 	
-	test_failed += test_nested_list(); 
+	test_failed += test_nested_list();
+	test_failed += test_64bit_v3(); 
 		
 	return test_failed;
 }

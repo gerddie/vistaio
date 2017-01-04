@@ -754,6 +754,12 @@ EXPORT_VISTA void VistaIOSetAttr (VistaIOAttrList list, VistaIOStringConst name,
 	VistaIOAttrListPosn posn;
 	VistaIOAttrRec *a;
 
+	/* this is shoe-horned into the code, but well, no way to make it better.*/
+	if (repn == VistaIOLong64Repn) {
+		VistaIOSetAttr(list, "private-require-v3", 0, VistaIOBooleanRepn, 1); 
+	}
+
+	
 	/* Locate any existing attribute of the specified name: */
 	va_start (args, repn);
 	if (VistaIOLookupAttr (list, name, &posn))
@@ -793,6 +799,10 @@ EXPORT_VISTA void VistaIOSetAttrValue (VistaIOAttrListPosn * posn, VistaIODictEn
 		    ...)
 {
 	va_list args;
+
+	if (repn ==VistaIOLong64Repn) {
+		VistaIOSetAttr(posn->list, "private-require-v3", 0, VistaIOBooleanRepn, 1); 
+	}
 
 	/* Locate any existing attribute of the specified name: */
 	va_start (args, repn);
@@ -879,6 +889,7 @@ static void SetAttr (VistaIOAttrListPosn * posn, VistaIODictEntry * dict, VistaI
 	case VistaIOSByteRepn:
 	case VistaIOShortRepn:
 	case VistaIOLongRepn:
+	case VistaIOLong64Repn:
 	case VistaIOFloatRepn:
 	case VistaIODoubleRepn:
 	case VistaIOBooleanRepn:

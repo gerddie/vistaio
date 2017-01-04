@@ -55,8 +55,8 @@ static VistaIOAttrList ReadAttrList (FILE *, ReadStringBuf *);
 static char *ReadString (FILE *, char, VistaIOStringConst, ReadStringBuf *);
 static VistaIOBoolean ReadDelimiter (FILE *);
 static VistaIOBoolean ReadData (FILE *, VistaIOAttrList, VistaIOReadFileFilterProc *);
-static VistaIOBoolean WriteAttrList (FILE *, VistaIOAttrList, int);
-static VistaIOBoolean WriteAttr (FILE *, VistaIOAttrListPosn *, int);
+static VistaIOBoolean WriteAttrList (FILE *, VistaIOAttrList, int, VistaIOBoolean *);
+static VistaIOBoolean WriteAttr (FILE *, VistaIOAttrListPosn *, int, VistaIOBoolean *);
 static VistaIOBoolean WriteString (FILE *, const char *);
 static VistaIOBoolean MySeek (FILE *, int64_t);
 
@@ -734,7 +734,7 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 	/* Try writing version 2, update later */
 	FailTest (fprintf (f, "%d ", VistaIOFileMinVersion));
 	
-	if (!WriteAttrList (f, list, 1)) {
+	if (!WriteAttrList (f, list, 1, &need_version_3)) {
 		VistaIOListDestroy (data_list, VistaIOFree);
 		return FALSE;
 	}
@@ -817,17 +817,25 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
  *  \param  f
  */
 
-static VistaIOBoolean WriteAttrList (FILE * f, VistaIOAttrList list, int indent)
+static VistaIOBoolean WriteAttrList (FILE * f, VistaIOAttrList list, int indent, VistaIOBoolean *need_version_3)
 {
 	VistaIOAttrListPosn posn;
 	int i;
-
+	VistaIOBoolean nv3 = 0; 
+	
 	/* Write the { marking the beginning of the attribute list: */
 	FailTest (fputs ("{\n", f));
 
+	/* check for the version-3 tag and remove it if available */
+	if (VistaIOGetAttr(list, "private-require-v3", NULL, VistaIOBooleanRepn, &nv3) == VistaIOAttrFound) {
+		VistaIOExtractAttr(list, "private-require-v3", NULL, VistaIOBooleanRepn, NULL, 0); 
+		*need_version_3 = nv3;
+		
+	}
+
 	/* Write each attribute in the list: */
 	for (VistaIOFirstAttr (list, &posn); VistaIOAttrExists (&posn); VistaIONextAttr (&posn))
-		if (!WriteAttr (f, &posn, indent))
+		if (!WriteAttr (f, &posn, indent, need_version_3))
 			return FALSE;
 
 	/* Write the } marking the end of the attribute list: */
@@ -849,7 +857,7 @@ static VistaIOBoolean WriteAttrList (FILE * f, VistaIOAttrList list, int indent)
  *  itself an attribute list, it is indented by indent+1 tabs.
  */
 
-static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int indent)
+static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int indent, VistaIOBoolean *need_version_3)
 {
 	int i;
 	char *str;
@@ -877,7 +885,7 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 	case VistaIOAttrListRepn:
 		VistaIOGetAttrValue (posn, NULL, VistaIOAttrListRepn,
 			       (VistaIOPointer) & sublist);
-		result = WriteAttrList (f, sublist, indent);
+		result = WriteAttrList (f, sublist, indent, need_version_3);
 		break;
 
 	case VistaIOBundleRepn:
@@ -905,7 +913,7 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 		}
 
 		/* Write the typed value's attribute list: */
-		result = WriteAttrList (f, b->list, indent);
+		result = WriteAttrList (f, b->list, indent, need_version_3);
 
 		/* Remove the "data" and "length" attributes added earlier: */
 		if (b->length > 0) {
@@ -919,7 +927,6 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 		VistaIOGetAttrValue (posn, NULL, VistaIOStringRepn, (VistaIOPointer) & str);
 		result = WriteString (f, str);
 		break;
-
 	default:
 		if (!(methods = VistaIORepnMethods (repn)) ||
 		    !methods->encode_attr || !methods->encode_data) {
@@ -959,7 +966,7 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 		VistaIOListAppend (data_list, db);
 
 		/* Write the typed value's attribute list: */
-		result = WriteAttrList (f, sublist, indent);
+		result = WriteAttrList (f, sublist, indent, need_version_3);
 
 		/* Remove the "data" and "length" attributes added earlier: */
 		if (length > 0) {
