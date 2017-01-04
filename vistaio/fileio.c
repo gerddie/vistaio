@@ -730,9 +730,9 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 
 	FailTest (fprintf (f, "%s ", VistaIOFileHeader));
 	type_offset = ftell(f);
-	fseek(f, type_offset, SEEK_SET);
-	/* Try writing version 2, update later */
-	FailTest (fprintf (f, "%d ", VistaIOFileMinVersion));
+	
+	/* Writing version 3, update later if not needed */
+	FailTest (fprintf (f, "%d ", VistaIOFileVersion));
 	
 	if (!WriteAttrList (f, list, 1, &need_version_3)) {
 		VistaIOListDestroy (data_list, VistaIOFree);
@@ -765,8 +765,12 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 			if (repn == VistaIOImageRepn) {
 				VistaIOImage image = NULL;
 				VistaIOGetAttrValue (&db->posn, NULL, VistaIOImageRepn, &image);
-				if (VistaIOPixelRepn (image) == VistaIOLong64Repn)
-					need_version_3 = 1;
+				if (image) {
+					if (VistaIOPixelRepn (image) == VistaIOLong64Repn)
+						need_version_3 = 1;
+				}else{
+					VistaIOWarning("Bogus attribute list: indicate image type but can't get it");
+				}
 			}
 		}
 
@@ -796,10 +800,13 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 	if (total_bloblength > 0x7FFFFFFF)
 		need_version_3 = 1;
 	
-	if (need_version_3) {	
-		fseek(f, type_offset, SEEK_SET);
-		FailTest (fprintf (f, "%1d", VistaIOFileVersion));
-		fseek(f, 0, SEEK_END);
+	if (!need_version_3) {
+		/* if we can fseek then update the file version, 
+		   othetwise we are on a pipe and can't do this */
+		if (fseek(f, type_offset, SEEK_SET) == type_offset) {
+			FailTest (fprintf (f, "%1d", VistaIOFileVersion));
+			fseek(f, 0, SEEK_END);
+		}
 	}
 	
 	VistaIOListDestroy (data_list, VistaIOFree);

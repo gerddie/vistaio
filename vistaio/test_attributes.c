@@ -49,7 +49,8 @@ int test_64bit_v3(void)
 	
 	buffer[0] = 0; 
 
-	len = fread(buffer, 1, 42, file); 
+	len = fread(buffer, 1, 42, file);
+	fclose(file);
 	if (len != 41) {
 		VistaIOWarning(" Got: %ld bytes, expected 41\n", len);
 		++test_failed;
