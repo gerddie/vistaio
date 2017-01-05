@@ -45,9 +45,11 @@ typedef struct {
 } ReadStringBuf; 
 
 
-/* Local variables: */
-static int64_t offset;		/* current offset into file's binary data */
-static VistaIOList data_list;		/* list of data blocks to write later */
+typedef struct {
+	int64_t offset;		/* current offset into file's binary data */
+	VistaIOList data_list;		/* list of data blocks to write later */
+	VistaIOBoolean require_filetype_3; 
+}SaveData ; 
 
 /* Later in this file: */
 static VistaIOBoolean ReadHeader (FILE *);
@@ -55,8 +57,8 @@ static VistaIOAttrList ReadAttrList (FILE *, ReadStringBuf *);
 static char *ReadString (FILE *, char, VistaIOStringConst, ReadStringBuf *);
 static VistaIOBoolean ReadDelimiter (FILE *);
 static VistaIOBoolean ReadData (FILE *, VistaIOAttrList, VistaIOReadFileFilterProc *);
-static VistaIOBoolean WriteAttrList (FILE *, VistaIOAttrList, int, VistaIOBoolean *);
-static VistaIOBoolean WriteAttr (FILE *, VistaIOAttrListPosn *, int, VistaIOBoolean *);
+static VistaIOBoolean WriteAttrList (FILE *, VistaIOAttrList, int);
+static VistaIOBoolean WriteAttr (FILE *, VistaIOAttrListPosn *, int);
 static VistaIOBoolean WriteString (FILE *, const char *);
 static VistaIOBoolean MySeek (FILE *, int64_t);
 
@@ -177,7 +179,7 @@ int VistaIOReadObjects (FILE * file, VistaIORepnKind repn, VistaIOAttrList * att
 }
 
 
-
+static uint64_t read_offset;
 /*! \brief Read a Vista data file, returning an attribute list of its contents.
  *
  *  \param  f
@@ -222,7 +224,7 @@ EXPORT_VISTA VistaIOAttrList VistaIOReadFile (FILE * f, VistaIOReadFileFilterPro
 		return NULL;
 	
 	/* Swallow the delimiter and read the binary data following it: */
-	offset = 0;
+	read_offset = 0;
 	if (!ReadDelimiter (f) || !ReadData (f, list, filter)) {
 		VistaIODestroyAttrList (list);
 		return NULL;
@@ -582,7 +584,7 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 
 			/* Read the binary data associated with the object: */
 			if (data_found) {
-				if (data < offset) {
+				if (data < read_offset) {
 					VistaIOWarning ("VistaIOReadFile: "
 						  "%s attribute's data attribute incorrect: %ld",
 							VistaIOGetAttrName (&posn), data);
@@ -595,10 +597,10 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 				/* To seek forward to the start of the data block we first
 				   try fseek. That will fail on a pipe, in which case we
 				   seek by reading. */
-				if (data != offset &&
-				    fseek (f, data - offset,
+				if (data != read_offset &&
+				    fseek (f, data - read_offset,
 					   SEEK_CUR) == -1 && errno == ESPIPE
-				    && !MySeek (f, data - offset)) {
+				    && !MySeek (f, data - read_offset)) {
 					VistaIOSystemWarning
 						("VistaIOReadFile: Seek within file failed");
 					return FALSE;
@@ -627,11 +629,11 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 							
 						VistaIOShowReadProgress(pos, length, VistaIOProgressData);
 					}
-					offset = data + length;
+					read_offset = data + length;
 				} else
 					/* bug: read error occured when bundle was not read
 					   by a filter function. FK 24/03/98 */
-					offset = data;
+					read_offset = data;
 			}
 
 			/* Recurse to read binary data for sublist attributes: */
@@ -702,7 +704,136 @@ VistaIOBoolean VistaIOWriteObjects (FILE * file, VistaIORepnKind repn, VistaIOAt
 	return result;
 }
 
+static void CollectAttrList (VistaIOAttrList list, SaveData *save_data); 
 
+static void CollectAttr(VistaIOAttrListPosn * posn, SaveData *save_data)
+{
+	VistaIORepnKind repn;
+	VistaIOAttrList sublist;
+	VistaIOBundle b;
+	DataBlock *db;
+	VistaIOTypeMethods *methods;
+	int64_t length;
+	VistaIOPointer value;
+
+	switch (repn = VistaIOGetAttrRepn (posn)) {
+
+	case VistaIOStringRepn:
+		break; 
+	case VistaIOAttrListRepn:
+		VistaIOGetAttrValue (posn, NULL, VistaIOAttrListRepn,
+				     (VistaIOPointer) & sublist);
+		CollectAttrList(sublist, save_data);
+		break;
+	case VistaIOBundleRepn:
+		VistaIOGetAttrValue (posn, NULL, VistaIOBundleRepn, (VistaIOBundle) & b);
+
+		/* If it's a typed value with binary data... */
+		if (b->length > 0) {
+
+			/* Include "data" and "length" attributes in its attribute list: */
+			VistaIOPrependAttr (b->list, VistaIOLengthAttr, NULL, VistaIOLong64Repn,
+				      (VistaIOLong64) b->length);
+			VistaIOPrependAttr (b->list, VistaIODataAttr, NULL, VistaIOLong64Repn,
+				      (VistaIOLong64) save_data->offset);
+
+			/* Add it to the queue of binary data blocks to be written: */
+			save_data->offset += b->length;
+			db = VistaIONew (DataBlock);
+			db->posn = *posn;
+			db->list = b->list;
+			db->length = b->length;
+			VistaIOListAppend (save_data->data_list, db);
+		}
+
+		/* Write the typed value's attribute list: */
+		CollectAttrList (b->list, save_data);
+		break;
+
+	default:
+		/* check data types for graph and image */
+		switch (repn) {
+		case VistaIOImageRepn: {
+			VistaIOImage image = NULL;
+			VistaIOGetAttrValue (posn, NULL, VistaIOImageRepn, &image);
+			if (image) {
+				if (VistaIOPixelRepn (image) == VistaIOLong64Repn)
+					save_data->require_filetype_3 = 1;
+			}else{
+				VistaIOWarning("Bogus attribute list: indicate image type but can't get it");
+			}
+			break; 
+		}
+			
+
+		case VistaIOGraphRepn: {
+			VistaIOGraph graph = NULL;
+                               VistaIOGetAttrValue (posn, NULL, VistaIOGraphRepn, &graph);
+			       if (graph) {
+				       if (VistaIONodeRepn (graph) == VistaIOLong64Repn)
+					       save_data->require_filetype_3 = 1;
+			       }else{
+				       VistaIOWarning("Bogus attribute list: indicate graph type but can't get it");
+			       }
+			       break; 
+		}
+
+		default:
+			;
+		}
+		
+		if (!(methods = VistaIORepnMethods (repn)) ||
+		    !methods->encode_attr || !methods->encode_data) {
+			VistaIOWarning ("VistaIOWriteFile: "
+				  "%s attribute has unwriteable representation: %s",
+				  VistaIOGetAttrName (posn), VistaIORepnName (repn));
+			return;
+		}
+
+		/* Invoke the object type's encode_attr method to obtain an
+		   attribute list: */
+		VistaIOGetAttrValue (posn, NULL, repn, &value);
+		sublist = (methods->encode_attr) (value, &length);
+
+		/* If binary data is indicated... */
+		if (length > 0) {
+
+			/* Include "data" and "length" attributes in the attr list: */
+			VistaIOPrependAttr (sublist, VistaIOLengthAttr, NULL, VistaIOLong64Repn,
+				      (VistaIOLong64) length);
+			VistaIOPrependAttr (sublist, VistaIODataAttr, NULL, VistaIOLong64Repn,
+				      (VistaIOLong64) save_data->offset);
+
+			save_data->offset += length;
+		}
+
+		/* Add the object to the queue of binary data blocks to be written: */
+		db = VistaIONew (DataBlock);
+		db->posn = *posn;
+		db->list = sublist;
+		db->length = length;
+		VistaIOListAppend (save_data->data_list, db);
+
+		/* Write the typed value's attribute list: */
+		CollectAttrList (sublist, save_data);
+	}
+}
+
+static void CollectAttrList (VistaIOAttrList list, SaveData *save_data)
+{
+	VistaIOAttrListPosn posn;
+	VistaIOBoolean nv3 = 0; 
+
+	/* check for the version-3 tag and remove it if available */
+	if (VistaIOGetAttr(list, "private-require-v3", NULL, VistaIOBooleanRepn, &nv3) == VistaIOAttrFound) {
+		VistaIOExtractAttr(list, "private-require-v3", NULL, VistaIOBooleanRepn, NULL, 0); 
+		save_data->require_filetype_3 = nv3;
+	}
+
+	/* Collect each attribute in the list: */
+	for (VistaIOFirstAttr (list, &posn); VistaIOAttrExists (&posn); VistaIONextAttr (&posn))
+		CollectAttr (&posn, save_data);
+}
 /*! \brief VistaIOWriteFile
  *  
  *  \param  f
@@ -719,30 +850,33 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 	VistaIOPointer value, ptr;
 	VistaIOBoolean free_it;
 	VistaIOBoolean result = 0;
-	long type_offset = 0;
 	uint64_t total_bloblength = 0; 
-	VistaIOBoolean need_version_3 = 0; 
+	SaveData save_data;
+	
+	save_data.offset = 0;
+	save_data.data_list = VistaIOListCreate ();
+	save_data.require_filetype_3 = 0; 
 	
 	/* Write the Vista data file header, attribute list, and delimeter
 	   while queuing on data_list any binary data blocks to be written: */
-	offset = 0;
-	data_list = VistaIOListCreate ();
 
-	FailTest (fprintf (f, "%s ", VistaIOFileHeader));
-	type_offset = ftell(f);
+	CollectAttrList (list, &save_data);
+
+	int filetype = VistaIOFileMinVersion; 
+	if (save_data.offset > 0x7FFFFFFF || save_data.require_filetype_3)
+		filetype = VistaIOFileVersion; 
 	
-	/* Writing version 3, update later if not needed */
-	FailTest (fprintf (f, "%d ", VistaIOFileVersion));
+	FailTest (fprintf (f, "%s %d ", VistaIOFileHeader, filetype));
 	
-	if (!WriteAttrList (f, list, 1, &need_version_3)) {
-		VistaIOListDestroy (data_list, VistaIOFree);
+	if (!WriteAttrList (f, list, 1)) {
+		VistaIOListDestroy (save_data.data_list, VistaIOFree);
 		return FALSE;
 	}
 	FailTest (fputs ("\n" VistaIOFileDelimiter, f));
 	fflush (f);
 
 	/* Traverse data_list to write the binary data blocks: */
-	for (db = VistaIOListFirst (data_list); db; db = VistaIOListNext (data_list)) {
+	for (db = VistaIOListFirst (save_data.data_list); db; db = VistaIOListNext (save_data.data_list)) {
 		repn = VistaIOGetAttrRepn (&db->posn);
 		if (repn == VistaIOBundleRepn) {
 
@@ -761,17 +895,6 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 				(value, db->list, db->length, &free_it);
 			if (!ptr)
 				goto Fail;
-			
-			if (repn == VistaIOImageRepn) {
-				VistaIOImage image = NULL;
-				VistaIOGetAttrValue (&db->posn, NULL, VistaIOImageRepn, &image);
-				if (image) {
-					if (VistaIOPixelRepn (image) == VistaIOLong64Repn)
-						need_version_3 = 1;
-				}else{
-					VistaIOWarning("Bogus attribute list: indicate image type but can't get it");
-				}
-			}
 		}
 
 		/* Write the binary data and free the buffer containing it if it was
@@ -794,27 +917,12 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
 		}
 	}
 
-	
-	
-	// if sum blob length >= 2GB write type 3 (64 bit  signed offsets) 
-	if (total_bloblength > 0x7FFFFFFF)
-		need_version_3 = 1;
-	
-	if (!need_version_3) {
-		/* if we can fseek then update the file version, 
-		   othetwise we are on a pipe and can't do this */
-		if (fseek(f, type_offset, SEEK_SET) == type_offset) {
-			FailTest (fprintf (f, "%1d", VistaIOFileVersion));
-			fseek(f, 0, SEEK_END);
-		}
-	}
-	
-	VistaIOListDestroy (data_list, VistaIOFree);
+	VistaIOListDestroy (save_data.data_list, VistaIOFree);
 	return TRUE;
 
       Fail:
 	VistaIOWarning ("VistaIOWriteFile: Write to stream failed");
-	VistaIOListDestroy (data_list, VistaIOFree);
+	VistaIOListDestroy (save_data.data_list, VistaIOFree);
 	return FALSE;
 }
 
@@ -824,25 +932,17 @@ EXPORT_VISTA VistaIOBoolean VistaIOWriteFile (FILE * f, VistaIOAttrList list)
  *  \param  f
  */
 
-static VistaIOBoolean WriteAttrList (FILE * f, VistaIOAttrList list, int indent, VistaIOBoolean *need_version_3)
+static VistaIOBoolean WriteAttrList (FILE * f, VistaIOAttrList list, int indent)
 {
 	VistaIOAttrListPosn posn;
 	int i;
-	VistaIOBoolean nv3 = 0; 
 	
 	/* Write the { marking the beginning of the attribute list: */
 	FailTest (fputs ("{\n", f));
 
-	/* check for the version-3 tag and remove it if available */
-	if (VistaIOGetAttr(list, "private-require-v3", NULL, VistaIOBooleanRepn, &nv3) == VistaIOAttrFound) {
-		VistaIOExtractAttr(list, "private-require-v3", NULL, VistaIOBooleanRepn, NULL, 0); 
-		*need_version_3 = nv3;
-		
-	}
-
 	/* Write each attribute in the list: */
 	for (VistaIOFirstAttr (list, &posn); VistaIOAttrExists (&posn); VistaIONextAttr (&posn))
-		if (!WriteAttr (f, &posn, indent, need_version_3))
+		if (!WriteAttr (f, &posn, indent))
 			return FALSE;
 
 	/* Write the } marking the end of the attribute list: */
@@ -864,14 +964,13 @@ static VistaIOBoolean WriteAttrList (FILE * f, VistaIOAttrList list, int indent,
  *  itself an attribute list, it is indented by indent+1 tabs.
  */
 
-static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int indent, VistaIOBoolean *need_version_3)
+static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int indent)
 {
 	int i;
 	char *str;
 	VistaIORepnKind repn;
 	VistaIOAttrList sublist;
 	VistaIOBundle b;
-	DataBlock *db;
 	VistaIOTypeMethods *methods;
 	int64_t length;
 	VistaIOPointer value;
@@ -892,7 +991,7 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 	case VistaIOAttrListRepn:
 		VistaIOGetAttrValue (posn, NULL, VistaIOAttrListRepn,
 			       (VistaIOPointer) & sublist);
-		result = WriteAttrList (f, sublist, indent, need_version_3);
+		result = WriteAttrList (f, sublist, indent);
 		break;
 
 	case VistaIOBundleRepn:
@@ -901,27 +1000,8 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 			return FALSE;
 		FailTest (fputc (' ', f));
 
-		/* If it's a typed value with binary data... */
-		if (b->length > 0) {
-
-			/* Include "data" and "length" attributes in its attribute list: */
-			VistaIOPrependAttr (b->list, VistaIOLengthAttr, NULL, VistaIOLong64Repn,
-				      (VistaIOLong64) b->length);
-			VistaIOPrependAttr (b->list, VistaIODataAttr, NULL, VistaIOLong64Repn,
-				      (VistaIOLong64) offset);
-
-			/* Add it to the queue of binary data blocks to be written: */
-			offset += b->length;
-			db = VistaIONew (DataBlock);
-			db->posn = *posn;
-			db->list = b->list;
-			db->length = b->length;
-			VistaIOListAppend (data_list, db);
-		}
-
 		/* Write the typed value's attribute list: */
-		result = WriteAttrList (f, b->list, indent, need_version_3);
-
+		result = WriteAttrList (f, b->list, indent);
 		/* Remove the "data" and "length" attributes added earlier: */
 		if (b->length > 0) {
 			VistaIOFirstAttr (b->list, &subposn);
@@ -953,27 +1033,8 @@ static VistaIOBoolean WriteAttr (FILE * f, VistaIOAttrListPosn * posn, int inden
 		VistaIOGetAttrValue (posn, NULL, repn, &value);
 		sublist = (methods->encode_attr) (value, &length);
 
-		/* If binary data is indicated... */
-		if (length > 0) {
-
-			/* Include "data" and "length" attributes in the attr list: */
-			VistaIOPrependAttr (sublist, VistaIOLengthAttr, NULL, VistaIOLong64Repn,
-				      (VistaIOLong64) length);
-			VistaIOPrependAttr (sublist, VistaIODataAttr, NULL, VistaIOLong64Repn,
-				      (VistaIOLong64) offset);
-
-			offset += length;
-		}
-
-		/* Add the object to the queue of binary data blocks to be written: */
-		db = VistaIONew (DataBlock);
-		db->posn = *posn;
-		db->list = sublist;
-		db->length = length;
-		VistaIOListAppend (data_list, db);
-
 		/* Write the typed value's attribute list: */
-		result = WriteAttrList (f, sublist, indent, need_version_3);
+		result = WriteAttrList (f, sublist, indent);
 
 		/* Remove the "data" and "length" attributes added earlier: */
 		if (length > 0) {

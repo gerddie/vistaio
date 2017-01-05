@@ -52,6 +52,8 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	FILE *file; 
 	int tests_run = 0;
 	int tests_failed = 0;
+	char type_str[20];
+	int version = 0; 
 	
 	image2 = NULL; 
 	test_float = 1.2;
@@ -85,8 +87,23 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	if ((file = fopen("test-image-64bit.v","r")) == NULL)
 		VistaIOError("Unable to open file test-image-64bit.v for reading");
 
+	
+	if (fscanf(file, "%s %d", type_str, &version) != 2)
+		VistaIOError("Unable to ready typen and version from test-image-64bit.v");
+
+	if (version != 3)  {
+		VistaIOError(" test-image-64bit.v: Should get type 3 buf got type %d", version);
+	}
+		
+	
+	fclose(file);
+	
+	if ((file = fopen("test-image-64bit.v","r")) == NULL)
+		VistaIOError("Unable to open file test-image-64bit.v for reading");
+
 	/* Read field from file */     
 	in_list = VistaIOReadFile(file, RepnFilter);
+	fclose(file);
 
 	++tests_run; 
 	if (VistaIOAttrFound !=
