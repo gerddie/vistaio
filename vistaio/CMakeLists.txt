@@ -28,7 +28,6 @@ set(VISTAIO_SRC
   image.c
   imageType.c
   list.c
-  option.c
   packData.c
   type.c
   vcplist.c
