@@ -56,7 +56,7 @@ static VistaIOBoolean ReadHeader (FILE *);
 static VistaIOAttrList ReadAttrList (FILE *, ReadStringBuf *);
 static char *ReadString (FILE *, char, VistaIOStringConst, ReadStringBuf *);
 static VistaIOBoolean ReadDelimiter (FILE *);
-static VistaIOBoolean ReadData (FILE *, VistaIOAttrList, VistaIOReadFileFilterProc *);
+static VistaIOBoolean ReadData (FILE *, VistaIOAttrList, VistaIOReadFileFilterProc *, int64_t *);
 static VistaIOBoolean WriteAttrList (FILE *, VistaIOAttrList, int);
 static VistaIOBoolean WriteAttr (FILE *, VistaIOAttrListPosn *, int);
 static VistaIOBoolean WriteString (FILE *, const char *);
@@ -179,7 +179,6 @@ int VistaIOReadObjects (FILE * file, VistaIORepnKind repn, VistaIOAttrList * att
 }
 
 
-static uint64_t read_offset;
 /*! \brief Read a Vista data file, returning an attribute list of its contents.
  *
  *  \param  f
@@ -192,6 +191,7 @@ EXPORT_VISTA VistaIOAttrList VistaIOReadFile (FILE * f, VistaIOReadFileFilterPro
 	VistaIOAttrList list;
 	int i;
  	ReadStringBuf sbuf = {0,0}; 
+	int64_t read_offset; 
 	
 #ifdef SupportUbcIff
 
@@ -225,7 +225,7 @@ EXPORT_VISTA VistaIOAttrList VistaIOReadFile (FILE * f, VistaIOReadFileFilterPro
 	
 	/* Swallow the delimiter and read the binary data following it: */
 	read_offset = 0;
-	if (!ReadDelimiter (f) || !ReadData (f, list, filter)) {
+	if (!ReadDelimiter (f) || !ReadData (f, list, filter, &read_offset)) {
 		VistaIODestroyAttrList (list);
 		return NULL;
 	}
@@ -495,7 +495,7 @@ static VistaIOBoolean ReadDelimiter (FILE * f)
 {
 	int ch;
 	const char *cp;
-	static char *msg = "VistaIOReadFile: Vista data file delimiter not found";
+	const char *msg = "VistaIOReadFile: Vista data file delimiter not found";
 
 	/* Skip whitespace up to the first character of the delimeter: */
 	while ((ch = fgetc (f)) != VistaIOFileDelimiter[0])
@@ -522,7 +522,7 @@ static VistaIOBoolean ReadDelimiter (FILE * f)
  */
 
 static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
-			  VistaIOReadFileFilterProc * filter)
+				VistaIOReadFileFilterProc * filter, int64_t *read_offset)
 {
 	VistaIOAttrListPosn posn, subposn;
 	VistaIOAttrList sublist;
@@ -540,7 +540,7 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 
 			/* Recurse on nested attribute list: */
 			VistaIOGetAttrValue (&posn, NULL, VistaIOAttrListRepn, &sublist);
-			if (!ReadData (f, sublist, filter))
+			if (!ReadData (f, sublist, filter, read_offset))
 				return FALSE;
 			break;
 
@@ -584,7 +584,7 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 
 			/* Read the binary data associated with the object: */
 			if (data_found) {
-				if (data < read_offset) {
+				if (data < *read_offset) {
 					VistaIOWarning ("VistaIOReadFile: "
 						  "%s attribute's data attribute incorrect: %ld",
 							VistaIOGetAttrName (&posn), data);
@@ -597,10 +597,10 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 				/* To seek forward to the start of the data block we first
 				   try fseek. That will fail on a pipe, in which case we
 				   seek by reading. */
-				if (data != read_offset &&
-				    fseek (f, data - read_offset,
+				if (data != *read_offset &&
+				    fseek (f, data - *read_offset,
 					   SEEK_CUR) == -1 && errno == ESPIPE
-				    && !MySeek (f, data - read_offset)) {
+				    && !MySeek (f, data - *read_offset)) {
 					VistaIOSystemWarning
 						("VistaIOReadFile: Seek within file failed");
 					return FALSE;
@@ -629,15 +629,15 @@ static VistaIOBoolean ReadData (FILE * f, VistaIOAttrList list,
 							
 						VistaIOShowReadProgress(pos, length, VistaIOProgressData);
 					}
-					read_offset = data + length;
+					*read_offset = data + length;
 				} else
 					/* bug: read error occured when bundle was not read
 					   by a filter function. FK 24/03/98 */
-					read_offset = data;
+					*read_offset = data;
 			}
 
 			/* Recurse to read binary data for sublist attributes: */
-			if (!ReadData (f, b->list, filter))
+			if (!ReadData (f, b->list, filter, read_offset))
 				return FALSE;
 
 			/* If the object's type is registered and has a decode method,
