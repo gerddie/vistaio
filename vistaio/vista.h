@@ -1306,24 +1306,6 @@ extern "C" {
 	 */	
 	EXPORT_VISTA void VistaIODestroyBundle (VistaIOBundle b);
 
-	/*! \brief Encode an attribute's value from internal representaiton to a string.
-	 *  
-	 *  This is just a stub for Encode, which is shared by VistaIOSetAttr.
-	 *  The calling sequence is:
-	 *
-	 *	VistaIOEncodeAttrValue (VistaIODictEntry *dict, VistaIORepnKind repn, xxx value)
-	 *
-	 *  where xxx depends on the kind of representation, repn. An optional
-	 *  dictionary, dict, can specify value -> string translations. It returns
-	 *  a pointer to an encoded string, valid until the next VistaIOEncodeAttrValue
-	 *  call.
-	 *
-	 *  \param  dict
-	 *  \param  repn
-	 *  \return  VistaIOStringConst
-	 */
-	EXPORT_VISTA VistaIOStringConst VistaIOEncodeAttrValue (VistaIODictEntry *dict, VistaIORepnKind repn, ...);
-
 	/*! \brief Fetch an attribute value, removing it from its attribute list if found.
 	 *
 	 *  \param  list

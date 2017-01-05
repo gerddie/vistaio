@@ -56,7 +56,8 @@ int test_64bit_image_attribute(void)
 		VistaIOWarning("Expect file type 3 got %d", version);
 		++test_failed;
 	}
-		
+
+	remove ("test-imageattr-int64.v"); 
 	return test_failed;
 	
 }
@@ -71,7 +72,7 @@ int test_64bit_v3(void)
 	long len; 
 
 	FILE *file = NULL;
-	char buffer[1024];
+	char buffer[44];
 	const char expect[] = "V-data 3 {\n\ttest-int64: 200000000000\n}\n\f\n"; 
 	
 	VistaIOSetAttr(test_list, "test-int64", NULL, VistaIOLong64Repn, value);
@@ -87,26 +88,28 @@ int test_64bit_v3(void)
 
 	
 	if ((file = fopen("test-attr-int64.v","r")) == NULL) {
-		VistaIOError("Unable to open file test-attr-int64.v for reading");
+
+		VistaIOError("test_64bit_v3: Unable to open file test-attr-int64.v for reading");
 		++test_failed;
 	}
 
-	
-	buffer[0] = 0; 
 
-	len = fread(buffer, 1, 42, file);
+	memset (buffer, 0,  44); 
+
+
+	len = fread(buffer, 1, 43, file);
 	fclose(file);
 	if (len != 41) {
-		VistaIOWarning(" Got: %ld bytes, expected 41\n", len);
+		VistaIOWarning("test_64bit_v3: got %ld bytes, expected 41\n", len);
 		++test_failed;
 	}	
 
 	
 	if (strcmp(buffer, expect)) {
-		VistaIOWarning(" Got: \n'%s'\n Expect:\n'%s'\n", buffer, expect);
+		VistaIOWarning("test_64bit_v3: got \n'%s'\n Expect:\n'%s'\n", buffer, expect);
 		++test_failed;
 	}
-	
+	remove ("test-attr-int64.v"); 
 	return test_failed;
 	
 }

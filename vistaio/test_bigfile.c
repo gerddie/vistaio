@@ -189,7 +189,7 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 			}
 
 	
-//	remove( "test-big.v" );
+	remove( "test-big.v" );
 
 	fprintf(stderr,"%d out of %d tests failed\n", tests_failed, tests_run); 
 	

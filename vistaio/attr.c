@@ -23,7 +23,7 @@
 
 
 /* Later in this file: */
-static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn, va_list * args);
+static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn, char *buf, va_list * args);
 static VistaIOAttrRec *NewAttr (VistaIOStringConst, VistaIODictEntry *, VistaIORepnKind, va_list *);
 static void SetAttr (VistaIOAttrListPosn *, VistaIODictEntry *, VistaIORepnKind, va_list *);
 static void FreeAttrValue (VistaIOStringConst, VistaIOAttrRec *);
@@ -366,35 +366,6 @@ EXPORT_VISTA void VistaIODestroyBundle (VistaIOBundle b)
 }
 
 
-/*! \brief Encode an attribute's value from internal representaiton to a string.
- *  
- *  This is just a stub for Encode, which is shared by VistaIOSetAttr.
- *  The calling sequence is:
- *
- *	VistaIOEncodeAttrValue (VistaIODictEntry *dict, VistaIORepnKind repn, xxx value)
- *
- *  where xxx depends on the kind of representation, repn. An optional
- *  dictionary, dict, can specify value -> string translations. It returns
- *  a pointer to an encoded string, valid until the next VistaIOEncodeAttrValue
- *  call.
- *
- *  \param  dict
- *  \param  repn
- *  \return  VistaIOStringConst
- */
-
-EXPORT_VISTA VistaIOStringConst VistaIOEncodeAttrValue (VistaIODictEntry * dict, VistaIORepnKind repn, ...)
-{
-	va_list args;
-	VistaIOStringConst str;
-
-	va_start (args, repn);
-	str = Encode (dict, repn, &args);
-	va_end (args);
-	return str;
-}
-
-
 /*
  *  Encode
  *
@@ -402,12 +373,10 @@ EXPORT_VISTA VistaIOStringConst VistaIOEncodeAttrValue (VistaIODictEntry * dict,
  *  Does the actual work of encoding (cf VistaIOEncodeAttrValue).
  */
 
-static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn, va_list * args)
+static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn, char *s_value, va_list * args)
 {
 	VistaIOLong64 i_value = 0;
 	VistaIODouble f_value = 0.0;
-	VistaIOString s_value = NULL;
-	static char buf[80];
 
 	/* Fetch the attribute value: */
 	switch (repn) {
@@ -457,12 +426,12 @@ static VistaIOStringConst Encode (VistaIODictEntry * dict, VistaIORepnKind repn,
 	case VistaIOLongRepn:
 	case VistaIOLong64Repn:
 	case VistaIOBooleanRepn:
-		sprintf (s_value = buf, "%" PRId64, (int64_t)i_value);
+		sprintf (s_value, "%" PRId64, (int64_t)i_value);
 		break;
 
 	case VistaIOFloatRepn:
 	case VistaIODoubleRepn:
-		sprintf (s_value = buf, "%.20g", (double)f_value);
+		sprintf (s_value, "%.20g", (double)f_value);
 		break;
 
 	default:
@@ -824,6 +793,8 @@ static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict
 	int64_t new_value_size, name_size;
 	VistaIOPointer value;
 	VistaIOAttrRec *a;
+	char buf[80];
+	buf[0] = 0; 
 
 	name_size = strlen (name);
 	switch (repn) {
@@ -845,7 +816,7 @@ static VistaIOAttrRec *NewAttr (VistaIOStringConst name, VistaIODictEntry * dict
 		if (repn == VistaIOStringRepn && !dict)
 			value = (VistaIOPointer) va_arg (*args, VistaIOStringConst);
 		else
-			value = (VistaIOPointer) Encode (dict, repn, args);
+			value = (VistaIOPointer) Encode (dict, repn, buf, args);
 		new_value_size = strlen (value) + 1;
 
 		/* Allocate storage for the new attribute and copy in its value: */
@@ -878,7 +849,9 @@ static void SetAttr (VistaIOAttrListPosn * posn, VistaIODictEntry * dict, VistaI
 	int64_t old_value_size, new_value_size, name_size;
 	VistaIOPointer value;
 	VistaIOAttrRec *a = posn->ptr;
-
+	char buf[80]; 
+	buf[0] = 0; 
+	
 	/* Determine the amount of storage needed to record the new value. In some
 	   cases, this requires first encoding the new value as a string. */
 	name_size = strlen (a->name);
@@ -897,7 +870,7 @@ static void SetAttr (VistaIOAttrListPosn * posn, VistaIODictEntry * dict, VistaI
 		if (repn == VistaIOStringRepn && !dict)
 			value = (VistaIOPointer) va_arg (*args, VistaIOStringConst);
 		else
-			value = (VistaIOPointer) Encode (dict, repn, args);
+			value = (VistaIOPointer) Encode (dict, repn, buf, args);
 		new_value_size = strlen (value) + 1;
 		break;
 

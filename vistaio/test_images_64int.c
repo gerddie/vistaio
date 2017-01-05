@@ -157,7 +157,7 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 			}
 	
 	
-/*	remove( "test-image-64bit.v" ); */
+	remove( "test-image-64bit.v" ); 
 
 	fprintf(stderr,"%d out of %d tests failed\n", tests_failed, tests_run); 
 	

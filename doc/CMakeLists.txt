@@ -28,7 +28,6 @@ SET(man3pages
   VistaIOCreateImage.3
   VistaIODecodeAttrValue.3
   VistaIOEdges.3
-  VistaIOEncodeAttrValue.3
   VistaIOError.3
   VistaIOExtractAttr.3
   VistaIOGetAttr.3
