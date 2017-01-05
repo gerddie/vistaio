@@ -17,6 +17,51 @@
 #include <inttypes.h>
 
 
+int test_64bit_image_attribute(void)
+{
+	FILE *file;
+	char header [20];
+	int version = 0; 
+	int test_failed = 0; 
+	VistaIOAttrList test_list;
+	test_list = VistaIOCreateAttrList();
+	int64_t value = 200000000000LL;
+	VistaIOImage image = VistaIOCreateImage(1,1,1, VistaIOUByteRepn);
+
+	VistaIOSetAttr(VistaIOImageAttrList(image), "test-int64", NULL, VistaIOLong64Repn, value);
+	
+	VistaIOSetAttr(test_list, "image", NULL, VistaIOImageRepn, image);
+
+	/* open file for reading */
+	if ((file = fopen("test-imageattr-int64.v","w")) == NULL) {
+		VistaIOError("Unable to open file test-attr-int64.v for writing");
+		++test_failed;
+	}
+	VistaIOWriteFile(file,test_list);
+	fclose(file);
+
+	
+	if ((file = fopen("test-imageattr-int64.v","r")) == NULL) {
+		VistaIOError("Unable to open file test-attr-int64.v for reading");
+		++test_failed;
+	}
+
+	if (fscanf(file, "%s %d", header, &version) != 2) {
+		VistaIOError("Unable to open file test-imageattr-int64.v for reading");
+		++test_failed;
+	}
+	fclose(file);
+
+	if (version != 3) {
+		VistaIOWarning("Expect file type 3 got %d", version);
+		++test_failed;
+	}
+		
+	return test_failed;
+	
+}
+
+
 int test_64bit_v3(void)
 {
 	int test_failed = 0; 
@@ -311,7 +356,8 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 
 	
 	test_failed += test_nested_list();
-	test_failed += test_64bit_v3(); 
+	test_failed += test_64bit_v3();
+	test_failed += test_64bit_image_attribute(); 
 		
 	return test_failed;
 }
