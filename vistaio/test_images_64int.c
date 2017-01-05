@@ -52,7 +52,7 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 	FILE *file; 
 	int tests_run = 0;
 	int tests_failed = 0;
-	char type_str[20];
+	char type_str[8];
 	int version = 0; 
 	
 	image2 = NULL; 
@@ -88,7 +88,7 @@ int main(int UNUSED(argc), const char **UNUSED(args))
 		VistaIOError("Unable to open file test-image-64bit.v for reading");
 
 	
-	if (fscanf(file, "%s %d", type_str, &version) != 2)
+	if (fscanf(file, "%7s %d", type_str, &version) != 2)
 		VistaIOError("Unable to ready typen and version from test-image-64bit.v");
 
 	if (version != 3)  {

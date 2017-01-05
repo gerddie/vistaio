@@ -20,7 +20,7 @@
 int test_64bit_image_attribute(void)
 {
 	FILE *file;
-	char header [20];
+	char header[8];
 	int version = 0; 
 	int test_failed = 0; 
 	VistaIOAttrList test_list;
@@ -46,7 +46,7 @@ int test_64bit_image_attribute(void)
 		++test_failed;
 	}
 
-	if (fscanf(file, "%s %d", header, &version) != 2) {
+	if (fscanf(file, "%7s %d", header, &version) != 2) {
 		VistaIOError("Unable to open file test-imageattr-int64.v for reading");
 		++test_failed;
 	}
