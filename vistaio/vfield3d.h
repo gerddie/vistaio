@@ -64,8 +64,6 @@ extern "C" {
 	
 	
 #define VistaIOField3DElement(FIELD, X, Y, Z, type) &((type*)FIELD->data)[field->nsize_element * (x + nx * ( Y + ny * Z))]
-	
-	EXPORT_VISTA char *VistaIOGetField3DListName(VistaIOField3D field);	
 
 extern VistaIOTypeMethods VistaIOField3DMethods; 
 	

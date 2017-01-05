@@ -37,16 +37,6 @@ VistaIOTypeMethods VistaIOField3DMethods = {
 	VistaIOField3DEncodeDataMethod	  /* encode a VistaIOField3D's binary data */
 };
 
-
-static char name[1024];
-
-EXPORT_VISTA char *VistaIOGetField3DListName(VistaIOField3D field) 
-{
-
-	sprintf(name,"%dDVector",field->nsize_element);
-	return name; 
-}
-
 EXPORT_VISTA VistaIOField3D VistaIOCreateField3DFrom(VistaIOLong x_dim, 
 			VistaIOLong y_dim, 
 			VistaIOLong z_dim, 
