@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 rm -r build-coverage
 mkdir -p build-coverage
