@@ -114,33 +114,13 @@ int test_64bit_v3(void)
 	
 }
 
-int test_nested_list(void)
+static int test_nested_list_results(VistaIOAttrList test_list, double outer, double inner)
 {
-
 	int test_failed = 0; 
-	VistaIOAttrList test_list;
-	VistaIOAttrList test_list_nested; 
-	VistaIODouble test_double = -3.0;
-	VistaIODouble test_double2 = 3.0;
-
 	VistaIODouble read_double = 0;
 	VistaIODouble read_double2 = 0;
-
+	VistaIOAttrList test_list_copy_nested; 
 	
-	VistaIOAttrList test_list_copy;
-	VistaIOAttrList test_list_copy_nested;
-	
-	test_list = VistaIOCreateAttrList();
-
-	VistaIOSetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, test_double);
-
-	test_list_nested = VistaIOCreateAttrList();
-
-	VistaIOSetAttr(test_list, "test-list", NULL, VistaIOAttrListRepn, test_list_nested);
-	VistaIOSetAttr(test_list_nested, "test-double", NULL, VistaIODoubleRepn, test_double2);
-
-	test_list_copy = VistaIOCopyAttrList(test_list);
-
 	if (VistaIOAttrFound !=
 	    VistaIOGetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, &read_double)) {
 		VistaIOWarning("test_nested_list: Attribute test-double not found");
@@ -158,21 +138,70 @@ int test_nested_list(void)
 		VistaIOWarning("test_nested_list: Attribute test-list not found");
 		++test_failed; 
 	}
+	
+	if (read_double != outer) {
+		VistaIOWarning("test_nested_list: Attribute read_double %g, expect %g", read_double, outer);
+		++test_failed; 
+	}
+	
+	if (read_double2 != inner) {
+		VistaIOWarning("test_nested_list: Attribute read_double %g, expect %g", read_double2, inner);
+		++test_failed; 
+	}
+
+	return test_failed; 
 
 	
-	VistaIODestroyAttrList(test_list);
+}
+
+int test_nested_list(void)
+{
+	FILE *file; 
+	int test_failed = 0; 
+	VistaIOAttrList test_list;
+	VistaIOAttrList test_list_nested; 
+	VistaIODouble test_double = -3.0;
+	VistaIODouble test_double2 = 3.0;
+	VistaIOAttrList test_list_copy;
+	
+	test_list = VistaIOCreateAttrList();
+
+	VistaIOSetAttr(test_list, "test-double", NULL, VistaIODoubleRepn, test_double);
+
+	test_list_nested = VistaIOCreateAttrList();
+
+	VistaIOSetAttr(test_list, "test-list", NULL, VistaIOAttrListRepn, test_list_nested);
+	VistaIOSetAttr(test_list_nested, "test-double", NULL, VistaIODoubleRepn, test_double2);
+
+	test_list_copy = VistaIOCopyAttrList(test_list);
+
+	test_failed += test_nested_list_results(test_list_copy, test_double, test_double2); 
 	VistaIODestroyAttrList(test_list_copy);
 
-	if (read_double != test_double) {
-		VistaIOWarning("test_nested_list: Attribute read_double %g, expect %g", read_double, test_double);
-		++test_failed; 
-	}
-	
-	if (read_double2 != test_double2) {
-		VistaIOWarning("test_nested_list: Attribute read_double %g, expect %g", read_double2, test_double2);
-		++test_failed; 
+	/* open file for reading */
+	if ((file = fopen("test-attr-nested.v","w")) == NULL) {
+		VistaIOError("Unable to open file test-attr-int64.v for writing");
+		++test_failed;
 	}
 
+	VistaIOWriteFile(file,test_list);
+	fclose(file);
+
+	VistaIODestroyAttrList(test_list);
+
+	
+	/* open file for reading */
+	if ((file = fopen("test-attr-nested.v","r")) == NULL) {
+	    VistaIOError("Unable to open file test-attr.v for reading");
+	    ++test_failed;  
+	}
+
+	/* Read field from file */     
+	test_list_copy = VistaIOReadFile(file, NULL);
+	fclose(file);
+	test_failed += test_nested_list_results(test_list_copy, test_double, test_double2);
+	
+	
 	return test_failed; 
 	
 }
