@@ -1,3 +1,8 @@
+
+[![Build Status](https://travis-ci.org/gerddie/mia.svg?branch=master)](https://travis-ci.org/gerddie/vistaio)
+[![Coverity Status](https://scan.coverity.com/projects/1013/badge.svg)](https://scan.coverity.com/projects/vistaio)
+
+
 # Resume
 
 This library includes the IO and data type part of the 
